@@ -1,0 +1,6 @@
+# Pre-launch: block all crawling. To publish, replace with:
+# User-agent: *
+# Allow: /
+# Sitemap: https://haureesh.vellamsetti.com/sitemap.xml
+User-agent: *
+Disallow: /
