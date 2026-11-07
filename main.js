@@ -347,14 +347,38 @@
   var ring = document.getElementById("ring");
   var ringCards = ring ? Array.from(ring.children) : [];
   var angle = 0;
-  var velocity = 0.15;
+  var spinTarget = 0;
+  var velocity = 0;
+  var stepping = false;
   var dragging = false;
   var lastX = 0;
+  var announced = -1;
   var ringStatus = document.getElementById("ring-status");
 
   function ringRadius() {
-    var width = stage ? stage.clientWidth : 800;
-    return Math.max(150, Math.min(300, width * 0.26));
+    var stageW = stage ? stage.clientWidth : 800;
+    var stageH = stage ? stage.clientHeight : 600;
+    var cardW = ring ? ring.offsetWidth : 270;
+    var cardH = ring ? ring.offsetHeight : 348;
+    var n = Math.max(ringCards.length, 1);
+    var theta = (2 * Math.PI) / n;
+    var sinA = Math.sin(theta);
+    var cosA = Math.cos(theta);
+    var perspective = 1600;
+    var radius = 460;
+    var guard = 0;
+    while (guard < 18) {
+      var frontScale = perspective / Math.max(280, perspective - radius);
+      var sideScale = perspective / Math.max(280, perspective - radius * cosA);
+      var outer = radius * sinA + (cardW / 2) * sideScale;
+      var frontHalf = (cardH / 2) * frontScale;
+      var fitsW = outer <= stageW / 2 - 18;
+      var fitsH = frontHalf + 36 <= stageH / 2 - 12;
+      if (fitsW && fitsH) break;
+      radius *= 0.94;
+      guard += 1;
+    }
+    return Math.max(240, radius);
   }
   function ringIs3d() {
     return motionOn() && !phoneQuery.matches;
@@ -398,6 +422,16 @@
     var heading = ringCards[frontIndex()].querySelector("h3");
     if (heading) ringStatus.textContent = heading.textContent;
   }
+  function syncRingLabel() {
+    var index = frontIndex();
+    if (index === announced) return;
+    announced = index;
+    announceRing();
+  }
+  function paintRing() {
+    if (!ring || !ringIs3d()) return;
+    ring.style.transform = "rotateX(-8deg) rotateY(" + angle + "deg)";
+  }
   function focusRingCard(index) {
     var card = ringCards[(index + ringCards.length) % ringCards.length];
     card.setAttribute("tabindex", "-1");
@@ -416,23 +450,38 @@
       focusRingCard(closestRing() - direction);
       return;
     }
-    angle += direction * (360 / ringCards.length);
-    velocity = 0;
-    if (ring) ring.style.transform = "rotateX(-8deg) rotateY(" + angle + "deg)";
-    announceRing();
+    if (!stepping) spinTarget = angle;
+    spinTarget += direction * (360 / ringCards.length);
+    stepping = true;
   }
   layoutRing();
   if (ring && motionOn()) {
-    velocity = fineQuery.matches && !narrowQuery.matches ? 0.15 : 0;
     function spin() {
       if (!motionOn()) return;
       if (ringIs3d() && !document.hidden) {
-        angle += velocity;
-        if (!dragging) {
-          var idle = fineQuery.matches && !narrowQuery.matches ? 0.15 : 0;
-          velocity += (idle - velocity) * 0.02;
+        if (dragging) {
+          stepping = false;
+          angle += velocity;
+          spinTarget = angle;
+        } else if (stepping) {
+          var delta = spinTarget - angle;
+          var omega = 0.16;
+          var zeta = 0.72;
+          velocity += omega * omega * delta - 2 * zeta * omega * velocity;
+          angle += velocity;
+          if (Math.abs(spinTarget - angle) < 0.15 && Math.abs(velocity) < 0.15) {
+            angle = spinTarget;
+            velocity = 0;
+            stepping = false;
+          }
+        } else {
+          var idle = fineQuery.matches && !narrowQuery.matches ? 0.12 : 0;
+          velocity += (idle - velocity) * 0.05;
+          angle += velocity;
+          spinTarget = angle;
         }
-        ring.style.transform = "rotateX(-8deg) rotateY(" + angle + "deg)";
+        paintRing();
+        syncRingLabel();
       }
       requestAnimationFrame(spin);
     }
@@ -442,6 +491,9 @@
     stage.addEventListener("pointerdown", function (event) {
       if (!ringIs3d()) return;
       dragging = true;
+      stepping = false;
+      velocity = 0;
+      spinTarget = angle;
       lastX = event.clientX;
       stage.setPointerCapture(event.pointerId);
     });
@@ -481,10 +533,18 @@
       if (axis) axis.style.opacity = "0";
       return;
     }
+    var nav = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 72;
     var rect = spiralScroll.getBoundingClientRect();
-    var distance = rect.height - window.innerHeight;
-    var p = distance <= 0 ? 1 : Math.min(1, Math.max(0, -rect.top / distance));
-    var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+    var view = window.innerHeight;
+    // Sticky range runs from the nav lock to the moment the section bottom
+    // reaches the viewport bottom. Finish the unwind before that release
+    // so the flat timeline is on screen, and keep the curve moving through
+    // the whole active range instead of dying out at the end.
+    var travel = rect.height - view + nav;
+    var finish = Math.max(1, travel * 0.7);
+    var raw = nav - rect.top;
+    var p = travel <= 1 ? 1 : Math.min(1, Math.max(0, raw / finish));
+    var e = 1 - Math.pow(1 - p, 1.35);
     var n = years.length;
     var cardW = years[0].offsetWidth || 168;
     var radius = Math.max(70, Math.min(240, spiral.clientWidth / 2 - cardW / 2 - 20));

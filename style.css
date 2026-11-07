@@ -430,8 +430,8 @@ html:not(.reduce) .mq div { animation: mq 28s linear infinite; }
   user-select: none;
 }
 html.js:not(.reduce) .stage {
-  height: 520px;
-  perspective: 1100px;
+  height: 680px;
+  perspective: 1600px;
   display: grid;
   place-items: center;
   cursor: grab;
@@ -447,8 +447,8 @@ html.js:not(.reduce) .stage:active { cursor: grabbing; }
 }
 html.js:not(.reduce) .ring {
   display: block;
-  width: 230px;
-  height: 300px;
+  width: 270px;
+  height: 348px;
   position: relative;
   transform-style: preserve-3d;
 }
@@ -510,7 +510,7 @@ html.js:not(.reduce) .rc {
 html.js:not(.reduce) .xc.in { transform: translateY(var(--o, 0)); }
 
 /* About spiral */
-.spiral-scroll { height: 260vh; }
+.spiral-scroll { height: 185vh; }
 .pin {
   position: sticky;
   top: var(--nav-h);
@@ -593,6 +593,7 @@ footer h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; margin: 0 0 20p
 html.js:not(.reduce) footer .nl::after { width: 0; transition: width 1.2s cubic-bezier(.2, .8, .2, 1); }
 html.js:not(.reduce) footer.in .nl::after { width: 100%; }
 html.js:not(.reduce) footer.in .nl:nth-child(2)::after { transition-delay: .4s; }
+html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; }
 .fine { color: var(--mu); margin-top: 28px; }
 
 /* 404 */
