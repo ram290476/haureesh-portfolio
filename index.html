@@ -19,15 +19,24 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://haureesh.vellamsetti.com/assets/og.png">
 <link rel="canonical" href="https://haureesh.vellamsetti.com/">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="style.css">
+<script src="assets/rocket-orbit.js" defer></script>
 <script src="main.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
   <div class="w bar">
-    <a class="logo" href="#hero">haureesh<span>.</span></a>
+    <a class="logo brand" href="#hero">
+      <span class="brand-mark">
+        <canvas id="brand-orbit" aria-hidden="true"></canvas>
+        <img class="brand-still" src="assets/rocket-orbit-icon.png" alt="" hidden>
+      </span>
+      <span class="brand-name">Haureesh Vellamsetti</span>
+    </a>
     <nav aria-label="Main">
       <a href="#hero">Home</a>
       <a href="#projects">Projects</a>

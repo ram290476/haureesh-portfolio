@@ -1,11 +1,13 @@
 /* Midnight+ interactions. Content stays in the HTML; this file only animates it. */
 (function () {
   "use strict";
+  if (window.startBrandOrbit) {
+    startBrandOrbit(document.getElementById("brand-orbit"), document.querySelector(".brand-still"));
+  }
 
   var root = document.documentElement;
   var reduceQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   var narrowQuery = window.matchMedia("(max-width: 900px)");
-  var phoneQuery = window.matchMedia("(max-width: 640px)");
   var fineQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
 
   function syncMotion() {
@@ -364,24 +366,25 @@
     var theta = (2 * Math.PI) / n;
     var sinA = Math.sin(theta);
     var cosA = Math.cos(theta);
-    var perspective = 1600;
-    var radius = 460;
+    var perspective = stage ? parseFloat(getComputedStyle(stage).perspective) : 1600;
+    if (!perspective || perspective === Infinity) perspective = 1600;
+    var radius = Math.min(460, Math.max(200, stageW * 0.48));
     var guard = 0;
-    while (guard < 18) {
+    while (guard < 22) {
       var frontScale = perspective / Math.max(280, perspective - radius);
-      var sideScale = perspective / Math.max(280, perspective - radius * cosA);
-      var outer = radius * sinA + (cardW / 2) * sideScale;
-      var frontHalf = (cardH / 2) * frontScale;
-      var fitsW = outer <= stageW / 2 - 18;
-      var fitsH = frontHalf + 36 <= stageH / 2 - 12;
-      if (fitsW && fitsH) break;
+      var frontHalfW = (cardW / 2) * frontScale;
+      var frontHalfH = (cardH / 2) * frontScale;
+      var centerX = radius * sinA;
+      var frontFits = frontHalfW <= stageW / 2 - 8 && frontHalfH + 28 <= stageH / 2 - 8;
+      var separated = centerX >= frontHalfW * 0.98;
+      if (frontFits && separated) break;
       radius *= 0.94;
       guard += 1;
     }
-    return Math.max(240, radius);
+    return Math.max(170, radius);
   }
   function ringIs3d() {
-    return motionOn() && !phoneQuery.matches;
+    return motionOn();
   }
   function closestRing() {
     if (!stage || !ringCards.length) return 0;
@@ -613,5 +616,4 @@
     layoutRing();
     go(galIndex);
   });
-  phoneQuery.addEventListener("change", layoutRing);
 })();
