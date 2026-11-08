@@ -126,6 +126,17 @@ test("scholar-athlete copy does not include a GPA", () => {
   assert.equal(/grade point|GPA/i.test(html), false);
 });
 
+test("the headshot is the real photo on the hero and about portrait", () => {
+  for (const name of ["index.html", "about.html"]) {
+    const html = read(name);
+    assert.match(html, /src="assets\/photos\/haureesh-headshot\.jpg"/);
+    assert.match(html, /srcset="assets\/photos\/haureesh-headshot-/);
+    assert.match(html, /alt="Haureesh Vellamsetti"/);
+    assert.equal(html.includes("assets/photos/headshot.jpg"), false, name);
+    assert.equal(html.includes("assets/photos/about-portrait.jpg"), false, name);
+  }
+});
+
 test("old homepage anchors point at the split pages", () => {
   const home = read("index.html");
   assert.match(home, /projects: "projects.html"/);
