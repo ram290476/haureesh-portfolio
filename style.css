@@ -1,4 +1,11 @@
 /* Midnight+ portfolio. Colors are the midnight cyan/violet palette. */
+@font-face {
+  font-family: "Orbitron";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("assets/fonts/orbitron-900.woff2") format("woff2");
+}
 :root {
   --bg: #070b1a;
   --bg2: #0b1230;
@@ -64,7 +71,7 @@ a { color: var(--cy); }
   z-index: 50;
   background: #070b1acc;
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid #3a4a8c55;
 }
 .bar {
   display: flex;
@@ -82,6 +89,40 @@ a { color: var(--cy); }
   font-weight: 800;
   font-size: 20px;
   flex: 0 0 auto;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+}
+.brand-mark {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  display: block;
+}
+.brand-mark canvas,
+.brand-mark img {
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+.brand-mark canvas[hidden],
+.brand-mark img[hidden] { display: none; }
+.brand-name {
+  font-family: Orbitron, "Helvetica Neue", sans-serif;
+  font-weight: 900;
+  font-size: 15px;
+  letter-spacing: .04em;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: #e8ecff;
+  white-space: nowrap;
+  text-shadow: 1px 1px 0 #6d4cff, 2px 2px 0 #5d40e0, 3px 3px 0 #4c33c0, 4px 4px 0 #3b28a0, 5px 5px 8px #000c, 0 0 14px #5ee7ff55;
+  transform: perspective(400px) rotateX(8deg) rotateY(-6deg);
+  transform-origin: left center;
 }
 .logo span, h1 .dot, h2 .dot, footer h2 .dot { color: var(--cy); }
 nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 6px; min-width: 0; }
@@ -430,8 +471,8 @@ html:not(.reduce) .mq div { animation: mq 28s linear infinite; }
   user-select: none;
 }
 html.js:not(.reduce) .stage {
-  height: 520px;
-  perspective: 1100px;
+  height: 680px;
+  perspective: 1600px;
   display: grid;
   place-items: center;
   cursor: grab;
@@ -447,8 +488,8 @@ html.js:not(.reduce) .stage:active { cursor: grabbing; }
 }
 html.js:not(.reduce) .ring {
   display: block;
-  width: 230px;
-  height: 300px;
+  width: 270px;
+  height: 348px;
   position: relative;
   transform-style: preserve-3d;
 }
@@ -510,7 +551,7 @@ html.js:not(.reduce) .rc {
 html.js:not(.reduce) .xc.in { transform: translateY(var(--o, 0)); }
 
 /* About spiral */
-.spiral-scroll { height: 260vh; }
+.spiral-scroll { height: 185vh; }
 .pin {
   position: sticky;
   top: var(--nav-h);
@@ -593,6 +634,7 @@ footer h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; margin: 0 0 20p
 html.js:not(.reduce) footer .nl::after { width: 0; transition: width 1.2s cubic-bezier(.2, .8, .2, 1); }
 html.js:not(.reduce) footer.in .nl::after { width: 100%; }
 html.js:not(.reduce) footer.in .nl:nth-child(2)::after { transition-delay: .4s; }
+html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; }
 .fine { color: var(--mu); margin-top: 28px; }
 
 /* 404 */
@@ -630,6 +672,9 @@ html.js:not(.reduce) footer.in .nl:nth-child(2)::after { transition-delay: .4s; 
   .logo, nav { width: 100%; }
   nav { justify-content: flex-start; }
   section, footer, .jump { scroll-margin-top: 128px; }
+  .brand { gap: 6px; }
+  .brand-mark, .brand-mark canvas, .brand-mark img { width: 30px; height: 30px; }
+  .brand-name { font-size: 11px; letter-spacing: .02em; transform: none; }
 }
 @media (max-width: 640px) {
   .bento { grid-template-columns: 1fr; }
@@ -639,35 +684,23 @@ html.js:not(.reduce) footer.in .nl:nth-child(2)::after { transition-delay: .4s; 
   .g { flex-basis: min(84vw, 360px); height: 580px; transform: scale(.94); filter: brightness(.75); }
   .g .ph { bottom: 270px; }
   .g .cap { max-height: 290px; }
-  html.js:not(.reduce) .stage {
-    height: auto;
-    display: block;
-    overflow-x: auto;
-    overflow-y: hidden;
-    perspective: none;
-    cursor: auto;
-    touch-action: pan-x;
-    scroll-snap-type: x mandatory;
-  }
-  html.js:not(.reduce) .ring {
-    display: flex;
-    width: max-content;
-    height: auto;
-    gap: 12px;
-    transform: none !important;
-    padding: 4px 4px 16px;
-  }
-  html.js:not(.reduce) .rc {
-    position: relative;
-    inset: auto;
-    width: min(78vw, 280px);
-    flex: 0 0 min(78vw, 280px);
-    height: auto;
-    transform: none !important;
-    scroll-snap-align: center;
-  }
   .big { font-size: 48px; }
   nav a { padding: 8px; font-size: 13px; }
+}
+/* Below 760px the wide card crowds the stage, so the ring uses a smaller card. */
+@media (max-width: 759px) {
+  html.js:not(.reduce) .stage {
+    height: 460px;
+    perspective: 1100px;
+  }
+  html.js:not(.reduce) .ring {
+    width: 176px;
+    height: 236px;
+  }
+  html.js:not(.reduce) .rc { padding: 12px; }
+  html.js:not(.reduce) .rc .ph { height: 78px; margin-bottom: 8px; }
+  html.js:not(.reduce) .rc h3 { font-size: 17px; }
+  html.js:not(.reduce) .rc p { font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
