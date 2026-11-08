@@ -544,10 +544,10 @@
     // so the flat timeline is on screen, and keep the curve moving through
     // the whole active range instead of dying out at the end.
     var travel = rect.height - view + nav;
-    var finish = Math.max(1, travel * 0.7);
+    var finish = Math.max(1, travel * 0.28);
     var raw = nav - rect.top;
     var p = travel <= 1 ? 1 : Math.min(1, Math.max(0, raw / finish));
-    var e = 1 - Math.pow(1 - p, 1.35);
+    var e = 1 - Math.pow(1 - p, 1.08);
     var n = years.length;
     var cardW = years[0].offsetWidth || 168;
     var radius = Math.max(70, Math.min(240, spiral.clientWidth / 2 - cardW / 2 - 20));
