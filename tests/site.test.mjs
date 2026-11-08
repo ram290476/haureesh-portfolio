@@ -2,7 +2,14 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
-const pages = ["index.html", "projects.html", "awards.html", "experience.html", "about.html", "contact.html", "404.html"];
+const projectPages = [
+  "projects/aerospace-club.html",
+  "projects/model-rocket.html",
+  "projects/robot-arm.html",
+  "projects/ai-research.html",
+  "projects/smash.html"
+];
+const pages = ["index.html", "projects.html", "awards.html", "experience.html", "about.html", "contact.html", "404.html", ...projectPages];
 const nav = ["Home", "Projects", "Awards", "Experience", "About", "Contact"];
 
 function read(name) {
@@ -82,7 +89,7 @@ test("contact links stay on the contact page", () => {
   assert.match(contact, /mailto:haureesh@hotmail\.com/);
   assert.match(contact, /https:\/\/www\.linkedin\.com\/in\/haureesh\//);
   assert.match(contact, /https:\/\/github\.com\/haureesh14/);
-  for (const name of ["index.html", "projects.html", "awards.html", "experience.html", "about.html", "404.html"]) {
+  for (const name of ["index.html", "projects.html", "awards.html", "experience.html", "about.html", "404.html", ...projectPages]) {
     const html = read(name);
     assert.equal(html.includes("haureesh@hotmail.com"), false, name);
     assert.equal(html.includes("linkedin.com/in/haureesh"), false, name);
@@ -90,6 +97,33 @@ test("contact links stay on the contact page", () => {
     assert.equal(html.includes("foot-links"), false, name);
     assert.match(html, /Contact<\/a>/);
   }
+});
+
+test("each project card opens its own page", () => {
+  const html = read("projects.html");
+  const sections = ["Overview", "My Role", "Technologies/Tools", "Process/Build", "Outcomes/What I Learned", "Photo Gallery"];
+  for (const name of projectPages) {
+    assert.match(html, new RegExp('href="' + name + '"'));
+    const page = read(name);
+    assert.match(page, /aria-current="page">Projects/);
+    for (const heading of sections) {
+      assert.match(page, new RegExp("<h2>" + heading + "</h2>"), name + " " + heading);
+    }
+    assert.match(page, /Photo gallery list/);
+    assert.equal(page.includes("4.0"), false, name);
+    assert.equal(/grade point|GPA/i.test(page), false, name);
+  }
+  assert.match(read("projects/smash.html"), /uc-berkeley-smash-achievement-2025\.jpg/);
+  for (const name of ["projects/aerospace-club.html", "projects/model-rocket.html", "projects/robot-arm.html", "projects/ai-research.html"]) {
+    assert.match(read(name), /Photos coming soon/);
+  }
+});
+
+test("scholar-athlete copy does not include a GPA", () => {
+  const html = read("awards.html");
+  assert.match(html, /ncs-cif-scholar-athlete-2024-25\.jpg/);
+  assert.equal(html.includes("4.0"), false);
+  assert.equal(/grade point|GPA/i.test(html), false);
 });
 
 test("old homepage anchors point at the split pages", () => {
