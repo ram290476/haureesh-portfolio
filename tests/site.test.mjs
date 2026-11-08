@@ -75,6 +75,23 @@ test("about keeps the biography and not the timeline", () => {
   assert.equal(html.includes("Graduating DVHS"), false);
 });
 
+test("contact links stay on the contact page", () => {
+  const contact = read("contact.html");
+  assert.match(contact, /id="contact"/);
+  assert.match(contact, /Let's talk/);
+  assert.match(contact, /mailto:haureesh@hotmail\.com/);
+  assert.match(contact, /https:\/\/www\.linkedin\.com\/in\/haureesh\//);
+  assert.match(contact, /https:\/\/github\.com\/haureesh14/);
+  for (const name of ["index.html", "projects.html", "awards.html", "experience.html", "about.html", "404.html"]) {
+    const html = read(name);
+    assert.equal(html.includes("haureesh@hotmail.com"), false, name);
+    assert.equal(html.includes("linkedin.com/in/haureesh"), false, name);
+    assert.equal(html.includes("github.com/haureesh14"), false, name);
+    assert.equal(html.includes("foot-links"), false, name);
+    assert.match(html, /Contact<\/a>/);
+  }
+});
+
 test("old homepage anchors point at the split pages", () => {
   const home = read("index.html");
   assert.match(home, /projects: "projects.html"/);
