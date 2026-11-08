@@ -499,7 +499,7 @@ html.js:not(.reduce) .stage:active { cursor: grabbing; }
 .ring {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 16px;
+  gap: 32px;
   width: 100%;
 }
 html.js:not(.reduce) .ring {
@@ -532,7 +532,44 @@ html.js:not(.reduce) .rc {
   font-size: 13px;
   color: var(--ink);
 }
-.certs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 28px; text-align: left; }
+.certs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 28px; margin-top: 28px; text-align: left; }
+.certs .ph.full {
+  aspect-ratio: 4 / 3;
+  min-height: 180px;
+  padding: 0;
+  background: #10172f;
+}
+.certs .ph.full::before { content: none; }
+.certs .ph.full img { object-fit: contain; background: #10172f; }
+.shots, .gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+.shots figure, .gallery figure { margin: 0; }
+.shots img, .gallery img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: #10172f;
+}
+.shots figcaption, .gallery figcaption { color: var(--mu); font-size: 14px; margin-top: 8px; }
+.gallery .empty, .shot figcaption { color: var(--mu); }
+.shot { margin: 28px 0 0; max-width: 820px; }
+.shot img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+}
+.project-page { padding-bottom: 72px; }
+.project-page h1 { margin-top: 12px; }
+.project-page section { padding: 28px 0 8px; }
+.project-page h2 { font-size: clamp(26px, 3vw, 34px); }
 .certs li { list-style: none; }
 .certs .ph { min-height: 120px; margin-bottom: 8px; }
 .certs b { display: block; }

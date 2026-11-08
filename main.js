@@ -389,7 +389,7 @@
     var perspective = stage ? parseFloat(getComputedStyle(stage).perspective) : 2200;
     if (!perspective || perspective === Infinity) perspective = 2200;
     var tilt = -5 * Math.PI / 180;
-    var best = 180;
+    var baseline = 8;
     var bestScore = Infinity;
     var radius;
     for (radius = 140; radius <= 460; radius += 5) {
@@ -400,10 +400,25 @@
       if (metrics.gap < -12 || metrics.gap > 36) score += 80;
       if (score < bestScore) {
         bestScore = score;
-        best = radius;
+        baseline = metrics.gap;
       }
     }
-    return best;
+    // Positive clearances are doubled. A negative baseline is overlap, and
+    // doubling it would cover the front card, so those widths open a 16px
+    // gap: twice the previous 8px target.
+    var target = baseline >= 0 ? baseline * 2 : 16;
+    var chosen = 180;
+    var chosenScore = Infinity;
+    for (radius = 80; radius <= 700; radius += 1) {
+      var next = ringGap(radius, cardW, perspective, tilt);
+      if (next.frontW > stageW - 16) continue;
+      var nextScore = Math.abs(next.gap - target);
+      if (nextScore < chosenScore) {
+        chosenScore = nextScore;
+        chosen = radius;
+      }
+    }
+    return chosen;
   }
   function orientCards() {
     if (!ringCards.length) return;
