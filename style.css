@@ -20,7 +20,7 @@
   --on-cy: #04111a;
   --gap: 20px;
   --spring: cubic-bezier(.34, 1.56, .64, 1);
-  --nav-h: 72px;
+  --nav-h: 56px;
   --radius: 22px;
 }
 * { box-sizing: border-box; }
@@ -80,8 +80,8 @@ a { color: var(--cy); }
   gap: 16px;
   min-height: var(--nav-h);
   min-width: 0;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 .logo {
   color: var(--ink);
@@ -127,19 +127,35 @@ a { color: var(--cy); }
 .logo span, h1 .dot, h2 .dot, footer h2 .dot { color: var(--cy); }
 nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 6px; min-width: 0; }
 nav a {
+  position: relative;
   color: var(--mu);
   text-decoration: none;
   font-size: 14px;
-  padding: 10px 10px;
+  line-height: 20px;
+  padding: 4px 12px;
+  border: 1px solid transparent;
   border-radius: 999px;
-  min-height: 44px;
+  min-height: 32px;
   display: inline-flex;
   align-items: center;
 }
+nav a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+}
 nav a:hover, nav a:focus-visible { color: var(--cy); }
-nav a[aria-current="page"] { color: var(--on-cy); background: var(--cy); }
-section, footer { scroll-margin-top: 84px; }
-.jump { display: block; height: 0; overflow: hidden; scroll-margin-top: 84px; }
+nav a[aria-current="page"] {
+  color: #fff;
+  background: rgba(16, 23, 47, .75);
+  border-color: rgba(94, 231, 255, .4);
+}
+section, footer { scroll-margin-top: calc(var(--nav-h) + 12px); }
+.jump { display: block; height: 0; overflow: hidden; scroll-margin-top: calc(var(--nav-h) + 12px); }
 section { padding: 40px 0 72px; }
 h1 { font-size: clamp(40px, 5vw, 52px); line-height: 1.02; margin: 8px 0; letter-spacing: -.03em; }
 h2 { font-size: clamp(32px, 4vw, 40px); margin: 0 0 24px; letter-spacing: -.03em; }
@@ -469,12 +485,12 @@ html:not(.reduce) .mq div { animation: mq 28s linear infinite; }
   user-select: none;
 }
 html.js:not(.reduce) .stage {
-  height: 560px;
+  height: 510px;
   perspective: 2200px;
   display: grid;
   justify-content: center;
   align-items: start;
-  padding-top: 34px;
+  padding-top: 18px;
   cursor: grab;
   touch-action: pan-y;
   overflow: hidden;
@@ -566,15 +582,20 @@ html.js:not(.reduce) .rc {
 .xc p { color: var(--mu); margin: 0; font-size: 14px; }
 .xc.soon { border-style: dashed; }
 
-/* Homepage path: flat row, already in place, scrolled sideways. */
+/* Homepage path: in-flow horizontal scroller. Cards stay in this box. */
+#path { position: relative; }
 .timeline {
   display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
   gap: 16px;
   overflow-x: auto;
+  overflow-y: visible;
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
   padding: 22px 4px 18px;
   position: relative;
+  isolation: isolate;
 }
 .timeline-line {
   position: absolute;
@@ -587,6 +608,8 @@ html.js:not(.reduce) .rc {
 }
 .yc {
   position: relative;
+  top: auto;
+  left: auto;
   flex: 0 0 220px;
   scroll-snap-align: start;
   min-height: 168px;
@@ -595,7 +618,6 @@ html.js:not(.reduce) .rc {
   background: #14182f;
   padding: 14px;
   box-shadow: 0 0 20px #6d4cff33;
-  z-index: 1;
   transition: transform .35s var(--spring), box-shadow .35s, border-color .35s;
 }
 .yc b { color: var(--cy); font-size: 22px; }
@@ -691,7 +713,7 @@ html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; 
   .g .ph { bottom: 270px; }
   .g .cap { max-height: 290px; }
   .big { font-size: 48px; }
-  nav a { padding: 8px; font-size: 13px; }
+  nav a { font-size: 13px; }
 }
 /* Below 760px the wide card crowds the stage, so the ring uses a smaller card. */
 @media (max-width: 800px) {
@@ -702,9 +724,9 @@ html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; 
 }
 @media (max-width: 759px) {
   html.js:not(.reduce) .stage {
-    height: 392px;
+    height: 340px;
     perspective: 1500px;
-    padding-top: 28px;
+    padding-top: 12px;
   }
   html.js:not(.reduce) .ring {
     width: 200px;
