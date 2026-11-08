@@ -549,6 +549,15 @@ html.js:not(.reduce) .rc {
   margin-top: 12px;
 }
 .shots figure, .gallery figure { margin: 0; }
+.shots figure.wide { grid-column: 1 / -1; }
+.shots video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: #000;
+}
 .shots img, .gallery img {
   width: 100%;
   height: auto;
@@ -559,6 +568,19 @@ html.js:not(.reduce) .rc {
 }
 .shots figcaption, .gallery figcaption { color: var(--mu); font-size: 14px; margin-top: 8px; }
 .gallery .empty, .shot figcaption { color: var(--mu); }
+.card-shots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+.card-shots img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
 .shot { margin: 28px 0 0; max-width: 820px; }
 .shot img {
   width: 100%;
@@ -756,6 +778,7 @@ html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; 
 /* Below 760px the wide card crowds the stage, so the ring uses a smaller card. */
 @media (max-width: 800px) {
   .xg { grid-template-columns: 1fr; }
+  .card-shots { grid-template-columns: 1fr; }
   .xc:nth-child(n) { grid-column: auto; grid-row: auto; }
   .xc:nth-child(1) h3,
   .xc:nth-child(5) h3 { font-size: 22px; }
