@@ -469,12 +469,12 @@ html:not(.reduce) .mq div { animation: mq 28s linear infinite; }
   user-select: none;
 }
 html.js:not(.reduce) .stage {
-  height: 574px;
-  perspective: 1600px;
+  height: 560px;
+  perspective: 2200px;
   display: grid;
   justify-content: center;
   align-items: start;
-  padding-top: 36px;
+  padding-top: 34px;
   cursor: grab;
   touch-action: pan-y;
   overflow: hidden;
@@ -488,8 +488,8 @@ html.js:not(.reduce) .stage:active { cursor: grabbing; }
 }
 html.js:not(.reduce) .ring {
   display: block;
-  width: 270px;
-  height: 348px;
+  width: 330px;
+  height: 400px;
   position: relative;
   transform-style: preserve-3d;
 }
@@ -523,48 +523,72 @@ html.js:not(.reduce) .rc {
 .certs span { color: var(--mu); font-size: 13px; }
 .subhead { margin: 36px 0 0; font-size: 18px; letter-spacing: .08em; text-transform: uppercase; color: var(--mu); }
 
-/* Experience: static staggered columns. Prototype offsets are 40px and 80px. */
+/* Experience: one magazine collage, not a staggered column stack. */
 .xg {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  align-items: start;
-  padding-bottom: 24px;
+  grid-template-columns: 1.35fr 1fr 1fr;
+  gap: 16px;
+  align-items: stretch;
 }
 .xc {
   background: #10172f;
   border: 1px solid #3a4a8c;
   border-radius: 16px;
-  padding: 20px;
+  padding: 22px;
   min-width: 0;
   box-shadow: none;
-  transform: translateY(var(--o, 0));
+  position: relative;
+  overflow: hidden;
 }
+.xc::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cy), var(--vi));
+}
+.xc:nth-child(1) { grid-column: 1; grid-row: 1 / span 2; }
+.xc:nth-child(2) { grid-column: 2; grid-row: 1; }
+.xc:nth-child(3) { grid-column: 3; grid-row: 1; }
+.xc:nth-child(4) { grid-column: 2; grid-row: 2; }
+.xc:nth-child(5) { grid-column: 1 / span 2; grid-row: 3; }
+.xc:nth-child(6) { grid-column: 3; grid-row: 2; }
+.xc:nth-child(7) { grid-column: 3; grid-row: 3; }
+.xc:nth-child(1),
+.xc:nth-child(5) { background: linear-gradient(165deg, #162044, #10172f 42%); }
 .xc .when { color: var(--mu); font-size: 13px; font-weight: 600; margin: 0; }
 .xc h3 { margin: 4px 0; color: #fff; font-weight: 800; }
+.xc:nth-child(1) h3,
+.xc:nth-child(5) h3 { font-size: 28px; }
 .xc .meta { color: var(--mu); font-size: 14px; margin: 0 0 8px; }
 .xc p { color: var(--mu); margin: 0; font-size: 14px; }
 .xc.soon { border-style: dashed; }
-.xc:nth-child(3n+2) { --o: 40px; }
-.xc:nth-child(3n) { --o: 80px; }
 
-/* About spiral */
-.spiral-scroll { height: 185vh; }
-.pin {
-  position: sticky;
-  top: var(--nav-h);
-  height: calc(100vh - var(--nav-h));
-  display: grid;
-  grid-template-rows: auto 1fr;
-  padding-top: 12px;
+/* Homepage path: flat row, already in place, scrolled sideways. */
+.timeline {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  padding: 22px 4px 18px;
+  position: relative;
 }
-.sp { position: relative; height: 100%; perspective: 1200px; transform-style: preserve-3d; }
-.yc {
+.timeline-line {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 168px;
-  margin: -96px 0 0 -84px;
+  left: 0;
+  right: 0;
+  top: 42px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cy), var(--vi));
+  pointer-events: none;
+}
+.yc {
+  position: relative;
+  flex: 0 0 220px;
+  scroll-snap-align: start;
   min-height: 168px;
   border-radius: 18px;
   border: 1px solid #6d4cffcc;
@@ -572,20 +596,20 @@ html.js:not(.reduce) .rc {
   padding: 14px;
   box-shadow: 0 0 20px #6d4cff33;
   z-index: 1;
+  transition: transform .35s var(--spring), box-shadow .35s, border-color .35s;
 }
 .yc b { color: var(--cy); font-size: 22px; }
 .yc p { margin: 6px 0 0; font-size: 13px; color: var(--mu); }
-.axis {
-  position: absolute;
-  left: 4%;
-  right: 4%;
-  top: 50%;
-  height: 2px;
-  background: linear-gradient(90deg, var(--cy), var(--vi));
-  opacity: 0;
-  transform: translateZ(-80px);
-  z-index: 0;
+@media (hover: hover) and (pointer: fine) {
+  html.js:not(.reduce) .yc:hover,
+  html.js:not(.reduce) .yc:focus-visible {
+    transform: translateY(-8px) rotate(-1.2deg);
+    border-color: var(--cy);
+    box-shadow: 0 14px 28px #6d4cff66, 0 0 18px #5ee7ff55;
+  }
 }
+.contact-lead { padding-top: 36px; padding-bottom: 8px; }
+.contact-lead h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; margin: 0 0 20px; }
 .about-body { padding: 20px 0 80px; }
 .about-grid { display: grid; grid-template-columns: 280px 1fr; gap: 36px; align-items: start; }
 .about-grid .ph { min-height: 360px; aspect-ratio: 3/4; }
@@ -644,23 +668,7 @@ html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; 
   .w { padding: 0 20px; }
   .bento { grid-template-columns: 1fr 1fr; }
   .intro, .photo, .rocket, .wide, .chips { grid-column: span 2; }
-  .xg { grid-template-columns: 1fr; padding-bottom: 12px; }
-  .xc { --o: 0px; transform: none; }
   .about-grid, .cols { grid-template-columns: 1fr; }
-  .spiral-scroll { height: auto; }
-  .pin { position: static; height: auto; display: block; }
-  .sp { display: grid; grid-template-columns: 1fr; gap: 12px; height: auto; perspective: none; }
-  .yc {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: auto;
-    margin: 0;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-  .axis { display: none; }
-  .motion-hint { display: none; }
   #orb { display: none; }
   .orbf { width: min(280px, 70vw); right: -20px; opacity: .8; }
   footer h2 { font-size: clamp(40px, 12vw, 64px); }
@@ -686,15 +694,21 @@ html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; 
   nav a { padding: 8px; font-size: 13px; }
 }
 /* Below 760px the wide card crowds the stage, so the ring uses a smaller card. */
+@media (max-width: 800px) {
+  .xg { grid-template-columns: 1fr; }
+  .xc:nth-child(n) { grid-column: auto; grid-row: auto; }
+  .xc:nth-child(1) h3,
+  .xc:nth-child(5) h3 { font-size: 22px; }
+}
 @media (max-width: 759px) {
   html.js:not(.reduce) .stage {
-    height: 412px;
-    perspective: 1100px;
-    padding-top: 30px;
+    height: 392px;
+    perspective: 1500px;
+    padding-top: 28px;
   }
   html.js:not(.reduce) .ring {
-    width: 176px;
-    height: 236px;
+    width: 200px;
+    height: 262px;
   }
   html.js:not(.reduce) .rc { padding: 12px; }
   html.js:not(.reduce) .rc .ph { height: 78px; margin-bottom: 8px; }
@@ -708,18 +722,8 @@ html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; 
     transition: none !important;
     scroll-behavior: auto !important;
   }
-  .t, .xc, .g, .yc { opacity: 1 !important; filter: none; }
-  .spiral-scroll { height: auto; }
-  .pin { position: static; height: auto; display: block; }
-  .sp {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
-    height: auto;
-    perspective: none;
-  }
-  .yc { position: relative; left: auto; top: auto; width: auto; margin: 0; transform: none !important; }
-  .axis, .motion-hint, #orb { display: none; }
+  .t, .xc, .g, .yc { opacity: 1 !important; filter: none; transform: none !important; }
+  .motion-hint, #orb { display: none; }
   .g { transform: none; flex: 1 1 260px; height: auto; min-height: 280px; position: relative; }
   .gtrack { position: static; flex-wrap: wrap; transform: none !important; }
   .gal { height: auto; overflow: visible; }

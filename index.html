@@ -5,6 +5,13 @@
 <script>
 document.documentElement.classList.add("js");
 if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("reduce");
+(function () {
+  var hash = location.hash.replace(/^#/, "");
+  var pages = { projects: "projects.html", awards: "awards.html", experience: "experience.html", about: "about.html", contact: "contact.html" };
+  var projects = { "aerospace-club": 1, "model-rocket": 1, "robot-arm": 1, "ai-research": 1, smash: 1 };
+  if (pages[hash]) location.replace(pages[hash]);
+  else if (projects[hash]) location.replace("projects.html#" + hash);
+})();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
@@ -30,7 +37,7 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
   <div class="w bar">
-    <a class="logo brand" href="#hero">
+    <a class="logo brand" href="index.html">
       <span class="brand-mark">
         <canvas id="brand-orbit" aria-hidden="true"></canvas>
         <img class="brand-still" src="assets/rocket-orbit-icon.png" alt="" hidden>
@@ -38,12 +45,12 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
       <span class="brand-name">Haureesh Vellamsetti</span>
     </a>
     <nav aria-label="Main">
-      <a href="#hero">Home</a>
-      <a href="#projects">Projects</a>
-      <a href="#awards">Awards</a>
-      <a href="#experience">Experience</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="awards.html">Awards</a>
+      <a href="experience.html">Experience</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
@@ -98,12 +105,12 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
             </div>
           </div>
         </div>
-        <a class="t wide alg" href="#ai-research">
+        <a class="t wide alg" href="projects.html#ai-research">
           <p class="kick">Now</p>
           <h3>AI safety research at Algoverse</h3>
           <p>I'm on a team studying how LLM safety behavior changes across languages.</p>
         </a>
-        <a class="t wide" href="#robot-arm">
+        <a class="t wide" href="projects.html#robot-arm">
           <p class="kick">Built</p>
           <h3>SO-101 robot arm</h3>
           <p>6-axis, 3D printed, wired and teleoperated in Python with LeRobot.</p>
@@ -114,314 +121,31 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
           <svg class="wave" viewBox="0 0 400 46" preserveAspectRatio="none" aria-hidden="true"><path class="wv2" d="M0 23 C50 32 80 14 130 23 C180 32 230 14 280 23 C330 32 360 14 400 23"/></svg>
         </div>
         <div class="t chips" aria-label="Skills">
-          <span>Python</span><span>Java</span><span>Front-end development</span><span>Game development</span><span>3D printing</span><span>Tutoring</span><span>Orchestra</span><span>Wrestling</span>
+          <span>Python</span><span>Java</span><span>Front-end development</span><span>Game development</span><span>3D printing</span><span>Tutoring</span><span>Orchestra</span><span>Wrestling</span><span>Piano</span>
         </div>
       </div>
       <div class="mq" aria-hidden="true"><div>PHYSICS ✦ AEROSPACE ✦ MECHANICAL ✦ CS ✦ DATA SCIENCE ✦ ELECTRICAL ✦ PHYSICS ✦ AEROSPACE ✦ MECHANICAL ✦ CS ✦ DATA SCIENCE ✦ ELECTRICAL ✦</div></div>
       <p class="sr">Intended majors: Physics, Aerospace, Mechanical, CS, Data Science, Electrical.</p>
     </section>
-
-    <section id="projects">
-      <span id="aerospace-club" class="jump"></span>
-      <span id="model-rocket" class="jump"></span>
-      <span id="robot-arm" class="jump"></span>
-      <span id="ai-research" class="jump"></span>
-      <span id="smash" class="jump"></span>
-      <p class="kick">Things I've made</p>
-      <h2>Projects<span class="dot">.</span></h2>
-      <div class="gal" id="gal" tabindex="0" aria-roledescription="carousel" aria-label="Projects. Use the previous and next buttons, arrow keys, or swipe.">
-        <div class="gtrack" id="gtrack">
-          <article class="g" data-id="aerospace-club">
-            <div class="ph">
-              <img src="assets/photos/aerospace-club.jpg" alt="Aerospace Club photo" loading="lazy" onerror="this.remove()">
-              <span class="ph-label">Photo coming soon<small>assets/photos/aerospace-club.jpg</small></span>
-            </div>
-            <div class="cap">
-              <p class="meta">01 · Secretary / Vice President · Aug 2025–present</p>
-              <h3>Aerospace Club &amp; Rocketry</h3>
-              <p>I coordinate meetings and attendance, and I help lead our club through rocketry challenges.</p>
-              <button type="button" class="btn" data-view>View project</button>
-            </div>
-          </article>
-          <article class="g" data-id="model-rocket">
-            <div class="ph">
-              <img src="assets/photos/model-rocket.jpg" alt="Model rocket photo" loading="lazy" onerror="this.remove()">
-              <span class="ph-label">Photo coming soon<small>assets/photos/model-rocket.jpg</small></span>
-            </div>
-            <div class="cap">
-              <p class="meta">02 · American Rocketry Challenge</p>
-              <h3>Model Rocket</h3>
-              <p>I designed and built a model rocket that flew past 500 ft and entered it in the American Rocketry Challenge. This is where the propulsion ideas from physics finally clicked for me.</p>
-              <button type="button" class="btn" data-view>View project</button>
-            </div>
-          </article>
-          <article class="g" data-id="robot-arm">
-            <div class="ph">
-              <img src="assets/photos/robot-arm.jpg" alt="Teleoperated SO-101 robot arm photo" loading="lazy" onerror="this.remove()">
-              <span class="ph-label">Photo coming soon<small>assets/photos/robot-arm.jpg</small></span>
-            </div>
-            <div class="cap">
-              <p class="meta">03 · Personal project · May–Jul 2026</p>
-              <h3>Teleoperated SO-101 Robot Arm</h3>
-              <p>I 3D printed, assembled and programmed a 6-axis SO-101 robot arm. I wired up the servos and controller, then set up teleoperation in Python with Hugging Face LeRobot.</p>
-              <button type="button" class="btn" data-view>View project</button>
-            </div>
-          </article>
-          <article class="g" data-id="ai-research">
-            <div class="ph">
-              <img src="assets/photos/ai-research.jpg" alt="Multilingual AI safety research photo" loading="lazy" onerror="this.remove()">
-              <span class="ph-label">Photo coming soon<small>assets/photos/ai-research.jpg</small></span>
-            </div>
-            <div class="cap">
-              <p class="meta">04 · Algoverse AI Research · Jul 2026–present</p>
-              <h3>Multilingual AI Safety</h3>
-              <p>With a research team and a mentor, I'm studying how language models' safety behavior changes across languages. Our early results suggest models refuse unsafe prompts less often outside English. I help with the literature review, experiment design and analysis, and we're writing the paper now.</p>
-              <button type="button" class="btn" data-view>View project</button>
-            </div>
-          </article>
-          <article class="g" data-id="smash">
-            <div class="ph">
-              <img src="assets/photos/smash.jpg" alt="SMASH scholar photo" loading="lazy" onerror="this.remove()">
-              <span class="ph-label">Photo coming soon<small>assets/photos/smash.jpg</small></span>
-            </div>
-            <div class="cap">
-              <p class="meta">05 · SMASH at UC Berkeley · Jul–Aug 2025</p>
-              <h3>SMASH Scholar</h3>
-              <p>I was one of 100 scholars in this residential STEM program. I built projects in Python and HTML, including a top-down chase game in Godot and, with my team, the front end of a website that helps people find community support services.</p>
-              <button type="button" class="btn" data-view>View project</button>
-            </div>
-          </article>
-        </div>
-      </div>
-      <p class="sr" id="gal-status" aria-live="polite"></p>
-      <div class="gnav">
-        <button type="button" id="gp">← Prev</button>
-        <button type="button" id="gn">Next →</button>
-      </div>
-      <div class="exp">
-        <article class="ex">
-          <p class="meta">01 · Club</p>
-          <h3><button type="button" aria-expanded="false" aria-controls="ex-1">Aerospace Club</button></h3>
-          <p id="ex-1">Secretary / Vice President since Aug 2025. I coordinate meetings and attendance and help lead rocketry challenges.</p>
-        </article>
-        <article class="ex">
-          <p class="meta">02 · Research</p>
-          <h3><button type="button" aria-expanded="false" aria-controls="ex-2">Algoverse</button></h3>
-          <p id="ex-2">Literature review, experiment design and analysis. Early results suggest models refuse unsafe prompts less often outside English.</p>
-        </article>
-        <article class="ex">
-          <p class="meta">03 · Build</p>
-          <h3><button type="button" aria-expanded="false" aria-controls="ex-3">SO-101 Arm</button></h3>
-          <p id="ex-3">Wired the servos and controller, then set up teleoperation in Python with Hugging Face LeRobot.</p>
-        </article>
-        <article class="ex">
-          <p class="meta">04 · Program</p>
-          <h3><button type="button" aria-expanded="false" aria-controls="ex-4">SMASH</button></h3>
-          <p id="ex-4">One of 100 scholars at UC Berkeley. Built a Godot chase game and a community-support finder front end.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="awards">
-      <p class="kick">Recognition <span class="motion-hint">· drag to spin, or use the buttons</span></p>
-      <h2>Awards &amp; Activities<span class="dot">.</span></h2>
-      <div class="ring-controls">
-        <button type="button" id="ring-prev">Rotate left</button>
-        <button type="button" id="ring-next">Rotate right</button>
-      </div>
-      <div class="stage" id="stage" tabindex="0" aria-label="Activities. Drag to spin, or use the rotate buttons and left and right arrow keys.">
-        <div class="ring" id="ring">
-          <article class="rc">
-            <div class="ph">
-              <img src="assets/photos/wrestling.jpg" alt="DVHS Wrestling photo" loading="lazy" onerror="this.remove()">
-              <span class="ph-label">Photo coming soon<small>assets/photos/wrestling.jpg</small></span>
-            </div>
-            <h3>Wrestling</h3>
-            <p>JV &amp; Varsity · Most Improved Wrestler</p>
-          </article>
-          <article class="rc">
-            <div class="ph">
-              <img src="assets/photos/martial-arts.jpg" alt="Martial arts photo" loading="lazy" onerror="this.remove()">
-              <span class="ph-label">Photo coming soon<small>assets/photos/martial-arts.jpg</small></span>
-            </div>
-            <h3>Black Belt</h3>
-            <p>2nd Degree · Ernie Reyes West Coast World Martial Arts</p>
-          </article>
-          <article class="rc">
-            <div class="ph">
-              <img src="assets/photos/orchestra.jpg" alt="DVHS Chamber Orchestra photo" loading="lazy" onerror="this.remove()">
-              <span class="ph-label">Photo coming soon<small>assets/photos/orchestra.jpg</small></span>
-            </div>
-            <h3>Cello</h3>
-            <p>DVHS Chamber Orchestra · Orchestra Council</p>
-          </article>
-          <article class="rc">
-            <div class="ph">
-              <img src="assets/photos/podcast.jpg" alt="Wildcat Way Podcast Club photo" loading="lazy" onerror="this.remove()">
-              <span class="ph-label">Photo coming soon<small>assets/photos/podcast.jpg</small></span>
-            </div>
-            <h3>Podcast</h3>
-            <p>Treasurer · Wildcat Way Podcast Club</p>
-          </article>
-          <article class="rc">
-            <div class="ph">
-              <span class="ph-label">Photo coming soon<small>No piano photo on file</small></span>
-            </div>
-            <h3>Piano</h3>
-            <p>MTAC Certificate of Merit, Level 8</p>
-          </article>
-          <article class="rc">
-            <div class="ph">
-              <img src="assets/photos/vibha.jpg" alt="Vibha Youth Chapter photo" loading="lazy" onerror="this.remove()">
-              <span class="ph-label">Photo coming soon<small>assets/photos/vibha.jpg</small></span>
-            </div>
-            <h3>Vibha</h3>
-            <p>Youth volunteer &amp; mentor · 200+ hours</p>
-          </article>
-          <article class="rc">
-            <div class="ph">
-              <span class="ph-label">Photo coming soon<small>No tutoring photo on file</small></span>
-            </div>
-            <h3>Best Brains</h3>
-            <p>Math &amp; English tutor · Aug 2026–present</p>
-          </article>
-        </div>
-      </div>
-      <p class="sr" id="ring-status" aria-live="polite"></p>
-      <ul class="honors">
-        <li>AP Scholar with Distinction · College Board · Jul 2026</li>
-        <li>AP Scholar · College Board · Jul 2025</li>
-        <li>Presidential Volunteer Service Award – Silver · 100+ hours · Feb 2025</li>
-        <li>Certificate of Merit – Piano Level 8 · MTAC · Feb 2025</li>
-        <li>Most Improved Wrestler · DVHS Wrestling · Feb 2025</li>
-        <li>Scholar Athlete · DVHS · Feb 2025</li>
-        <li>2nd Degree Black Belt · Ernie Reyes West Coast World Martial Arts · Nov 2022</li>
-      </ul>
-      <h3 class="subhead">Certificate scans</h3>
-      <ul class="certs">
-        <li><div class="ph"><img src="assets/certificates/ap-scholar-distinction.jpg" alt="AP Scholar with Distinction certificate" loading="lazy" onerror="this.remove()"><span class="ph-label">Scan coming soon<small>assets/certificates/ap-scholar-distinction.jpg</small></span></div><b>AP Scholar with Distinction</b><span>College Board · Jul 2026</span></li>
-        <li><div class="ph"><img src="assets/certificates/ap-scholar.jpg" alt="AP Scholar certificate" loading="lazy" onerror="this.remove()"><span class="ph-label">Scan coming soon<small>assets/certificates/ap-scholar.jpg</small></span></div><b>AP Scholar</b><span>College Board · Jul 2025</span></li>
-        <li><div class="ph"><img src="assets/certificates/pvsa-silver.jpg" alt="Presidential Volunteer Service Award, Silver certificate" loading="lazy" onerror="this.remove()"><span class="ph-label">Scan coming soon<small>assets/certificates/pvsa-silver.jpg</small></span></div><b>Presidential Volunteer Service Award – Silver</b><span>100+ hours · Feb 2025</span></li>
-        <li><div class="ph"><img src="assets/certificates/mtac-cm-level8.jpg" alt="Certificate of Merit, Piano Level 8" loading="lazy" onerror="this.remove()"><span class="ph-label">Scan coming soon<small>assets/certificates/mtac-cm-level8.jpg</small></span></div><b>Certificate of Merit – Piano Level 8</b><span>MTAC · Feb 2025</span></li>
-        <li><div class="ph"><img src="assets/certificates/most-improved-wrestler.jpg" alt="Most Improved Wrestler certificate" loading="lazy" onerror="this.remove()"><span class="ph-label">Scan coming soon<small>assets/certificates/most-improved-wrestler.jpg</small></span></div><b>Most Improved Wrestler</b><span>DVHS Wrestling · Feb 2025</span></li>
-        <li><div class="ph"><img src="assets/certificates/scholar-athlete.jpg" alt="Scholar Athlete certificate" loading="lazy" onerror="this.remove()"><span class="ph-label">Scan coming soon<small>assets/certificates/scholar-athlete.jpg</small></span></div><b>Scholar Athlete</b><span>DVHS · Feb 2025</span></li>
-        <li><div class="ph"><img src="assets/certificates/black-belt.jpg" alt="2nd Degree Black Belt certificate" loading="lazy" onerror="this.remove()"><span class="ph-label">Scan coming soon<small>assets/certificates/black-belt.jpg</small></span></div><b>2nd Degree Black Belt</b><span>Nov 2022</span></li>
-      </ul>
-    </section>
-
-    <section id="experience">
-      <p class="kick">Work &amp; service</p>
-      <h2>Experience<span class="dot">.</span></h2>
-      <div class="xg">
-        <article class="xc">
-          <p class="when">Aug 2026–present</p>
-          <h3>Math &amp; English Tutor</h3>
-          <p class="meta">Best Brains Learning Centers, San Ramon</p>
-          <p>Part-time. I teach a weekly class of about 10 kids, follow how each one is doing, and change my lessons when someone gets stuck.</p>
-        </article>
-        <article class="xc">
-          <p class="when">Jul 2026–present</p>
-          <h3>AI Researcher</h3>
-          <p class="meta">Algoverse AI Research Program (remote)</p>
-          <p>I'm on a mentored team studying multilingual AI safety, and we're writing the paper now.</p>
-        </article>
-        <article class="xc">
-          <p class="when">Summer 2026</p>
-          <h3>Independent Math Tutor</h3>
-          <p class="meta">Self-run, San Ramon</p>
-          <p>I taught 6th-grade math to a small group of 5 students and donated my earnings to a local nonprofit.</p>
-        </article>
-        <article class="xc soon">
-          <p class="when">Seasonal</p>
-          <h3>Seasonal Camp Work</h3>
-          <p class="meta">Details coming soon</p>
-          <p>Details coming soon.</p>
-        </article>
-        <article class="xc">
-          <p class="when">Jan 2023–present</p>
-          <h3>Youth Volunteer &amp; Mentor</h3>
-          <p class="meta">Vibha Youth Chapter</p>
-          <p>I've put in 200+ volunteer hours helping coordinate fundraisers for schools in the US and India. Our Bay Area youth team brought projectors, a sound system, a printer and laptops to RC Puram Government School in Telangana. I help with the plant fundraiser, Dandiya workshop, bake sales and a youth basketball camp, and I help train new volunteers.</p>
-        </article>
-        <article class="xc">
-          <p class="when">Aug 2024–present</p>
-          <h3>Podcast Creator &amp; Treasurer</h3>
-          <p class="meta">Wildcat Way Podcast Club &amp; personal podcast</p>
-          <p>I manage the club budget, create podcasts for the club's Spotify, and work with the school on events. I also recorded my own 5-episode show on sports and academics.</p>
-        </article>
-        <article class="xc">
-          <p class="when">Ongoing</p>
-          <h3>Tutor at Home</h3>
-          <p class="meta">Family</p>
-          <p>I help my younger brother with his schoolwork.</p>
-        </article>
-      </div>
-    </section>
   </div>
-
-  <section id="about">
-    <div class="spiral-scroll" id="spiral-scroll">
-      <div class="pin">
-        <div class="w">
-          <p class="kick">About <span class="motion-hint">· scroll to unwind</span></p>
-          <h2>The path so far<span class="dot">.</span></h2>
-        </div>
-        <div class="sp" id="sp">
-          <div class="axis" id="axis" aria-hidden="true"></div>
-          <article class="yc"><b>2022</b><p>2nd Degree Black Belt after training since kindergarten.</p></article>
-          <article class="yc"><b>2023</b><p>Joined Vibha Youth Chapter as a volunteer and mentor.</p></article>
-          <article class="yc"><b>2024</b><p>Joined Wildcat Way Podcast Club as treasurer.</p></article>
-          <article class="yc"><b>2025</b><p>SMASH Scholar at UC Berkeley; Aerospace Club Secretary / VP.</p></article>
-          <article class="yc"><b>2026</b><p>Robot arm, Algoverse research, tutoring at Best Brains.</p></article>
-          <article class="yc"><b>2027</b><p>Graduating DVHS; next stop, aerospace engineering.</p></article>
-        </div>
-      </div>
-    </div>
-    <div class="w about-body">
-      <div class="about-grid">
-        <div class="ph">
-          <img src="assets/photos/about-portrait.jpg" alt="Portrait of Haureesh" loading="lazy" onerror="this.remove()">
-          <span class="ph-label">Photo coming soon<small>assets/photos/about-portrait.jpg</small></span>
-        </div>
-        <div class="prose">
-          <blockquote class="todo"><p><b>Placeholder:</b> a short quote in Haureesh's own words goes here.</p></blockquote>
-          <p>I'm a senior at Dougherty Valley High School in San Ramon, California. I want to be an aerospace engineer. My intended majors are Physics, Aerospace, Mechanical, CS, Data Science, and Electrical.</p>
-          <p>Outside class I play cello in the DVHS Chamber Orchestra and have played piano since I was young. In 10th grade I served on Orchestra Council (social media, merch, marketing). I wrestle for DVHS, on JV and varsity, and I like helping newer teammates with technique. I help teach at the martial arts studio where I earned my second-degree black belt, after training from kindergarten on.</p>
-          <p>I tutor part-time at Best Brains Learning Centers. Last summer I ran my own small math tutoring group and donated the earnings. I've mentored younger students through Vibha since 2023, and I tutor my younger brother at home.</p>
-          <h3>Bouncing back</h3>
-          <p>My junior year was hard. I broke my hand and needed surgery, then I was hospitalized for rhabdomyolysis. I caught up on my classes and kept training. When a math grade slipped, I got tutoring and brought it back up to an A.</p>
-          <div class="cols">
-            <div>
-              <h3>Coursework</h3>
-              <ul>
-                <li>AP Physics C: Mechanics</li>
-                <li>AP Calculus AB</li>
-                <li>AP Computer Science A</li>
-                <li>AP Computer Science Principles</li>
-                <li>AP Psychology</li>
-                <li>AP U.S. History</li>
-                <li>AP World History</li>
-              </ul>
-            </div>
-            <div>
-              <h3>Languages</h3>
-              <ul>
-                <li>English</li>
-                <li>Spanish (elementary)</li>
-                <li>Telugu (elementary)</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+  <section id="path">
+    <div class="w">
+      <p class="kick">The path</p>
+      <h2>The path so far<span class="dot">.</span></h2>
+      <div class="timeline" id="timeline" tabindex="0" role="region" aria-label="The path so far. Scroll sideways, or use the left and right arrow keys.">
+        <div class="timeline-line" aria-hidden="true"></div>
+        <article class="yc"><b>2022</b><p>2nd Degree Black Belt after training since kindergarten.</p></article>
+        <article class="yc"><b>2023</b><p>Joined Vibha Youth Chapter as a volunteer and mentor.</p></article>
+        <article class="yc"><b>2024</b><p>Joined Wildcat Way Podcast Club as treasurer.</p></article>
+        <article class="yc"><b>2025</b><p>SMASH Scholar at UC Berkeley; Aerospace Club Secretary / VP.</p></article>
+        <article class="yc"><b>2026</b><p>Robot arm, Algoverse research, tutoring at Best Brains.</p></article>
+        <article class="yc"><b>2027</b><p>Graduating DVHS; next stop, aerospace engineering.</p></article>
       </div>
     </div>
   </section>
 </main>
-<footer id="contact">
+<footer>
   <div class="w">
-    <p class="kick">Say hi</p>
-    <h2>Let's talk<br>rockets<span class="dot">.</span></h2>
-    <p class="lede">Thanks for visiting. I'm happy to talk about any of these projects.</p>
     <p class="foot-links">
       <a class="nl" href="mailto:haureesh@hotmail.com">haureesh@hotmail.com</a>
       <a class="nl" href="https://www.linkedin.com/in/haureesh/">LinkedIn ↗</a>

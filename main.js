@@ -357,31 +357,65 @@
   var announced = -1;
   var ringStatus = document.getElementById("ring-status");
 
-  function ringRadius() {
-    var stageW = stage ? stage.clientWidth : 800;
-    var stageH = stage ? stage.clientHeight : 600;
-    var cardW = ring ? ring.offsetWidth : 270;
-    var cardH = ring ? ring.offsetHeight : 348;
+  var ringFlatten = 0.38;
+  function ringGap(radius, cardW, perspective, tilt) {
     var n = Math.max(ringCards.length, 1);
     var theta = (2 * Math.PI) / n;
-    var sinA = Math.sin(theta);
-    var cosA = Math.cos(theta);
-    var perspective = stage ? parseFloat(getComputedStyle(stage).perspective) : 1600;
-    if (!perspective || perspective === Infinity) perspective = 1600;
-    var radius = Math.min(460, Math.max(200, stageW * 0.48));
-    var guard = 0;
-    while (guard < 22) {
-      var frontScale = perspective / Math.max(280, perspective - radius);
-      var frontHalfW = (cardW / 2) * frontScale;
-      var frontHalfH = (cardH / 2) * frontScale;
-      var centerX = radius * sinA;
-      var frontFits = frontHalfW <= stageW / 2 - 8 && frontHalfH + 28 <= stageH / 2 - 8;
-      var separated = centerX >= frontHalfW * 0.98;
-      if (frontFits && separated) break;
-      radius *= 0.94;
-      guard += 1;
+    var cosT = Math.cos(tilt);
+    var sinT = Math.sin(tilt);
+    function edge(localX, phi) {
+      var yaw = -ringFlatten * phi;
+      var x = localX * Math.cos(yaw);
+      var z = -localX * Math.sin(yaw) + radius;
+      var x3 = x * Math.cos(phi) + z * Math.sin(phi);
+      var z3 = -x * Math.sin(phi) + z * Math.cos(phi);
+      var z2 = z3 * cosT;
+      var scale = perspective / (perspective - z2);
+      return x3 * scale;
     }
-    return Math.max(170, radius);
+    var frontRight = edge(cardW / 2, 0);
+    var sideInner = edge(-cardW / 2, theta);
+    var sideOuter = edge(cardW / 2, theta);
+    var frontScale = perspective / (perspective - radius * cosT);
+    return {
+      gap: sideInner - frontRight,
+      frontW: cardW * frontScale,
+      outer: sideOuter
+    };
+  }
+  function ringRadius() {
+    var stageW = stage ? stage.clientWidth : 800;
+    var cardW = ring ? ring.offsetWidth : 330;
+    var perspective = stage ? parseFloat(getComputedStyle(stage).perspective) : 2200;
+    if (!perspective || perspective === Infinity) perspective = 2200;
+    var tilt = -5 * Math.PI / 180;
+    var best = 180;
+    var bestScore = Infinity;
+    var radius;
+    for (radius = 140; radius <= 460; radius += 5) {
+      var metrics = ringGap(radius, cardW, perspective, tilt);
+      if (metrics.frontW > stageW - 16) continue;
+      if (metrics.outer > stageW / 2 + 90) continue;
+      var score = Math.abs(metrics.gap - 8) - metrics.frontW * 0.03;
+      if (metrics.gap < -12 || metrics.gap > 36) score += 80;
+      if (score < bestScore) {
+        bestScore = score;
+        best = radius;
+      }
+    }
+    return best;
+  }
+  function orientCards() {
+    if (!ringCards.length) return;
+    var step = 360 / ringCards.length;
+    var radius = ringRadius();
+    ringCards.forEach(function (card, i) {
+      var phi = i * step;
+      var sum = phi + angle;
+      var wrapped = sum - Math.round(sum / 360) * 360;
+      var flatten = (1 - ringFlatten) * wrapped - sum;
+      card.style.transform = "rotateY(" + phi + "deg) translateZ(" + radius + "px) rotateY(" + flatten + "deg)";
+    });
   }
   function ringIs3d() {
     return motionOn();
@@ -408,11 +442,7 @@
       if (ring) ring.style.transform = "";
       return;
     }
-    var step = 360 / ringCards.length;
-    var radius = ringRadius();
-    ringCards.forEach(function (card, i) {
-      card.style.transform = "rotateY(" + (i * step) + "deg) translateZ(" + radius + "px)";
-    });
+    orientCards();
   }
   function frontIndex() {
     if (!ringCards.length) return 0;
@@ -433,7 +463,8 @@
   }
   function paintRing() {
     if (!ring || !ringIs3d()) return;
-    ring.style.transform = "rotateX(-8deg) rotateY(" + angle + "deg)";
+    orientCards();
+    ring.style.transform = "rotateX(-5deg) rotateY(" + angle + "deg)";
   }
   function focusRingCard(index) {
     var card = ringCards[(index + ringCards.length) % ringCards.length];
@@ -523,54 +554,18 @@
   if (ringNext) ringNext.addEventListener("click", function () { spinStep(-1); });
   announceRing();
 
-  /* About spiral → flat timeline */
-  var spiralScroll = document.getElementById("spiral-scroll");
-  var spiral = document.getElementById("sp");
-  var axis = document.getElementById("axis");
-  var years = spiral ? Array.from(spiral.querySelectorAll(".yc")) : [];
-
-  function placeSpiral() {
-    if (!spiral || !years.length || !spiralScroll) return;
-    if (!motionOn() || narrowQuery.matches) {
-      years.forEach(function (card) { card.style.transform = ""; card.style.opacity = ""; });
-      if (axis) axis.style.opacity = "0";
-      return;
-    }
-    var nav = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 72;
-    var rect = spiralScroll.getBoundingClientRect();
-    var view = window.innerHeight;
-    // Sticky range runs from the nav lock to the moment the section bottom
-    // reaches the viewport bottom. Finish the unwind before that release
-    // so the flat timeline is on screen, and keep the curve moving through
-    // the whole active range instead of dying out at the end.
-    var travel = rect.height - view + nav;
-    var finish = Math.max(1, travel * 0.28);
-    var raw = nav - rect.top;
-    var p = travel <= 1 ? 1 : Math.min(1, Math.max(0, raw / finish));
-    var e = 1 - Math.pow(1 - p, 1.08);
-    var n = years.length;
-    var cardW = years[0].offsetWidth || 168;
-    var radius = Math.max(70, Math.min(240, spiral.clientWidth / 2 - cardW / 2 - 20));
-    var span = Math.max(cardW, spiral.clientWidth - cardW - 32);
-    var step = span / (n - 1);
-    years.forEach(function (card, i) {
-      var a = i * 60 + (1 - e) * 120;
-      var sx = Math.sin(a * Math.PI / 180) * radius;
-      var sz = Math.cos(a * Math.PI / 180) * radius - radius * 0.85;
-      var sy = (i - (n - 1) / 2) * 70;
-      var tx = (i - (n - 1) / 2) * step;
-      var x = sx + (tx - sx) * e;
-      var y = sy * (1 - e);
-      var z = sz * (1 - e);
-      var ry = a * (1 - e);
-      card.style.transform = "translate3d(" + x + "px," + y + "px," + z + "px) rotateY(" + ry + "deg)";
-      card.style.opacity = String(0.55 + 0.45 * (z > -100 || e > 0.6 ? 1 : 0.4));
+  /* Flat path timeline: sideways scroll by touch, wheel, or arrow keys. */
+  var timeline = document.getElementById("timeline");
+  if (timeline) {
+    timeline.addEventListener("keydown", function (event) {
+      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+      event.preventDefault();
+      var card = timeline.querySelector(".yc");
+      var amount = (card ? card.getBoundingClientRect().width : 220) + 16;
+      timeline.scrollBy({ left: event.key === "ArrowRight" ? amount : -amount, behavior: motionOn() ? "smooth" : "auto" });
     });
-    if (axis) axis.style.opacity = String(e);
   }
-  placeSpiral();
-  window.addEventListener("scroll", placeSpiral, { passive: true });
-  window.addEventListener("resize", function () { placeSpiral(); layoutRing(); });
+  window.addEventListener("resize", function () { layoutRing(); });
 
   /* Footer underline */
   var foot = document.querySelector("footer");
@@ -595,7 +590,9 @@
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         navLinks.forEach(function (link) {
-          if (link.getAttribute("href") === "#" + entry.target.id) link.setAttribute("aria-current", "page");
+          var href = link.getAttribute("href") || "";
+          if (href.charAt(0) !== "#") return;
+          if (href === "#" + entry.target.id) link.setAttribute("aria-current", "page");
           else link.removeAttribute("aria-current");
         });
       });
@@ -606,13 +603,11 @@
   reduceQuery.addEventListener("change", function () {
     startCycle();
     armEntrance();
-    placeSpiral();
     layoutRing();
     go(galIndex);
     ensureWave();
   });
   narrowQuery.addEventListener("change", function () {
-    placeSpiral();
     layoutRing();
     go(galIndex);
   });
