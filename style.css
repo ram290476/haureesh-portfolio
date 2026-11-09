@@ -516,7 +516,9 @@ html.js:not(.reduce) .rc {
 }
 .rc .ph { height: 120px; margin-bottom: 10px; font-size: 12px; }
 .rc h3 { font-size: 20px; margin: 0 0 4px; }
-.rc p { margin: 0; color: var(--mu); font-size: 14px; }
+.rc p { margin: 0; color: var(--mu); font-size: 14px; line-height: 1.35; }
+html.reduce .rc,
+html:not(.js) .rc { min-height: 280px; }
 .honors, .certs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 0; margin: 18px 0 0; list-style: none; }
 .honors li {
   border: 1px solid var(--line);
