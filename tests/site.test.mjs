@@ -51,8 +51,10 @@ test("path timeline stays on the homepage only", () => {
   assert.match(home, /<b>2022<\/b><p>NPA Local Winner, Intermediate\./);
   assert.match(home, /<b>2017<\/b><p>NPA Local Winner, Elementary\./);
   assert.match(home, /<b>2020<\/b><ul class="year-points"><li>NPA Local Winner, Elementary\.<\/li><li>Earned a 1st degree black belt on October 24\.<\/li><\/ul>/);
-  assert.match(home, /<b>2025<\/b><ul class="year-points"><li>JV Wrestling Most Improved Wrestler\.<\/li>/);
+  assert.match(home, /<b>2024<\/b><ul class="year-points"><li>Joined Wildcat Way Podcast Club as treasurer\.<\/li><li>JV Wrestling Most Improved Wrestler\.<\/li><\/ul>/);
+  assert.match(home, /<b>2025<\/b><ul class="year-points"><li>Scholar Athlete, DVHS, in February\.<\/li>/);
   assert.equal(/<b>2024–25<\/b>/.test(home), false);
+  assert.equal(home.includes("<li>JV Wrestling Most Improved Wrestler.</li><li>Scholar Athlete"), false);
   assert.match(home, /<b>2026<\/b><ul class="year-points">/);
   assert.match(home, /Earned a 1st degree black belt on October 24/);
   assert.match(home, /NPA Local Winner, Elementary/);
@@ -236,9 +238,9 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.match(html, /martial-arts-1st-place-plaque-undated\.jpg/);
   assert.match(html, /Martial arts 1st Place<\/b><span>Ernie Reyes' World Martial Arts Association · undated/);
   assert.match(html, /dvhs-jv-wrestling-most-improved-2024-2025\.jpg/);
-  assert.match(html, /JV Wrestling Most Improved<\/b><span>2025/);
-  assert.match(html, /NCS CIF Scholar-Athlete<\/b><span>2025/);
-  assert.match(html, /DVHS Varsity Wrestling<\/b><span>2025/);
+  assert.match(html, /JV Wrestling Most Improved<\/b><span>2024/);
+  assert.match(html, /NCS CIF Scholar-Athlete<\/b><span>2024/);
+  assert.match(html, /DVHS Varsity Wrestling<\/b><span>2024/);
   assert.match(html, /DVHS Junior Varsity Wrestling<\/b><span>2024/);
   assert.match(html, /Course completion · 2016/);
   assert.match(html, /award for 2024–2025/);
@@ -251,7 +253,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   }
   assert.match(ring, /I play cello in the DVHS Chamber Orchestra/);
   assert.match(ring, /I'm treasurer of the Wildcat Way Podcast Club/);
-  assert.match(ring, /I wrestle JV and varsity\. JV Most Improved Wrestler, 2025/);
+  assert.match(ring, /I wrestle JV and varsity\. JV Most Improved Wrestler, 2024/);
   assert.match(ring, /I tutor students at Best Brains/);
   assert.match(ring, /assets\/photos\/best-brains-logo\.svg/);
   assert.match(ring, /alt="Best Brains Learning Centers logo"/);
