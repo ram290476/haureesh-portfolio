@@ -241,6 +241,21 @@ html.js:not(.reduce) .t.in { opacity: 1; transform: none; }
 .cyc span.o { opacity: 0; transform: translateY(10px); }
 .photo { grid-column: span 2; grid-row: span 2; padding: 16px; }
 .t.wide .ph { width: 120px; height: 120px; min-height: 0; margin: 0 0 12px; padding: 0; }
+.t.media-row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 16px;
+  align-items: center;
+}
+.t.media-row .ph {
+  width: 100%;
+  height: 150px;
+  min-height: 150px;
+  margin: 0;
+}
+.t.media-row .media-copy { min-width: 0; }
+.t.media-row .media-copy h3 { margin-bottom: 6px; }
+.t.media-row .media-copy p:last-child { margin: 0; }
 .ph {
   position: relative;
   border: 1.5px dashed #5ee7ff88;
@@ -894,8 +909,9 @@ html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; 
   .g .cap { height: auto; max-height: none; }
   .big { font-size: 48px; }
   nav a { font-size: 13px; }
-  .spec-row { grid-template-columns: 1fr; }
+  .spec-row, .t.media-row { grid-template-columns: 1fr; }
   .spec-photo { height: 120px; max-height: 120px; min-height: 0; }
+  .t.media-row .ph { height: 160px; min-height: 160px; }
 }
 /* Below 760px the wide card crowds the stage, so the ring uses a smaller card. */
 @media (max-width: 800px) {
