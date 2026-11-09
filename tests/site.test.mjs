@@ -48,7 +48,8 @@ test("path timeline stays on the homepage only", () => {
     assert.match(home, new RegExp("<b>" + year + "</b>"));
   }
   assert.equal(home.includes("<b>2022</b>"), false);
-  assert.match(home, /Earned a 2nd degree black belt after training since kindergarten/);
+  assert.match(home, /<b>2020<\/b><p>Earned a 1st degree black belt on October 24\./);
+  assert.match(home, /Earned a 2nd degree black belt on April 29, after training since kindergarten/);
   assert.equal(home.includes("Nov 2022"), false);
   assert.match(home, />Piano</);
   for (const chip of ["Python", "Java", "Front-end development", "Game development", "3D printing", "Tutoring", "Orchestra", "Wrestling"]) {
@@ -126,9 +127,18 @@ test("each project card opens its own page", () => {
     assert.equal(/grade point|GPA/i.test(page), false, name);
   }
   assert.match(read("projects/smash.html"), /uc-berkeley-smash-achievement-2025\.jpg/);
-  for (const name of ["projects/aerospace-club.html", "projects/model-rocket.html", "projects/robot-arm.html", "projects/ai-research.html"]) {
-    assert.match(read(name), /Photos coming soon/);
+  assert.match(read("projects/aerospace-club.html"), /Photos coming soon/);
+  assert.match(read("projects/model-rocket.html"), /rocket-launch\.jpg/);
+  assert.equal(read("projects/model-rocket.html").includes("Photos coming soon</p>"), false);
+  const arm = read("projects/robot-arm.html");
+  for (const photo of ["robot-arm-red-yellow-pair.jpg", "robot-arm-yellow-angle-a.jpg", "robot-arm-yellow-angle-b.jpg"]) {
+    assert.match(arm, new RegExp(photo));
   }
+  assert.equal(arm.includes("Photos coming soon</p>"), false);
+  const research = read("projects/ai-research.html");
+  assert.match(research, /algoverse-ai-research-logo\.jpg/);
+  assert.equal(research.includes("Photos coming soon</p>"), false);
+  assert.equal(read("awards.html").includes("algoverse-ai-research-logo.jpg"), false);
 });
 
 test("scholar-athlete copy does not include a GPA", () => {
@@ -148,7 +158,15 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.equal(html.includes("Certificate scans"), false);
   assert.match(html, /class="certs"/);
   assert.match(html, /Presidential Volunteer Service Award – Silver/);
-  assert.match(html, /2nd Degree Black Belt<\/b><span>Ernie Reyes West Coast World Martial Arts · 2023/);
+  assert.match(html, /first-degree-black-belt-certificate-2020-10-24\.jpg/);
+  assert.match(html, /1st Degree Black Belt<\/b><span>Ernie Reyes' West Coast World Martial Arts Association · October 24, 2020/);
+  assert.match(html, /second-degree-black-belt-certificate-2023-04-29\.jpg/);
+  assert.match(html, /2nd Degree Black Belt<\/b><span>Ernie Reyes' West Coast World Martial Arts Association · April 29, 2023/);
+  assert.match(html, /martial-arts-1st-place-plaque-undated\.jpg/);
+  assert.match(html, /Martial arts 1st Place<\/b><span>Ernie Reyes' World Martial Arts Association · undated/);
+  assert.match(html, /dvhs-jv-wrestling-most-improved-2024-2025\.jpg/);
+  assert.match(html, /JV Wrestling Most Improved<\/b><span>2024–2025/);
+  assert.equal(html.includes("DVHS Wrestling · Feb 2025"), false);
   assert.equal(html.includes("Nov 2022"), false);
   assert.equal(html.includes("100+ hours"), false);
   assert.equal(html.includes("Vibha Gold"), false);
@@ -182,7 +200,8 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   }
   const piano = read("activities/piano.html");
   assert.ok(piano.indexOf('id="award"') < piano.indexOf('id="milestones"'));
-  assert.match(read("about.html"), /second-degree black belt in 2023/);
+  assert.match(read("about.html"), /first-degree black belt on October 24, 2020/);
+  assert.match(read("about.html"), /second-degree black belt on April 29, 2023/);
   assert.equal(read("about.html").includes("Nov 2022"), false);
 });
 

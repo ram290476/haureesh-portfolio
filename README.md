@@ -45,9 +45,9 @@ Save a JPG with the **exact filename** below. The labeled placeholder disappears
 | ap-scholar.jpg | AP Scholar (Jul 2025) |
 | pvsa-silver.jpg | Presidential Volunteer Service Award, Silver (2024 on the scan) |
 | mtac-cm-level8.jpg | MTAC Certificate of Merit, Piano Level 8 (Feb 2025) |
-| most-improved-wrestler.jpg | Most Improved Wrestler (Feb 2025) |
+| most-improved-wrestler.jpg | Older placeholder. The published award is the JV Wrestling Most Improved plaque for 2024–2025. |
 | scholar-athlete.jpg | DVHS Scholar Athlete (Feb 2025) |
-| black-belt.jpg | 2nd Degree Black Belt (2023) |
+| black-belt.jpg | Older placeholder. Published scans: 1st degree October 24, 2020 and 2nd degree April 29, 2023. |
 
 Leave these off the site. They are not confirmed: Vibha Gold, and the College Board School Recognition award.
 
