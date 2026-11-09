@@ -239,7 +239,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   for (const href of ["activities/orchestra.html", "activities/podcasting.html", "activities/best-brains.html", "activities/vibha.html", "activities/piano.html", "activities/wrestling.html", "activities/karate.html"]) {
     assert.match(html, new RegExp('href="' + href + '"'));
   }
-  assert.match(html, /Eighth-grade orchestra concert/);
+  assert.match(html, /The orchestra on stage at a concert/);
   assert.equal(html.includes("orchestra-performance.mp4"), false);
   assert.equal(html.includes('class="shots"'), false);
   assert.equal(html.includes("outdoor-activity-plant-table.jpg"), false);
@@ -335,7 +335,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.ok(wrestlingPage.indexOf("wrestling-match-1.mp4") < wrestlingPage.indexOf("wrestling-match-fremont.mp4"));
   assert.ok(wrestlingPage.indexOf("wrestling-match-fremont.mp4") < wrestlingPage.indexOf("wrestling-xray-image-01.jpg"));
   const beforeWrestlingLink = html.slice(Math.max(0, html.indexOf("activities/wrestling.html") - 500), html.indexOf("activities/wrestling.html"));
-  assert.match(beforeWrestlingLink, /dvhs-jv-wrestling-most-improved-2024-2025\.jpg/);
+  assert.match(beforeWrestlingLink, /card-wrestling\.jpg/);
   assert.equal(beforeWrestlingLink.includes("xray"), false);
 });
 
