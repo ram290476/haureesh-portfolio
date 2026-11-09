@@ -305,8 +305,9 @@ html.js:not(.reduce) .t.in { opacity: 1; transform: none; }
 }
 .spec-photo {
   width: 100%;
-  height: 100%;
-  min-height: 160px;
+  height: 240px;
+  max-height: 240px;
+  min-height: 140px;
   object-fit: cover;
   object-position: center;
   border-radius: 16px;
@@ -331,7 +332,10 @@ html.js .face {
   backface-visibility: hidden;
 }
 html.js .face.back { transform: rotateY(180deg); }
-.face-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.face-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex: 0 0 auto; }
+.face-body { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; gap: 8px; padding-bottom: 12px; }
+.face .view-project { margin-top: auto; margin-bottom: 12px; align-self: flex-start; flex: 0 0 auto; }
+a.g { color: inherit; text-decoration: none; }
 .text-btn, .gnav button, .ring-controls button, .btn {
   font: inherit;
   cursor: pointer;
