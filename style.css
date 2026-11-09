@@ -288,11 +288,12 @@ html.js:not(.reduce) .t.in { opacity: 1; transform: none; }
 .rocket {
   grid-column: span 2;
   grid-row: span 2;
+  align-self: stretch;
   perspective: 1200px;
   padding: 0;
   background: none;
   border: none;
-  min-height: 460px;
+  min-height: 0;
 }
 .rocket:hover, .rocket:focus-within { box-shadow: none; border-color: transparent; }
 .flip { display: grid; gap: 12px; }
@@ -312,7 +313,15 @@ html.js:not(.reduce) .t.in { opacity: 1; transform: none; }
   background: linear-gradient(160deg, #231a4a, #10172f);
   border-color: var(--vi);
   justify-content: flex-start;
+  padding: 18px 20px;
+  gap: 8px;
+  overflow: hidden;
 }
+.face.back .spec { gap: 0; }
+.face.back .spec dt { line-height: 1.2; }
+.face.back .spec dd { margin: 0 0 2px; line-height: 1.25; }
+.face.back .note { margin: 6px 0 0; line-height: 1.3; }
+.face.back .view-project { margin-top: 8px; min-height: 36px; padding: 6px 14px; }
 .face.back .media-row { flex: 1; align-items: start; }
 .face.back .media-copy {
   display: flex;
@@ -327,15 +336,13 @@ html.js:not(.reduce) .t.in { opacity: 1; transform: none; }
   display: block;
 }
 .media-row .spec { grid-template-columns: 1fr; }
-html.js .rocket { min-height: 460px; }
-html.js .rocket.is-flipped,
-html.js .rocket.is-flipped .flip { min-height: 540px; }
+html.js .rocket { min-height: 0; }
 html.js .flip {
   display: block;
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 460px;
+  min-height: 0;
   transition: transform .9s var(--spring);
   transform-style: preserve-3d;
 }
@@ -884,6 +891,7 @@ html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; 
   .w { padding: 0 20px; }
   .bento { grid-template-columns: 1fr 1fr; }
   .intro, .photo, .rocket, .wide, .chips { grid-column: span 2; }
+  .rocket { grid-row: auto; min-height: 0; }
   .about-grid, .cols { grid-template-columns: 1fr; }
   #orb { display: none; }
   .orbf { width: min(280px, 70vw); right: -20px; opacity: .8; }
@@ -911,8 +919,12 @@ html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; 
   .media-row { grid-template-columns: 1fr; }
   .t.wide.media-row .ph,
   .media-row .spec-photo { height: 160px; max-height: 160px; min-height: 160px; }
-  html.js .rocket.is-flipped,
-  html.js .rocket.is-flipped .flip { min-height: 760px; }
+  html.js .rocket,
+  html.js .flip { min-height: 0; height: auto; }
+  html.js .face { position: relative; inset: auto; overflow: visible; }
+  html.js .rocket .face.back { display: none; }
+  html.js .rocket.is-flipped .face:not(.back) { display: none; }
+  html.js .rocket.is-flipped .face.back { display: flex; transform: none; }
 }
 /* Below 760px the wide card crowds the stage, so the ring uses a smaller card. */
 @media (max-width: 800px) {
