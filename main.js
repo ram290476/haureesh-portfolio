@@ -559,16 +559,35 @@
   if (ringNext) ringNext.addEventListener("click", function () { spinStep(-1); });
   announceRing();
 
-  /* Flat path timeline: sideways scroll by touch, wheel, or arrow keys. */
+  /* Flat path timeline: sideways scroll by touch, wheel, arrow keys, or the icon buttons. */
   var timeline = document.getElementById("timeline");
   if (timeline) {
+    var timelinePrev = document.getElementById("timeline-prev");
+    var timelineNext = document.getElementById("timeline-next");
+    function timelineStep() {
+      var card = timeline.querySelector(".yc");
+      return (card ? card.getBoundingClientRect().width : 220) + 16;
+    }
+    function scrollTimeline(direction) {
+      timeline.scrollBy({ left: direction * timelineStep(), behavior: motionOn() ? "smooth" : "auto" });
+    }
+    function syncTimelineArrows() {
+      var max = timeline.scrollWidth - timeline.clientWidth;
+      var atStart = timeline.scrollLeft <= 8;
+      var atEnd = max <= 8 || timeline.scrollLeft >= max - 8;
+      if (timelinePrev) timelinePrev.disabled = atStart;
+      if (timelineNext) timelineNext.disabled = atEnd;
+    }
     timeline.addEventListener("keydown", function (event) {
       if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
       event.preventDefault();
-      var card = timeline.querySelector(".yc");
-      var amount = (card ? card.getBoundingClientRect().width : 220) + 16;
-      timeline.scrollBy({ left: event.key === "ArrowRight" ? amount : -amount, behavior: motionOn() ? "smooth" : "auto" });
+      scrollTimeline(event.key === "ArrowRight" ? 1 : -1);
     });
+    if (timelinePrev) timelinePrev.addEventListener("click", function () { scrollTimeline(-1); });
+    if (timelineNext) timelineNext.addEventListener("click", function () { scrollTimeline(1); });
+    timeline.addEventListener("scroll", syncTimelineArrows, { passive: true });
+    window.addEventListener("resize", syncTimelineArrows);
+    syncTimelineArrows();
   }
   window.addEventListener("resize", function () { layoutRing(); });
 

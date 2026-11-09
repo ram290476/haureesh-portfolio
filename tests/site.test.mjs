@@ -80,6 +80,33 @@ test("path timeline stays on the homepage only", () => {
   }
 });
 
+test("timeline arrows scroll one card and dim at the ends", () => {
+  const home = read("index.html");
+  const prevAt = home.indexOf('id="timeline-prev"');
+  const nextAt = home.indexOf('id="timeline-next"');
+  const scrollerAt = home.indexOf('id="timeline"');
+  assert.ok(prevAt > 0 && nextAt > prevAt && scrollerAt > nextAt);
+  const prev = home.slice(prevAt - 80, home.indexOf("</button>", prevAt));
+  const next = home.slice(nextAt - 80, home.indexOf("</button>", nextAt));
+  assert.match(prev, /type="button"/);
+  assert.match(next, /type="button"/);
+  assert.match(prev, /aria-label="Scroll left"/);
+  assert.match(next, /aria-label="Scroll right"/);
+  assert.match(prev, /<svg/);
+  assert.match(next, /<svg/);
+  assert.equal(prev.includes("Scroll left<"), false);
+  assert.equal(next.includes("Scroll right<"), false);
+  assert.match(read("style.css"), /\.tl-arrow \{[\s\S]*min-width: 44px;[\s\S]*min-height: 44px;/);
+  assert.match(read("style.css"), /\.tl-arrow:disabled \{[\s\S]*opacity: 0\.35;/);
+  const js = read("main.js");
+  assert.match(js, /function scrollTimeline\(direction\) \{\s*timeline\.scrollBy\(\{ left: direction \* timelineStep\(\), behavior: motionOn\(\) \? "smooth" : "auto" \}\);/);
+  assert.match(js, /timeline\.scrollLeft <= 8/);
+  assert.match(js, /timeline\.scrollLeft >= max - 8/);
+  assert.match(js, /timelinePrev\.disabled = atStart/);
+  assert.match(js, /timelineNext\.disabled = atEnd/);
+  assert.match(js, /event\.key === "ArrowRight" \? 1 : -1/);
+});
+
 test("experience copy is only on the experience page", () => {
   const html = read("experience.html");
   for (const line of [

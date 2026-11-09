@@ -147,8 +147,20 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
   </div>
   <section id="path">
     <div class="w">
-      <p class="kick">The path</p>
-      <h2>The path so far<span class="dot">.</span></h2>
+      <div class="path-head">
+        <div>
+          <p class="kick">The path</p>
+          <h2>The path so far<span class="dot">.</span></h2>
+        </div>
+        <div class="tl-arrows">
+          <button type="button" class="tl-arrow" id="timeline-prev" aria-label="Scroll left" disabled>
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M14.5 6 L8.5 12 L14.5 18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button type="button" class="tl-arrow" id="timeline-next" aria-label="Scroll right">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M9.5 6 L15.5 12 L9.5 18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
       <div class="timeline" id="timeline" tabindex="0" role="region" aria-label="The path so far. Scroll sideways, or use the left and right arrow keys.">
         <div class="timeline-line" aria-hidden="true"></div>
         <article class="yc"><b>2017</b><p>NPA Local Winner, Elementary.</p></article>
