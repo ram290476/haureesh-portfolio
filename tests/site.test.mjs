@@ -97,7 +97,12 @@ test("about keeps the biography and not the timeline", () => {
 test("contact links stay on the contact page", () => {
   const contact = read("contact.html");
   assert.match(contact, /id="contact"/);
-  assert.match(contact, /<h2>Hi, let's chat\. Say hi, let's chat\. Thanks for visiting\. I am happy to talk about any of these projects or activities\.<\/h2>/);
+  const headings = [...contact.matchAll(/<h2>([\s\S]*?)<\/h2>/g)];
+  assert.equal(headings.length, 1);
+  const headingText = headings[0][1].replace(/<br\s*\/?>/gi, " ").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+  assert.equal(headingText, "Hi, let's chat.");
+  assert.match(contact, /<p class="lede">Thanks for visiting\. I am happy to talk about any of these projects or activities\.<\/p>/);
+  assert.equal(contact.includes("Say hi"), false);
   assert.equal(contact.includes("contact-note"), false);
   assert.equal(contact.includes("Let's talk"), false);
   assert.equal(contact.includes("rockets"), false);
