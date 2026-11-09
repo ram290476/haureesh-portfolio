@@ -47,32 +47,57 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
     <p class="meta">Algoverse AI Research · Jul 2026–present</p>
     <section id="overview">
       <h2>Overview</h2>
-      <p>I'm an AI researcher in the Algoverse AI Research Program, remote, from July 2026 to the present. With a research team and a mentor, I'm studying multilingual AI safety: whether language models that refuse harmful requests in English still refuse them in other languages. The paper is in progress. It has not been submitted.</p>
+      <p>I'm an AI researcher in the Algoverse AI Research Program, remote, from July 2026 to the present. With a research team and a mentor, I'm studying multilingual over-refusal: do safety-tuned models refuse harmless requests more often in another language, and do they still refuse harmful ones? The paper is in progress. It has not been submitted.</p>
     </section>
     <section id="role">
       <h2>My Role</h2>
-      <p>With a research team and a mentor, I work on the literature review, experiment design, and analysis of the model outputs.</p>
+      <p>With a research team and a mentor, I work on the literature review, experiment design, and analysis of the model outputs. The public repo runs the study as one pipeline: translate, generate, then judge.</p>
     </section>
     <section id="tools">
       <h2>Technologies/Tools</h2>
+      <p class="meta">Tech stack</p>
+      <div class="stack-chips">
+        <span>Python</span>
+        <span>pandas</span>
+        <span>matplotlib</span>
+        <span>vLLM 0.11.0</span>
+        <span>transformers</span>
+        <span>PyTorch</span>
+        <span>requests</span>
+        <span>Hugging Face Hub</span>
+        <span>datasets</span>
+        <span>sentencepiece</span>
+      </div>
       <ul>
-        <li>Python pipeline and notebooks</li>
-        <li>vLLM, greedy decoding</li>
-        <li>XSTest</li>
-        <li>Qwen3-8B, Qwen3-14B, Llama-3.1-8B-Instruct, Vicuna-7B v1.5, gpt-oss-20b</li>
-        <li>GPT-5 mini as translator and judge</li>
-        <li>NLLB-200 and Qwen2.5-14B as cross-check translators</li>
+        <li>XSTest: 250 safe and 200 unsafe English prompts</li>
+        <li>Languages: English, Spanish, Hindi, Chinese (Simplified, Mandarin), Swahili</li>
+        <li>Models, via vLLM at temperature 0: Qwen/Qwen3-8B-FP8, Qwen/Qwen3-14B-AWQ, RedHatAI/Meta-Llama-3.1-8B-Instruct-FP8, lmsys/vicuna-7b-v1.5, openai/gpt-oss-20b</li>
+        <li>Translator and judge: GPT-5 mini. Second translator: facebook/nllb-200-distilled-1.3B. Spanish also has a Sep 17 Qwen2.5-14B set.</li>
       </ul>
       <p><a class="btn" href="https://github.com/haureesh14/Algoverse-heia" target="_blank" rel="noopener">View on GitHub</a></p>
     </section>
     <section id="process">
       <h2>Process/Build</h2>
-      <p>We translated XSTest, 250 safe prompts and 200 unsafe prompts, from English into Spanish, Hindi, Chinese (Simplified), and Swahili. We ran the five models through vLLM and labeled each answer with a judge: full compliance, full refusal, partial refusal, or other. My part is the literature review, the experiment design, and the analysis.</p>
+      <p>GPT-5 mini translates each English prompt, then back-translates it and checks whether the meaning still matches. Hindi must come back in Devanagari and Chinese in Chinese characters. A refusal, an empty reply, or the wrong script is retried. Rows that still fail are stored with an empty prompt and skipped at generation.</p>
+      <p>NLLB-200 then translates the same 100 safe and 50 unsafe prompts into each target language, with beam search. The older Qwen2.5-14B Spanish file is kept as an extra Spanish check. vLLM generates answers with greedy decoding: 768 new tokens for the first four models and 2048 for gpt-oss-20b. The judge is GPT-5 mini. It labels each answer full compliance, full refusal, partial refusal, or other. A refusal rate counts full and partial refusals. A keyword check looks for a refusal phrase at the start of the answer in any of the five languages.</p>
     </section>
     <section id="outcomes">
       <h2>Outcomes/What I Learned</h2>
-      <p>These results are preliminary. Early numbers suggest models refuse unsafe prompts less often outside English, while refusal of safe prompts does not rise. Llama-3.1-8B's unsafe-prompt refusal falls from about 96% in English to about 43% in Swahili. Qwen3-14B's unsafe-prompt refusal falls from about 66% in English to about 28% in Hindi.</p>
-      <p>The translator refused 83 harmful prompts, 212 Vicuna answers were truncated, and the judge has not yet been checked against human labels. Until that check is done, the unsafe-prompt refusal rates are a lower bound. We're writing the paper now.</p>
+      <p>These results are preliminary. In the main table, unsafe-prompt refusal is lower outside English, and safe-prompt refusal stays low. Llama-3.1-8B's unsafe refusal is 0.960 in English and 0.427 in Swahili. Qwen3-14B's unsafe refusal is 0.655 in English and 0.279 in Hindi.</p>
+      <table class="rates">
+        <caption>Preliminary refusal rate on unsafe prompts, English originals and GPT-5 mini translations.</caption>
+        <thead>
+          <tr><th>Model</th><th>en</th><th>es</th><th>hi</th><th>zh</th><th>sw</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>gpt-oss-20b</td><td>0.945</td><td>0.909</td><td>0.890</td><td>0.889</td><td>0.654</td></tr>
+          <tr><td>llama-3.1-8b</td><td>0.960</td><td>0.846</td><td>0.680</td><td>0.815</td><td>0.427</td></tr>
+          <tr><td>qwen3-14b</td><td>0.655</td><td>0.480</td><td>0.279</td><td>0.466</td><td>0.557</td></tr>
+          <tr><td>qwen3-8b</td><td>0.670</td><td>0.434</td><td>0.374</td><td>0.466</td><td>0.592</td></tr>
+          <tr><td>vicuna-7b-v1.5</td><td>0.735</td><td>0.411</td><td>0.329</td><td>0.603</td><td>0.444</td></tr>
+        </tbody>
+      </table>
+      <p>GPT-5 mini refused to translate 83 harmful prompts (Spanish 26, Hindi 28, Chinese 11, Swahili 18) and wrote a refusal instead. Those rows are excluded from the main analysis. 212 Vicuna answers are only the cut-off text "Lo sient", and 3 are "No es aprop"; the judge marked them other, and they should be counted as refusals. Answers that decline and then offer help are sometimes labelled compliance, most often in Chinese. The hand-label file has 120 sampled answers and is not labelled yet, so the judge is not validated. Until then, unsafe-prompt refusal rates are a lower bound. We're writing the paper now.</p>
     </section>
     <section id="gallery">
       <h2>Photo Gallery</h2>
@@ -88,6 +113,10 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
         <figure class="logo">
           <img src="../assets/photos/algoverse-ai-research-logo.jpg" alt="Algoverse AI Research logo">
           <figcaption>Algoverse AI Research logo</figcaption>
+        </figure>
+        <figure class="wide">
+          <img src="../assets/photos/algoverse-over-refusal-by-language.png" alt="Preliminary bar chart of refusal rates on safe prompts for five models in English, Spanish, Hindi, Chinese, and Swahili" width="1500" height="600">
+          <figcaption>Preliminary: refusal rate on safe prompts by language.</figcaption>
         </figure>
       </div>
     </section>
