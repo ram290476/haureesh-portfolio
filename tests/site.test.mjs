@@ -14,7 +14,8 @@ const activityPages = [
   "activities/best-brains.html",
   "activities/piano.html",
   "activities/podcasting.html",
-  "activities/cello.html"
+  "activities/cello.html",
+  "activities/wrestling.html"
 ];
 const pages = ["index.html", "projects.html", "awards.html", "experience.html", "about.html", "contact.html", "404.html", ...projectPages, ...activityPages];
 const nav = ["Home", "Projects", "Awards", "Experience", "About", "Contact"];
@@ -170,7 +171,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.equal(html.includes("Nov 2022"), false);
   assert.equal(html.includes("100+ hours"), false);
   assert.equal(html.includes("Vibha Gold"), false);
-  for (const href of ["activities/cello.html", "activities/podcasting.html", "activities/best-brains.html", "activities/vibha.html", "activities/piano.html"]) {
+  for (const href of ["activities/cello.html", "activities/podcasting.html", "activities/best-brains.html", "activities/vibha.html", "activities/piano.html", "activities/wrestling.html"]) {
     assert.match(html, new RegExp('href="' + href + '"'));
   }
   assert.match(html, /Eighth-grade orchestra concert/);
@@ -203,6 +204,15 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.match(read("about.html"), /first-degree black belt on October 24, 2020/);
   assert.match(read("about.html"), /second-degree black belt on April 29, 2023/);
   assert.equal(read("about.html").includes("Nov 2022"), false);
+  const wrestling = read("activities/wrestling.html");
+  assert.ok(wrestling.indexOf('id="award"') < wrestling.indexOf('id="milestones"'));
+  assert.match(wrestling, /wrestling-xray-image-01\.jpg/);
+  assert.match(wrestling, /wrestling-xray-image-02\.jpg/);
+  assert.match(wrestling, /alt="Wrestling — X-ray image"/);
+  assert.equal(wrestling.includes("surgery"), false);
+  assert.equal(wrestling.includes("fracture"), false);
+  assert.equal(wrestling.includes("diagnosis"), false);
+  assert.equal(html.includes("wrestling-xray"), false);
 });
 
 test("career wording uses engineer and keeps the majors line", () => {
