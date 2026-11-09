@@ -96,16 +96,27 @@ test("timeline arrows scroll one card and dim at the ends", () => {
   assert.match(next, /<svg/);
   assert.equal(prev.includes("Scroll left<"), false);
   assert.equal(next.includes("Scroll right<"), false);
+  // Open scrolled to the newest years: right arrow starts dimmed, left enabled.
+  assert.equal(/disabled/.test(prev), false);
+  assert.match(next, /disabled/);
   assert.match(read("style.css"), /\.tl-arrow \{[\s\S]*min-width: 44px;[\s\S]*min-height: 44px;/);
   assert.match(read("style.css"), /\.tl-arrow:disabled \{[\s\S]*opacity: 0\.35;/);
   const js = read("main.js");
-  assert.match(js, /function scrollTimeline\(direction\) \{\s*timeline\.scrollBy\(\{ left: direction \* timelineStep\(\), behavior: motionOn\(\) \? "smooth" : "auto" \}\);/);
+  assert.match(js, /function pinTimelineEnd\(\)/);
+  assert.match(js, /timeline\.scrollLeft = timelineMaxScroll\(\)/);
+  assert.match(js, /stickTimelineEnd/);
+  assert.match(js, /function scrollTimeline\(direction\) \{[\s\S]*?timeline\.scrollBy\(\{ left: direction \* timelineStep\(\), behavior: motionOn\(\) \? "smooth" : "auto" \}\);/);
   assert.match(js, /timeline\.scrollLeft <= 8/);
   assert.match(js, /timeline\.scrollLeft >= max - 8/);
   assert.match(js, /timelinePrev\.disabled = atStart/);
   assert.match(js, /timelineNext\.disabled = atEnd/);
   assert.match(js, /event\.key === "ArrowRight" \? 1 : -1/);
-});
+  // Chronological order unchanged: first card 2017, last card 2027.
+  const firstCard = home.indexOf('class="yc"');
+  const lastCard = home.lastIndexOf('class="yc"');
+  assert.match(home.slice(firstCard, firstCard + 40), /<b>2017<\/b>/);
+  assert.match(home.slice(lastCard, lastCard + 40), /<b>2027<\/b>/);
+})
 
 test("experience copy is only on the experience page", () => {
   const html = read("experience.html");
