@@ -9,7 +9,14 @@ const projectPages = [
   "projects/ai-research.html",
   "projects/smash.html"
 ];
-const pages = ["index.html", "projects.html", "awards.html", "experience.html", "about.html", "contact.html", "404.html", ...projectPages];
+const activityPages = [
+  "activities/vibha.html",
+  "activities/best-brains.html",
+  "activities/piano.html",
+  "activities/podcasting.html",
+  "activities/cello.html"
+];
+const pages = ["index.html", "projects.html", "awards.html", "experience.html", "about.html", "contact.html", "404.html", ...projectPages, ...activityPages];
 const nav = ["Home", "Projects", "Awards", "Experience", "About", "Contact"];
 
 function read(name) {
@@ -37,9 +44,12 @@ test("path timeline stays on the homepage only", () => {
   assert.match(home, /The path so far/);
   assert.match(home, /id="timeline"/);
   assert.equal(home.includes("spiral-scroll"), false);
-  for (const year of ["2022", "2023", "2024", "2025", "2026", "2027"]) {
+  for (const year of ["2023", "2024", "2025", "2026", "2027"]) {
     assert.match(home, new RegExp("<b>" + year + "</b>"));
   }
+  assert.equal(home.includes("<b>2022</b>"), false);
+  assert.match(home, /Earned a 2nd degree black belt after training since kindergarten/);
+  assert.equal(home.includes("Nov 2022"), false);
   assert.match(home, />Piano</);
   for (const chip of ["Python", "Java", "Front-end development", "Game development", "3D printing", "Tutoring", "Orchestra", "Wrestling"]) {
     assert.match(home, new RegExp(">" + chip + "<"));
@@ -85,11 +95,13 @@ test("about keeps the biography and not the timeline", () => {
 test("contact links stay on the contact page", () => {
   const contact = read("contact.html");
   assert.match(contact, /id="contact"/);
-  assert.match(contact, /Let's talk/);
+  assert.match(contact, /Hi, let's chat\. Say hi, let's chat\. Thanks for visiting\. I am happy to talk about any of these projects or activities\./);
+  assert.equal(contact.includes("Let's talk"), false);
+  assert.equal(contact.includes("rockets"), false);
   assert.match(contact, /mailto:haureesh@hotmail\.com/);
   assert.match(contact, /https:\/\/www\.linkedin\.com\/in\/haureesh\//);
   assert.match(contact, /https:\/\/github\.com\/haureesh14/);
-  for (const name of ["index.html", "projects.html", "awards.html", "experience.html", "about.html", "404.html", ...projectPages]) {
+  for (const name of ["index.html", "projects.html", "awards.html", "experience.html", "about.html", "404.html", ...projectPages, ...activityPages]) {
     const html = read(name);
     assert.equal(html.includes("haureesh@hotmail.com"), false, name);
     assert.equal(html.includes("linkedin.com/in/haureesh"), false, name);
@@ -122,8 +134,69 @@ test("each project card opens its own page", () => {
 test("scholar-athlete copy does not include a GPA", () => {
   const html = read("awards.html");
   assert.match(html, /ncs-cif-scholar-athlete-2024-25\.jpg/);
+  assert.match(html, /NCS CIF Scholar-Athlete/);
   assert.equal(html.includes("4.0"), false);
   assert.equal(/grade point|GPA/i.test(html), false);
+});
+
+test("rotating activity cards stay on top and awards are picture cards", () => {
+  const html = read("awards.html");
+  const ring = html.slice(html.indexOf('id="ring"'), html.indexOf("</div>\n      </div>\n      <p class=\"sr\" id=\"ring-status\""));
+  const titles = [...ring.matchAll(/<h3>(?:<a [^>]*>)?([^<]+)/g)].map((match) => match[1]);
+  assert.deepEqual(titles, ["Cello", "Podcast", "Wrestling", "Best Brains", "Vibha", "Piano"]);
+  assert.match(html, /<h3 class="subhead">Awards<\/h3>/);
+  assert.equal(html.includes("Certificate scans"), false);
+  assert.match(html, /class="certs"/);
+  assert.match(html, /Presidential Volunteer Service Award – Silver/);
+  assert.match(html, /2nd Degree Black Belt<\/b><span>Ernie Reyes West Coast World Martial Arts · 2023/);
+  assert.equal(html.includes("Nov 2022"), false);
+  assert.equal(html.includes("100+ hours"), false);
+  assert.equal(html.includes("Vibha Gold"), false);
+  for (const href of ["activities/cello.html", "activities/podcasting.html", "activities/best-brains.html", "activities/vibha.html", "activities/piano.html"]) {
+    assert.match(html, new RegExp('href="' + href + '"'));
+  }
+  assert.match(html, /Eighth-grade orchestra concert/);
+  assert.match(html, /orchestra-performance\.mp4/);
+  assert.equal(html.includes("DVHS Chamber Orchestra concert"), false);
+  const cello = read("activities/cello.html");
+  const galleryAt = cello.indexOf('id="gallery"');
+  const videoAt = cello.indexOf('id="video"');
+  const overviewAt = cello.indexOf('id="overview"');
+  assert.ok(overviewAt < galleryAt && galleryAt < videoAt);
+  assert.match(cello, /Eighth-grade orchestra concert/);
+  assert.match(cello, /orchestra-performance\.mp4/);
+  assert.match(cello, /muted/);
+  assert.equal(cello.includes("autoplay"), false);
+  assert.match(read("activities/vibha.html"), /vibha-plant-nursery\.jpg/);
+  assert.match(read("activities/vibha.html"), /vibha-food-bank\.jpg/);
+  assert.match(read("activities/vibha.html"), /vibha-group\.jpg/);
+  assert.match(read("activities/piano.html"), /piano-trophy-grand-piano\.jpg/);
+  assert.match(read("activities/best-brains.html"), /Photos coming soon/);
+  assert.match(read("activities/podcasting.html"), /Photos coming soon/);
+  for (const name of activityPages) {
+    const page = read(name);
+    const miles = page.indexOf('id="milestones"');
+    const gallery = page.indexOf('id="gallery"');
+    assert.ok(miles > 0 && miles < gallery, name);
+    assert.equal(/<h2>Award<\/h2>/.test(page), name.endsWith("piano.html"), name);
+  }
+  const piano = read("activities/piano.html");
+  assert.ok(piano.indexOf('id="award"') < piano.indexOf('id="milestones"'));
+  assert.match(read("about.html"), /second-degree black belt in 2023/);
+  assert.equal(read("about.html").includes("Nov 2022"), false);
+});
+
+test("career wording uses engineer and keeps the majors line", () => {
+  const home = read("index.html");
+  assert.match(home, /Aspiring Engineer/);
+  assert.match(home, /I want to be an engineer/);
+  assert.match(home, /next stop, becoming an engineer/);
+  assert.equal(home.includes("aerospace engineer"), false);
+  assert.equal(home.includes("aerospace engineering"), false);
+  assert.match(home, /Physics, Aerospace, Mechanical, CS, Data Science, Electrical/);
+  assert.match(read("about.html"), /I want to be an engineer/);
+  assert.match(read("about.html"), /Physics, Aerospace, Mechanical, CS, Data Science, and Electrical/);
+  assert.match(read("main.js"), /"Engineer", "Rocketry Team", "Researcher", "Black Belt"/);
 });
 
 test("the headshot is the real photo on the hero and about portrait", () => {
