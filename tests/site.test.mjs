@@ -327,7 +327,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.match(activities, /Haureesh with his hand raised after a wrestling match/);
   assert.match(activities, /Haureesh volunteering at a Vibha plant nursery/);
   assert.match(activities, /Haureesh playing piano/);
-  assert.match(activities, /Haureesh practicing escrima sticks in karate class/);
+  assert.match(activities, /Haureesh in a guard stance during a group karate drill/);
   assert.equal(activities.includes("orchestra-performance.mp4"), false);
   assert.equal(html.includes("orchestra-performance.mp4"), false);
   assert.equal(html.includes('class="shots"'), false);
