@@ -99,6 +99,16 @@ test("experience copy is only on the experience page", () => {
   }
   assert.equal(read("index.html").includes("Math &amp; English Tutor"), false);
   assert.equal(read("about.html").includes("class=\"xc\""), false);
+  const order = [...html.matchAll(/<h3>(?:<a [^>]*>)?([^<]+)/g)].map((match) => match[1]);
+  assert.deepEqual(order, [
+    "Youth Volunteer &amp; Mentor",
+    "Math &amp; English Tutor",
+    "Podcast Creator &amp; Treasurer",
+    "AI Researcher",
+    "Independent Math Tutor",
+    "Seasonal Camp Work",
+    "Tutor at Home",
+  ]);
 });
 
 test("about keeps the biography and not the timeline", () => {
