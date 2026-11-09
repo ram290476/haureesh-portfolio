@@ -239,6 +239,22 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.match(html, /2nd Degree Black Belt<\/b><span>Ernie Reyes' West Coast World Martial Arts Association · April 29, 2023/);
   assert.match(html, /martial-arts-1st-place-plaque-undated\.jpg/);
   assert.match(html, /Martial arts 1st Place<\/b><span>Ernie Reyes' World Martial Arts Association · undated/);
+  const certOrder = [...html.slice(html.indexOf('class="certs"')).matchAll(/<b>([^<]+)<\/b>/g)].map((match) => match[1]);
+  assert.deepEqual(certOrder, [
+    "AP Scholar with Distinction",
+    "Presidential Volunteer Service Award – Silver",
+    "JV Wrestling Most Improved",
+    "NCS CIF Scholar-Athlete",
+    "Silicon Andhra Telugu Pravesam",
+    "DVHS Varsity Wrestling",
+    "DVHS Junior Varsity Wrestling",
+    "1st Degree Black Belt",
+    "2nd Degree Black Belt",
+    "Martial arts 1st Place",
+    "AP Scholar",
+    "Certificate of Merit – Piano Level 8",
+    "Scholar Athlete",
+  ]);
   assert.match(html, /dvhs-jv-wrestling-most-improved-2024-2025\.jpg/);
   assert.match(html, /JV Wrestling Most Improved<\/b><span>2024/);
   assert.match(html, /NCS CIF Scholar-Athlete<\/b><span>2024/);
