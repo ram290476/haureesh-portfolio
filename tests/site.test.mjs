@@ -236,7 +236,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   const activities = read("activities.html");
   const ring = activities.slice(activities.indexOf('id="ring"'), activities.indexOf("</div>\n      </div>\n      <p class=\"sr\" id=\"ring-status\""));
   const titles = [...ring.matchAll(/<h3>(?:<a [^>]*>)?([^<]+)/g)].map((match) => match[1]);
-  assert.deepEqual(titles, ["Orchestra", "Podcast", "Wrestling", "Best Brains", "Vibha", "Piano", "Karate"]);
+  assert.deepEqual(titles, ["Orchestra", "Podcast", "Wrestling", "Vibha", "Piano", "Karate"]);
   assert.match(html, /<h1>Awards<span class="dot">\.<\/span><\/h1>/);
   assert.match(activities, /<h1>Activities<span class="dot">\.<\/span><\/h1>/);
   assert.match(activities, /class="ring-gap"/);
@@ -285,15 +285,14 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.equal(html.includes("Nov 2022"), false);
   assert.equal(html.includes("100+ hours"), false);
   assert.equal(html.includes("Vibha Gold"), false);
-  for (const href of ["activities/orchestra.html", "activities/podcasting.html", "activities/best-brains.html", "activities/vibha.html", "activities/piano.html", "activities/wrestling.html", "activities/karate.html"]) {
+  for (const href of ["activities/orchestra.html", "activities/podcasting.html", "activities/vibha.html", "activities/piano.html", "activities/wrestling.html", "activities/karate.html"]) {
     assert.match(activities, new RegExp('href="' + href + '"'));
   }
+  assert.equal(activities.includes("activities/best-brains.html"), false);
+  assert.match(read("experience.html"), /href="activities\/best-brains\.html">Math &amp; English Tutor/);
   assert.match(ring, /I play cello in the DVHS Chamber Orchestra/);
   assert.match(ring, /I'm treasurer of the Wildcat Way Podcast Club/);
   assert.match(ring, /I wrestle JV and varsity\. JV Most Improved Wrestler, 2024/);
-  assert.match(ring, /I tutor students at Best Brains/);
-  assert.match(ring, /assets\/photos\/best-brains-logo\.svg/);
-  assert.match(ring, /alt="Best Brains Learning Centers logo"/);
   assert.match(ring, /I mentor younger students through Vibha/);
   assert.match(ring, /Years of piano\. NPA Local Winner, 2017 and 2020–2022, and Certificate of Merit Level 8/);
   assert.match(ring, /Second-degree black belt \(Apr 2023\); I help teach classes at my studio\. 1st place, Ernie Reyes/);
