@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { footerProblems } from "../scripts/footer.mjs";
 
 const projectPages = [
   "projects/aerospace-club.html",
@@ -111,7 +112,8 @@ test("about keeps the biography and not the timeline", () => {
 
 test("contact links stay on the contact page", () => {
   const contact = read("contact.html");
-  assert.match(contact, /id="contact"/);
+  assert.match(contact, /class="lede"[\s\S]*<p class="foot-links">[\s\S]*mailto:haureesh@hotmail\.com/);
+  assert.equal(contact.slice(contact.indexOf("<footer")).includes("mailto:"), false);
   const headings = [...contact.matchAll(/<h2>([\s\S]*?)<\/h2>/g)];
   assert.equal(headings.length, 1);
   const headingText = headings[0][1].replace(/<br\s*\/?>/gi, " ").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
@@ -411,6 +413,10 @@ test("the headshot is the real photo on the hero and about portrait", () => {
     assert.equal(html.includes("assets/photos/headshot.jpg"), false, name);
     assert.equal(html.includes("assets/photos/about-portrait.jpg"), false, name);
   }
+});
+
+test("every non-redirect page uses the shared footer", () => {
+  assert.deepEqual(footerProblems(), []);
 });
 
 test("local links resolve to a page or file", () => {
