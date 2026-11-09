@@ -114,6 +114,9 @@
   /* Count-up for the two verified figures only */
   function countUp(el) {
     var target = Number(el.getAttribute("data-value"));
+    var fromAttr = el.getAttribute("data-from");
+    var from = fromAttr == null || fromAttr === "" ? 0 : Number(fromAttr);
+    if (!Number.isFinite(from)) from = 0;
     if (!motionOn() || !target) {
       el.textContent = String(target);
       return;
@@ -122,7 +125,7 @@
     function frame(now) {
       var p = Math.min(1, (now - start) / 1600);
       var eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = String(Math.round(target * eased));
+      el.textContent = String(Math.round(from + (target - from) * eased));
       if (p < 1 && motionOn()) requestAnimationFrame(frame);
       else el.textContent = String(target);
     }
@@ -139,6 +142,70 @@
     }, { threshold: 0.4 });
     once.observe(el);
   });
+
+  /* About page: staggered lines and scroll-drawn paths. */
+  var riseIO = null;
+  var lineIO = null;
+  function placeRails() {
+    document.querySelectorAll(".about-page .come").forEach(function (come) {
+      var rail = come.querySelector(".come-rail");
+      var marks = come.querySelectorAll("li > span");
+      if (!rail || marks.length < 2) return;
+      var comeBox = come.getBoundingClientRect();
+      var first = marks[0].getBoundingClientRect();
+      var last = marks[marks.length - 1].getBoundingClientRect();
+      var top = first.top + first.height / 2 - comeBox.top;
+      var height = last.top + last.height / 2 - (first.top + first.height / 2);
+      rail.style.top = top + "px";
+      rail.style.height = Math.max(0, height) + "px";
+      rail.style.bottom = "auto";
+    });
+  }
+  function armAboutMotion() {
+    placeRails();
+    var rises = Array.from(document.querySelectorAll(".about-page .rise"));
+    var lines = Array.from(document.querySelectorAll(".about-page .draw-line, .about-page .come-rail"));
+    if (riseIO) riseIO.disconnect();
+    if (lineIO) lineIO.disconnect();
+    riseIO = null;
+    lineIO = null;
+    if (!rises.length && !lines.length) return;
+    if (!motionOn() || !("IntersectionObserver" in window)) {
+      rises.forEach(function (el) { el.classList.add("in"); });
+      lines.forEach(function (path) {
+        if (path.getTotalLength) path.style.strokeDashoffset = "0";
+        var wrap = path.closest("section");
+        if (wrap) wrap.classList.add("drawn");
+      });
+      return;
+    }
+    lines.forEach(function (path) {
+      if (!path.getTotalLength) return;
+      var len = 800;
+      try { len = path.getTotalLength(); } catch (err) { len = 800; }
+      path.style.strokeDasharray = String(len);
+      path.style.strokeDashoffset = String(len);
+    });
+    riseIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("in");
+        riseIO.unobserve(entry.target);
+      });
+    }, { threshold: 0.18, rootMargin: "0px 0px -6% 0px" });
+    rises.forEach(function (el) { riseIO.observe(el); });
+    lineIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        if (entry.target.getTotalLength) entry.target.style.strokeDashoffset = "0";
+        var wrap = entry.target.closest("section");
+        if (wrap) wrap.classList.add("drawn");
+        lineIO.unobserve(entry.target);
+      });
+    }, { threshold: 0.3 });
+    lines.forEach(function (path) { lineIO.observe(path); });
+  }
+  armAboutMotion();
 
   /* Wave lines */
   var waveMain = document.getElementById("wv");
@@ -570,7 +637,7 @@
       timeline.scrollBy({ left: event.key === "ArrowRight" ? amount : -amount, behavior: motionOn() ? "smooth" : "auto" });
     });
   }
-  window.addEventListener("resize", function () { layoutRing(); });
+  window.addEventListener("resize", function () { layoutRing(); placeRails(); });
 
   /* Current section in the nav */
   var navLinks = Array.from(document.querySelectorAll('nav a[href^="#"]'));
@@ -595,6 +662,7 @@
   reduceQuery.addEventListener("change", function () {
     startCycle();
     armEntrance();
+    armAboutMotion();
     layoutRing();
     go(galIndex);
     ensureWave();
