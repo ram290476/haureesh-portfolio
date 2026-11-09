@@ -334,16 +334,6 @@
     window.addEventListener("hashchange", function () { galleryFromHash(false); });
   }
 
-  /* Expanding project row */
-  document.querySelectorAll(".ex button").forEach(function (button) {
-    button.addEventListener("click", function () {
-      var card = button.closest(".ex");
-      var open = !card.classList.contains("open");
-      card.classList.toggle("open", open);
-      button.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-  });
-
   /* Draggable awards ring. Flat list when motion is reduced. */
   var stage = document.getElementById("stage");
   var ring = document.getElementById("ring");
