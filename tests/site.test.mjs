@@ -226,13 +226,15 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.equal(html.includes("DVHS Chamber Orchestra concert"), false);
   const cello = read("activities/cello.html");
   const galleryAt = cello.indexOf('id="gallery"');
-  const videoAt = cello.indexOf('id="video"');
   const overviewAt = cello.indexOf('id="overview"');
-  assert.ok(overviewAt < galleryAt && galleryAt < videoAt);
+  assert.ok(overviewAt < galleryAt);
+  assert.ok(cello.indexOf("orchestra-concert.jpg") > galleryAt);
+  assert.ok(cello.indexOf("orchestra-performance.mp4") > galleryAt);
   assert.match(cello, /Eighth-grade orchestra concert/);
   assert.match(cello, /orchestra-performance\.mp4/);
   assert.match(cello, /muted/);
   assert.equal(cello.includes("autoplay"), false);
+  assert.equal(cello.includes('id="video"'), false);
   assert.match(read("activities/vibha.html"), /vibha-plant-nursery\.jpg/);
   assert.match(read("activities/vibha.html"), /vibha-food-bank\.jpg/);
   assert.match(read("activities/vibha.html"), /vibha-group\.jpg/);
@@ -255,6 +257,18 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.ok(wrestling.indexOf("dvhs-jv-wrestling-most-improved-2024-2025.jpg") < wrestling.indexOf('id="overview"'));
   assert.ok(wrestling.indexOf('id="award"') < wrestling.indexOf('id="milestones"'));
   assert.ok(wrestling.indexOf("wrestling-xray-image-01.jpg") > wrestling.indexOf('id="gallery"'));
+  assert.ok(wrestling.indexOf('id="gallery"') < wrestling.indexOf("dvhs-jv-wrestling-most-improved-2024-2025.jpg", wrestling.indexOf('id="gallery"')));
+  assert.match(wrestling, /dvhs-jv-wrestling-2023-24\.jpg/);
+  assert.match(wrestling, /dvhs-varsity-wrestling-2024-25\.jpg/);
+  const karate = read("activities/karate.html");
+  for (const photo of ["first-degree-black-belt-certificate-2020-10-24.jpg", "second-degree-black-belt-certificate-2023-04-29.jpg", "martial-arts-1st-place-plaque-undated.jpg"]) {
+    assert.ok(karate.indexOf(photo) > karate.indexOf('id="gallery"'), photo);
+  }
+  for (const name of activityPages) {
+    assert.equal(read(name).includes("outdoor-activity-plant-table.jpg"), false, name);
+    assert.equal(read(name).includes("preload=\"none\""), false, name);
+    assert.equal(read(name).includes("preload=\"auto\""), false, name);
+  }
   assert.match(wrestling, /wrestling-xray-image-01\.jpg/);
   assert.match(wrestling, /wrestling-xray-image-02\.jpg/);
   assert.match(wrestling, /alt="Wrestling — X-ray image"/);
