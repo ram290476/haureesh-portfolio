@@ -154,6 +154,11 @@ test("each project card opens its own page", () => {
   assert.match(home, /class="t wide alg"[\s\S]*?algoverse-ai-research-logo\.jpg/);
   assert.match(home, /class="t wide"[\s\S]*?robot-arm-red-yellow-pair\.jpg/);
   assert.match(home, /id="rocket"[\s\S]*?rocket-launch\.jpg/);
+  const rocket = home.slice(home.indexOf('id="rocket"'), home.indexOf('class="t wide alg"'));
+  const front = rocket.slice(0, rocket.indexOf('id="rocket-back"'));
+  const back = rocket.slice(rocket.indexOf('id="rocket-back"'));
+  assert.equal(front.includes("rocket-launch.jpg"), false);
+  assert.match(back, /class="spec-photo" src="assets\/photos\/rocket-launch\.jpg"/);
   assert.match(home, /href="projects\/aerospace-club\.html"/);
   assert.equal(home.includes("projects/model-rocket.html"), false);
   const stub = read("projects/model-rocket.html");

@@ -82,9 +82,6 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
                 <p class="kick">Aerospace Club &amp; Model Rocket</p>
                 <button type="button" class="text-btn" id="flip-open" aria-expanded="false" aria-controls="rocket-back">Spec sheet</button>
               </div>
-              <div class="ph">
-                <img src="assets/photos/rocket-launch.jpg" alt="A red and white model rocket in flight">
-              </div>
               <div>
                 <div class="big"><span class="cnt" data-value="500">500</span>+ ft</div>
                 <p class="meta">Secretary / VP since Aug 2025. The rocket flew in the American Rocketry Challenge.</p>
@@ -97,15 +94,20 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
                 <p class="kick">Spec sheet</p>
                 <button type="button" class="text-btn">Flight stats</button>
               </div>
-              <dl class="spec">
-                <div><dt>Altitude</dt><dd>500+ ft</dd></div>
-                <div><dt>Competition</dt><dd>American Rocketry Challenge</dd></div>
-                <div><dt>Built by</dt><dd>Designed &amp; built by Haureesh</dd></div>
-                <div><dt>Discipline</dt><dd>Model rocketry</dd></div>
-                <div><dt>Motor</dt><dd>[Motor class]</dd></div>
-                <div><dt>Recovery</dt><dd>[Recovery system]</dd></div>
-              </dl>
-              <p class="note">Bracketed fields are placeholder labels, not confirmed details.</p>
+              <div class="spec-row">
+                <img class="spec-photo" src="assets/photos/rocket-launch.jpg" alt="A red and white model rocket in flight">
+                <div>
+                  <dl class="spec">
+                    <div><dt>Altitude</dt><dd>500+ ft</dd></div>
+                    <div><dt>Competition</dt><dd>American Rocketry Challenge</dd></div>
+                    <div><dt>Built by</dt><dd>Designed &amp; built by Haureesh</dd></div>
+                    <div><dt>Discipline</dt><dd>Model rocketry</dd></div>
+                    <div><dt>Motor</dt><dd>[Motor class]</dd></div>
+                    <div><dt>Recovery</dt><dd>[Recovery system]</dd></div>
+                  </dl>
+                  <p class="note">Bracketed fields are placeholder labels, not confirmed details.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
