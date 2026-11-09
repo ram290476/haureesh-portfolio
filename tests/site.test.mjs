@@ -49,6 +49,10 @@ test("path timeline stays on the homepage only", () => {
     assert.match(home, new RegExp("<b>" + year + "</b>"));
   }
   assert.match(home, /<b>2022<\/b><p>NPA Local Winner, Intermediate\./);
+  assert.match(home, /<b>2017<\/b><p>NPA Local Winner, Elementary\./);
+  assert.match(home, /<b>2020<\/b><ul class="year-points"><li>NPA Local Winner, Elementary\.<\/li><li>Earned a 1st degree black belt on October 24\.<\/li><\/ul>/);
+  assert.match(home, /<b>2025<\/b><ul class="year-points">/);
+  assert.match(home, /<b>2026<\/b><ul class="year-points">/);
   assert.match(home, /Earned a 1st degree black belt on October 24/);
   assert.match(home, /NPA Local Winner, Elementary/);
   assert.match(home, /JV Wrestling Most Improved Wrestler/);

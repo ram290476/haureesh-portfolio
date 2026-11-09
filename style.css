@@ -764,6 +764,30 @@ html:not(.js) .rc { min-height: 280px; }
 }
 .yc b { color: var(--cy); font-size: 22px; }
 .yc p { margin: 6px 0 0; font-size: 13px; color: var(--mu); }
+.year-points {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.year-points li {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 14px;
+  line-height: 1.45;
+}
+.year-points li + li { margin-top: 6px; }
+.year-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .45em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cy);
+  box-shadow: 0 0 8px #5ee7ff88;
+}
+.yc .year-points { color: var(--mu); font-size: 13px; }
 @media (hover: hover) and (pointer: fine) {
   html.js:not(.reduce) .yc:hover,
   html.js:not(.reduce) .yc:focus-visible {
@@ -775,7 +799,7 @@ html:not(.js) .rc { min-height: 280px; }
 .contact-lead { padding-top: 36px; padding-bottom: 8px; }
 .contact-lead h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; margin: 0 0 20px; }
 .milestones { list-style: none; margin: 8px 0 0; padding: 0; }
-.milestones li {
+.milestones > li {
   display: grid;
   grid-template-columns: 9.5rem 1fr;
   gap: 12px 18px;
@@ -783,9 +807,10 @@ html:not(.js) .rc { min-height: 280px; }
   border-top: 1px solid #3a4a8c55;
 }
 .milestones b { color: var(--cy); }
-.milestones span { color: var(--ink); }
+.milestones span,
+.milestones .year-points { color: var(--ink); }
 @media (max-width: 640px) {
-  .milestones li { grid-template-columns: 1fr; gap: 4px; }
+  .milestones > li { grid-template-columns: 1fr; gap: 4px; }
 }
 .about-body { padding: 20px 0 80px; }
 .about-grid { display: grid; grid-template-columns: 280px 1fr; gap: 36px; align-items: start; }
