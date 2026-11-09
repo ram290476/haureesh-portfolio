@@ -492,8 +492,12 @@ html:not(.reduce) .mq div { animation: mq 28s linear infinite; }
   min-height: 44px;
   padding: 8px 16px;
 }
-/* Awards */
+/* Awards / Activities ring */
 .ring-gap { padding-bottom: 36px; }
+/* Space between rotate controls and the 3D cards below. */
+.ring-gap > .ring-controls {
+  margin-bottom: 28px;
+}
 .stage {
   min-height: 0;
   margin: 0;
@@ -505,7 +509,7 @@ html.js:not(.reduce) .stage {
   display: grid;
   justify-content: center;
   align-items: start;
-  padding-top: 18px;
+  padding-top: 20px;
   cursor: grab;
   touch-action: pan-y;
   overflow: hidden;
@@ -689,17 +693,54 @@ html:not(.js) .rc { min-height: 280px; }
 .rates th:first-child, .rates td:first-child { text-align: left; }
 .rates caption { caption-side: bottom; text-align: left; color: var(--mu); font-size: 13px; padding-top: 8px; }
 .gallery figure.wide { grid-column: 1 / -1; }
-.certs li { list-style: none; min-width: 0; }
+.certs li {
+  list-style: none;
+  min-width: 0;
+  border: 1px solid #3a4a8c66;
+  border-radius: 16px;
+  padding: 12px;
+  background: #10172f;
+  outline: none;
+}
 .certs .ph { width: 100%; max-width: 100%; min-height: 120px; margin-bottom: 8px; }
 .certs .ph small { overflow-wrap: anywhere; }
+.certs .ph img {
+  transition: transform .2s ease;
+}
 .certs li.text-award {
   border: 1px solid var(--line);
-  border-radius: 16px;
   padding: 16px;
-  background: #10172f;
 }
 .certs b { display: block; }
 .certs span { color: var(--mu); font-size: 13px; }
+
+/* Awards page: staggered load entrance + neon hover. */
+html.js:not(.reduce) #awards > .kick,
+html.js:not(.reduce) #awards > h1,
+html.js:not(.reduce) .certs li {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: transform .5s cubic-bezier(.22, 1, .36, 1), opacity .45s ease-out, border-color .2s ease, box-shadow .2s ease;
+}
+html.js:not(.reduce) #awards > .kick.in,
+html.js:not(.reduce) #awards > h1.in,
+html.js:not(.reduce) .certs li.in {
+  opacity: 1;
+  transform: none;
+  transition: transform .2s ease, opacity .45s ease-out, border-color .2s ease, box-shadow .2s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  html.js:not(.reduce) .certs li.in:hover,
+  html.js:not(.reduce) .certs li.in:focus-visible {
+    transform: translateY(-5px);
+    border-color: var(--cy);
+    box-shadow: 0 0 0 1px #5ee7ff66, 0 0 22px #5ee7ff44, 0 14px 28px #0008;
+  }
+  html.js:not(.reduce) .certs li.in:hover .ph img,
+  html.js:not(.reduce) .certs li.in:focus-visible .ph img {
+    transform: scale(1.04);
+  }
+}
 .subhead { margin: 36px 0 0; font-size: 18px; letter-spacing: .08em; text-transform: uppercase; color: var(--mu); }
 
 /* Experience: one magazine collage, not a staggered column stack. */
@@ -718,6 +759,7 @@ html:not(.js) .rc { min-height: 280px; }
   box-shadow: none;
   position: relative;
   overflow: hidden;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
 }
 .xc::before {
   content: "";
@@ -744,9 +786,55 @@ html:not(.js) .rc { min-height: 280px; }
 .xc .meta { color: var(--mu); font-size: 14px; margin: 0 0 8px; }
 .xc p { color: var(--mu); margin: 0; font-size: 14px; }
 .xc.soon { border-style: dashed; }
+/* Experience cards: midnight neon hover, scoped to .xc to avoid awards PR conflicts. */
+@media (hover: hover) and (pointer: fine) {
+  html.js:not(.reduce) .xc:hover,
+  html.js:not(.reduce) .xc:focus-visible {
+    transform: translateY(-5px);
+    border-color: var(--cy);
+    box-shadow: 0 0 0 1px #5ee7ff66, 0 0 22px #5ee7ff44, 0 14px 28px #0008;
+  }
+}
 
 /* Homepage path: in-flow horizontal scroller. Cards stay in this box. */
 #path { position: relative; }
+.path-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.path-head h2 { margin-bottom: 0; }
+.tl-arrows { display: flex; gap: 10px; flex: 0 0 auto; margin: 0 0 4px; }
+.tl-arrow {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--cy);
+  background: #10172f;
+  color: var(--cy);
+  box-shadow: 0 0 16px #5ee7ff44;
+  cursor: pointer;
+}
+.tl-arrow svg { display: block; }
+.tl-arrow:hover:not(:disabled),
+.tl-arrow:focus-visible:not(:disabled) {
+  background: #152044;
+  box-shadow: 0 0 20px #5ee7ff88;
+}
+.tl-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+  color: var(--mu);
+  border-color: #3a4a8c;
+  box-shadow: none;
+}
 .timeline {
   display: flex;
   flex-wrap: nowrap;
@@ -931,10 +1019,13 @@ footer h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; margin: 0 0 20p
   .xc:nth-child(5) h3 { font-size: 22px; }
 }
 @media (max-width: 759px) {
+  .ring-gap > .ring-controls {
+    margin-bottom: 20px;
+  }
   html.js:not(.reduce) .stage {
     height: 340px;
     perspective: 1500px;
-    padding-top: 12px;
+    padding-top: 16px;
   }
   html.js:not(.reduce) .ring {
     width: 200px;
@@ -957,7 +1048,7 @@ footer h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; margin: 0 0 20p
     transition: none !important;
     scroll-behavior: auto !important;
   }
-  .t, .xc, .g, .yc { opacity: 1 !important; filter: none; transform: none !important; }
+  .t, .xc, .g, .yc, #awards > .kick, #awards > h1, .certs li { opacity: 1 !important; filter: none; transform: none !important; }
   .motion-hint, #orb { display: none; }
   .g { transform: none; flex: 1 1 260px; height: auto; min-height: 280px; position: relative; }
   .gtrack { position: static; flex-wrap: wrap; transform: none !important; }
