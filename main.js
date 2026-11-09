@@ -33,7 +33,7 @@
   /* Letter-by-letter headline */
   var cyc = document.getElementById("cyc");
   var cycLive = document.getElementById("cyc-live");
-  var words = ["Aerospace Engineer", "Rocketry Team", "Researcher", "Black Belt"];
+  var words = ["Engineer", "Rocketry Team", "Researcher", "Black Belt"];
   var wordIndex = 0;
   var cycTimer = 0;
 
