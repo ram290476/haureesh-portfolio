@@ -549,6 +549,7 @@ html.js:not(.reduce) .rc {
   margin-top: 12px;
 }
 .shots figure, .gallery figure { margin: 0; }
+.gallery figure.logo { max-width: 280px; }
 .shots figure.wide { grid-column: 1 / -1; }
 .shots video {
   width: 100%;
