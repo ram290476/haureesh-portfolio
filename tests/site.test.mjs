@@ -239,6 +239,13 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   for (const href of ["activities/orchestra.html", "activities/podcasting.html", "activities/best-brains.html", "activities/vibha.html", "activities/piano.html", "activities/wrestling.html", "activities/karate.html"]) {
     assert.match(html, new RegExp('href="' + href + '"'));
   }
+  assert.match(ring, /I play cello in the DVHS Chamber Orchestra/);
+  assert.match(ring, /I'm treasurer of the Wildcat Way Podcast Club/);
+  assert.match(ring, /I wrestle JV and varsity\. JV Most Improved Wrestler, 2024–25/);
+  assert.match(ring, /I tutor students at Best Brains/);
+  assert.match(ring, /I mentor younger students through Vibha/);
+  assert.match(ring, /Years of piano\. NPA Local Winner, 2017 and 2020–2022, and Certificate of Merit Level 8/);
+  assert.match(ring, /Second-degree black belt \(Apr 2023\); I help teach classes at my studio\. 1st place, Ernie Reyes/);
   assert.match(html, /The orchestra on stage at a concert/);
   assert.equal(html.includes("orchestra-performance.mp4"), false);
   assert.equal(html.includes('class="shots"'), false);
