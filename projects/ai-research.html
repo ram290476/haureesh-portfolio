@@ -47,23 +47,32 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
     <p class="meta">Algoverse AI Research · Jul 2026–present</p>
     <section id="overview">
       <h2>Overview</h2>
-      <p>I'm an AI researcher in the Algoverse AI Research Program, remote, from Jul 2026 to the present. With a research team and a mentor, I'm studying how language models' safety behavior changes across languages. We're writing the paper now.</p>
+      <p>I'm an AI researcher in the Algoverse AI Research Program, remote, from July 2026 to the present. With a research team and a mentor, I'm studying multilingual AI safety: whether language models that refuse harmful requests in English still refuse them in other languages. The paper is in progress. It has not been submitted.</p>
     </section>
     <section id="role">
       <h2>My Role</h2>
-      <p>I help with the literature review, experiment design and analysis.</p>
+      <p>With a research team and a mentor, I work on the literature review, experiment design, and analysis of the model outputs.</p>
     </section>
     <section id="tools">
       <h2>Technologies/Tools</h2>
-      <p>Not written up yet.</p>
+      <ul>
+        <li>Python pipeline and notebooks</li>
+        <li>vLLM, greedy decoding</li>
+        <li>XSTest</li>
+        <li>Qwen3-8B, Qwen3-14B, Llama-3.1-8B-Instruct, Vicuna-7B v1.5, gpt-oss-20b</li>
+        <li>GPT-5 mini as translator and judge</li>
+        <li>NLLB-200 and Qwen2.5-14B as cross-check translators</li>
+      </ul>
+      <p><a class="btn" href="https://github.com/haureesh14/Algoverse-heia" target="_blank" rel="noopener">View on GitHub</a></p>
     </section>
     <section id="process">
       <h2>Process/Build</h2>
-      <p>Literature review, experiment design and analysis. We're writing the paper now.</p>
+      <p>We translated XSTest, 250 safe prompts and 200 unsafe prompts, from English into Spanish, Hindi, Chinese (Simplified), and Swahili. We ran the five models through vLLM and labeled each answer with a judge: full compliance, full refusal, partial refusal, or other. My part is the literature review, the experiment design, and the analysis.</p>
     </section>
     <section id="outcomes">
       <h2>Outcomes/What I Learned</h2>
-      <p>Our early results suggest models refuse unsafe prompts less often outside English.</p>
+      <p>These results are preliminary. Early numbers suggest models refuse unsafe prompts less often outside English, while refusal of safe prompts does not rise. Llama-3.1-8B's unsafe-prompt refusal falls from about 96% in English to about 43% in Swahili. Qwen3-14B's unsafe-prompt refusal falls from about 66% in English to about 28% in Hindi.</p>
+      <p>The translator refused 83 harmful prompts, 212 Vicuna answers were truncated, and the judge has not yet been checked against human labels. Until that check is done, the unsafe-prompt refusal rates are a lower bound. We're writing the paper now.</p>
     </section>
     <section id="gallery">
       <h2>Photo Gallery</h2>

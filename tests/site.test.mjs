@@ -109,7 +109,7 @@ test("contact links stay on the contact page", () => {
     const html = read(name);
     assert.equal(html.includes("haureesh@hotmail.com"), false, name);
     assert.equal(html.includes("linkedin.com/in/haureesh"), false, name);
-    assert.equal(html.includes("github.com/haureesh14"), false, name);
+    if (name !== "projects/ai-research.html") assert.equal(html.includes("github.com/haureesh14"), false, name);
     assert.equal(html.includes("foot-links"), false, name);
     assert.match(html, /Contact<\/a>/);
   }
@@ -133,6 +133,18 @@ test("each project card opens its own page", () => {
   assert.match(read("projects/aerospace-club.html"), /rocket-launch\.jpg/);
   assert.match(read("projects/aerospace-club.html"), /Secretary \/ Vice President since Aug 2025/);
   assert.match(read("projects/aerospace-club.html"), /flew past 500 ft/);
+  assert.equal(read("projects/aerospace-club.html").includes("recovery"), false);
+  assert.equal(read("projects/aerospace-club.html").includes("motor"), false);
+  assert.equal(read("projects/aerospace-club.html").includes("1000+"), false);
+  const researchFacts = read("projects/ai-research.html");
+  assert.match(researchFacts, /XSTest/);
+  assert.match(researchFacts, /preliminary/);
+  assert.match(researchFacts, /has not been submitted/);
+  assert.match(researchFacts, /https:\/\/github\.com\/haureesh14\/Algoverse-heia/);
+  assert.equal(researchFacts.includes("published"), false);
+  assert.equal(/1000\+/.test(read("projects/smash.html")), false);
+  assert.match(read("projects/smash.html"), /one of 100 scholars/);
+  assert.match(read("projects/robot-arm.html"), /Hugging Face LeRobot/);
   assert.equal(read("projects/aerospace-club.html").includes("Photos coming soon</p>"), false);
   const arm = read("projects/robot-arm.html");
   for (const photo of ["robot-arm-red-yellow-pair.jpg", "robot-arm-yellow-angle-a.jpg", "robot-arm-yellow-angle-b.jpg"]) {
