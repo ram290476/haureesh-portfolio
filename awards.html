@@ -5,11 +5,12 @@
 <script>
 document.documentElement.classList.add("js");
 if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("reduce");
+if (location.hash.replace(/^#/, "") === "activities") location.replace("activities.html");
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Awards | Haureesh Vellamsetti</title>
-<meta name="description" content="Awards and activities for Haureesh Vellamsetti, including wrestling, orchestra, Vibha, and tutoring.">
+<meta name="description" content="Awards for Haureesh Vellamsetti, including AP Scholar with Distinction, wrestling, and martial arts.">
 <meta name="author" content="Haureesh Vellamsetti">
 <link rel="canonical" href="https://haureesh.vellamsetti.com/awards.html">
 <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
@@ -34,6 +35,7 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
       <a href="index.html">Home</a>
       <a href="projects.html">Projects</a>
       <a href="awards.html" aria-current="page">Awards</a>
+      <a href="activities.html">Activities</a>
       <a href="experience.html">Experience</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
@@ -43,73 +45,8 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
 <main id="main">
   <div class="w">
     <section id="awards">
-      <p class="kick">Recognition <span class="motion-hint">· drag to spin, or use the buttons</span></p>
-      <h2>Awards &amp; Activities<span class="dot">.</span></h2>
-      <div class="ring-gap">
-      <div class="ring-controls">
-        <button type="button" id="ring-prev">Rotate left</button>
-        <button type="button" id="ring-next">Rotate right</button>
-      </div>
-      <div class="stage" id="stage" tabindex="0" aria-label="Activities. Drag to spin, or use the rotate buttons and left and right arrow keys.">
-        <div class="ring" id="ring">
-          <article class="rc">
-            <div class="ph">
-              <img src="assets/photos/card-orchestra.jpg" alt="The orchestra on stage at a concert" width="1200" height="900" loading="lazy">
-              <span class="ph-label">Photo coming soon<small>assets/photos/orchestra-concert.jpg</small></span>
-            </div>
-            <h3><a href="activities/orchestra.html">Orchestra</a></h3>
-            <p>I play cello in the DVHS Chamber Orchestra.</p>
-          </article>
-          <article class="rc">
-            <div class="ph">
-              <img src="assets/photos/card-podcast.jpg" alt="The Wildcat Way Podcast cover art" width="1200" height="497" loading="lazy">
-            </div>
-            <h3><a href="activities/podcasting.html">Podcast</a></h3>
-            <p>I'm treasurer of the Wildcat Way Podcast Club.</p>
-          </article>
-          <article class="rc">
-            <div class="ph">
-              <img src="assets/photos/card-wrestling.jpg" alt="Haureesh's JV wrestling Most Improved award" width="1200" height="1646" loading="lazy">
-              <span class="ph-label">Photo coming soon<small>assets/photos/dvhs-jv-wrestling-most-improved-2024-2025.jpg</small></span>
-            </div>
-            <h3><a href="activities/wrestling.html">Wrestling</a></h3>
-            <p>I wrestle JV and varsity. JV Most Improved Wrestler, 2024.</p>
-          </article>
-          <article class="rc">
-            <div class="ph logo-panel">
-              <img src="assets/photos/best-brains-logo.svg" alt="Best Brains Learning Centers logo" width="201" height="77" loading="lazy">
-            </div>
-            <h3><a href="activities/best-brains.html">Best Brains</a></h3>
-            <p>I tutor students at Best Brains.</p>
-          </article>
-          <article class="rc">
-            <div class="ph">
-              <img src="assets/photos/card-vibha.jpg" alt="Vibha volunteers outside a community center" width="1200" height="900" loading="lazy">
-              <span class="ph-label">Photo coming soon<small>assets/photos/vibha-group.jpg</small></span>
-            </div>
-            <h3><a href="activities/vibha.html">Vibha</a></h3>
-            <p>I mentor younger students through Vibha.</p>
-          </article>
-          <article class="rc">
-            <div class="ph">
-              <img src="assets/photos/card-piano.jpg" alt="Haureesh holding a trophy beside a grand piano" width="1200" height="1600" loading="lazy">
-              <span class="ph-label">Photo coming soon<small>assets/photos/piano-trophy-grand-piano.jpg</small></span>
-            </div>
-            <h3><a href="activities/piano.html">Piano</a></h3>
-            <p>Years of piano. NPA Local Winner, 2017 and 2020–2022, and Certificate of Merit Level 8.</p>
-          </article>
-          <article class="rc">
-            <div class="ph">
-              <img src="assets/photos/card-karate.jpg" alt="Haureesh practicing a karate technique" width="1200" height="675" loading="lazy">
-            </div>
-            <h3><a href="activities/karate.html">Karate</a></h3>
-            <p>Second-degree black belt (Apr 2023); I help teach classes at my studio. 1st place, Ernie Reyes.</p>
-          </article>
-        </div>
-      </div>
-      <p class="sr" id="ring-status" aria-live="polite"></p>
-      </div>
-      <h3 class="subhead">Awards</h3>
+      <p class="kick">Recognition</p>
+      <h1>Awards<span class="dot">.</span></h1>
       <ul class="certs">
         <li><div class="ph full"><img src="assets/certificates/ap-scholar-distinction.jpg" alt="College Board AP Scholar with Distinction certificate dated June 24, 2026" width="1600" height="1239" loading="lazy" onerror="this.remove()"><span class="ph-label">Scan coming soon<small>assets/certificates/ap-scholar-distinction.jpg</small></span></div><b>AP Scholar with Distinction</b><span>College Board · 2026</span></li>
         <li><div class="ph full"><img src="assets/photos/presidential-volunteer-service-award-silver-2024.jpg" alt="Presidential Volunteer Service Award, Silver, awarded in 2024" loading="lazy" onerror="this.remove()"><span class="ph-label">Scan coming soon<small>assets/photos/presidential-volunteer-service-award-silver-2024.jpg</small></span></div><b>Presidential Volunteer Service Award – Silver</b><span>2024</span></li>
@@ -128,5 +65,10 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
     </section>
   </div>
 </main>
+<footer>
+  <div class="w">
+    <p class="fine">© 2026 Haureesh Vellamsetti</p>
+  </div>
+</footer>
 </body>
 </html>
