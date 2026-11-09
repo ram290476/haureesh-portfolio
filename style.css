@@ -389,18 +389,21 @@ html:not(.reduce) .mq div { animation: mq 28s linear infinite; }
 @keyframes mq { to { transform: translateX(-50%); } }
 
 /* Projects */
-.gal { position: relative; height: 520px; overflow: hidden; }
+.gal { position: relative; height: auto; min-height: 0; overflow: hidden; }
 .gtrack {
   display: flex;
+  align-items: stretch;
   gap: var(--gap);
-  position: absolute;
-  left: 0;
-  top: 8px;
+  position: relative;
+  padding: 8px 0 16px;
   transition: transform .8s var(--spring);
 }
 .g {
   flex: 0 0 420px;
-  height: 500px;
+  min-height: 500px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
   border-radius: var(--radius);
   border: 1px solid var(--line);
   background: var(--card);
@@ -416,27 +419,27 @@ html:not(.reduce) .mq div { animation: mq 28s linear infinite; }
   border-color: var(--cy);
   box-shadow: 0 0 40px #5ee7ff33;
 }
-.g .ph { position: absolute; inset: 16px; bottom: 230px; }
+.g .ph { position: relative; inset: auto; height: 220px; flex: 0 0 220px; margin: 16px 16px 0; }
 .g .cap {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 248px;
-  max-height: 248px;
-  overflow: hidden;
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  height: auto;
+  max-height: none;
+  overflow: visible;
   display: flex;
   flex-direction: column;
-  padding: 28px 22px 16px;
-  background: linear-gradient(transparent, #070b1a 22%);
-  transform: translateY(46%);
-  opacity: .35;
-  transition: transform .6s var(--spring) .12s, opacity .6s;
+  flex: 1 1 auto;
+  padding: 16px 22px 16px;
+  background: none;
+  transform: none;
+  opacity: 1;
 }
 .g .cap .meta,
 .g .cap h3 { flex: 0 0 auto; }
 .g .cap p { margin-bottom: 10px; }
-.g .cap p:not(.meta) { flex: 1 1 auto; min-height: 0; overflow: hidden; }
+.g .cap p:not(.meta) { flex: 0 1 auto; min-height: 0; overflow: visible; }
 .g .cap .btn { margin-top: auto; flex: 0 0 auto; align-self: flex-start; }
 .g.on .cap { transform: none; opacity: 1; }
 .g h3 { margin: 0 0 6px; }
@@ -825,10 +828,10 @@ html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; 
   .bento { grid-template-columns: 1fr; }
   .intro, .photo, .rocket, .wide, .chips, .stat { grid-column: auto; grid-row: auto; }
   .intro h1 { font-size: 40px; }
-  .gal { height: 640px; }
-  .g { flex-basis: min(84vw, 360px); height: 620px; transform: scale(.94); filter: brightness(.75); }
-  .g .ph { bottom: 320px; }
-  .g .cap { height: 310px; max-height: 310px; }
+  .gal { height: auto; min-height: 0; }
+  .g { flex-basis: min(84vw, 360px); height: auto; min-height: 0; transform: scale(.94); filter: brightness(.75); }
+  .g .ph { height: 200px; flex-basis: 200px; bottom: auto; }
+  .g .cap { height: auto; max-height: none; }
   .big { font-size: 48px; }
   nav a { font-size: 13px; }
   .spec-row { grid-template-columns: 1fr; }
@@ -870,7 +873,7 @@ html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; 
   .gtrack { position: static; flex-wrap: wrap; transform: none !important; }
   .gal { height: auto; overflow: visible; }
   .g .ph { position: relative; inset: auto; height: 140px; margin: 12px; }
-  .g .cap { position: relative; transform: none; opacity: 1; height: auto; max-height: none; background: none; }
+  .g .cap { position: relative; transform: none; opacity: 1; height: auto; max-height: none; overflow: visible; background: none; }
   .g .cap p:not(.meta) { overflow: visible; }
 }
 html.reduce .motion-hint { display: none; }
