@@ -13,7 +13,7 @@ const activityPages = [
   "activities/best-brains.html",
   "activities/piano.html",
   "activities/podcasting.html",
-  "activities/cello.html",
+  "activities/orchestra.html",
   "activities/wrestling.html",
   "activities/karate.html"
 ];
@@ -199,7 +199,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   const html = read("awards.html");
   const ring = html.slice(html.indexOf('id="ring"'), html.indexOf("</div>\n      </div>\n      <p class=\"sr\" id=\"ring-status\""));
   const titles = [...ring.matchAll(/<h3>(?:<a [^>]*>)?([^<]+)/g)].map((match) => match[1]);
-  assert.deepEqual(titles, ["Cello", "Podcast", "Wrestling", "Best Brains", "Vibha", "Piano", "Karate"]);
+  assert.deepEqual(titles, ["Orchestra", "Podcast", "Wrestling", "Best Brains", "Vibha", "Piano", "Karate"]);
   assert.match(html, /<h3 class="subhead">Awards<\/h3>/);
   assert.equal(html.includes("Certificate scans"), false);
   assert.match(html, /class="certs"/);
@@ -223,7 +223,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.equal(html.includes("Nov 2022"), false);
   assert.equal(html.includes("100+ hours"), false);
   assert.equal(html.includes("Vibha Gold"), false);
-  for (const href of ["activities/cello.html", "activities/podcasting.html", "activities/best-brains.html", "activities/vibha.html", "activities/piano.html", "activities/wrestling.html", "activities/karate.html"]) {
+  for (const href of ["activities/orchestra.html", "activities/podcasting.html", "activities/best-brains.html", "activities/vibha.html", "activities/piano.html", "activities/wrestling.html", "activities/karate.html"]) {
     assert.match(html, new RegExp('href="' + href + '"'));
   }
   assert.match(html, /Eighth-grade orchestra concert/);
@@ -231,7 +231,13 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.equal(html.includes('class="shots"'), false);
   assert.equal(html.includes("outdoor-activity-plant-table.jpg"), false);
   assert.equal(html.includes("DVHS Chamber Orchestra concert"), false);
-  const cello = read("activities/cello.html");
+  const cello = read("activities/orchestra.html");
+  const celloStub = read("activities/cello.html");
+  assert.match(celloStub, /http-equiv="refresh" content="0; url=orchestra\.html"/);
+  assert.match(celloStub, /rel="canonical" href="https:\/\/haureesh\.vellamsetti\.com\/activities\/orchestra\.html"/);
+  assert.equal(celloStub.includes("<h1"), false);
+  assert.match(cello, /<h1>Orchestra/);
+  assert.match(cello, /I play cello in the DVHS Chamber Orchestra/);
   const galleryAt = cello.indexOf('id="gallery"');
   const overviewAt = cello.indexOf('id="overview"');
   assert.ok(overviewAt < galleryAt);
@@ -247,7 +253,11 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.match(read("activities/vibha.html"), /vibha-group\.jpg/);
   assert.match(read("activities/piano.html"), /piano-trophy-grand-piano\.jpg/);
   assert.match(read("activities/best-brains.html"), /Photos coming soon/);
-  assert.match(read("activities/podcasting.html"), /Photos coming soon/);
+  assert.match(read("activities/podcasting.html"), /podcast-cover\.jpg/);
+  assert.match(read("activities/podcasting.html"), /The Wildcat Way Podcast cover art/);
+  assert.match(read("activities/podcasting.html"), /<figcaption>The Wildcat Way Podcast<\/figcaption>/);
+  assert.equal(read("activities/podcasting.html").includes("Photos coming soon"), false);
+  assert.equal(read("activities/podcasting.html").includes("example.jpg"), false);
   for (const name of activityPages) {
     const page = read(name);
     const miles = page.indexOf('id="milestones"');
@@ -290,9 +300,9 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
     ["activities/karate.html", "karate-group-kickboxing.mp4", "Group kickboxing drill"],
     ["activities/karate.html", "karate-escrima-sticks.mp4", "Escrima stick practice"],
     ["activities/karate.html", "karate-self-defense-practice.mp4", "Self-defense technique practice"],
-    ["activities/cello.html", "orchestra-cello-1.mp4", "Chamber orchestra — cello section"],
-    ["activities/cello.html", "orchestra-cello-2.mp4", "Chamber orchestra performance"],
-    ["activities/cello.html", "orchestra-gym-performance.mp4", "String orchestra performance at DVHS"],
+    ["activities/orchestra.html", "orchestra-cello-1.mp4", "Chamber orchestra — cello section"],
+    ["activities/orchestra.html", "orchestra-cello-2.mp4", "Chamber orchestra performance"],
+    ["activities/orchestra.html", "orchestra-gym-performance.mp4", "String orchestra performance at DVHS"],
     ["activities/piano.html", "piano-schumann-melody-home.mp4", "Piano — Schumann, Melody"],
     ["activities/piano.html", "piano-recital.mp4", "Piano recital performance"],
     ["activities/wrestling.html", "wrestling-match-1.mp4", "Wrestling match"],
