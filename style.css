@@ -241,21 +241,23 @@ html.js:not(.reduce) .t.in { opacity: 1; transform: none; }
 .cyc span.o { opacity: 0; transform: translateY(10px); }
 .photo { grid-column: span 2; grid-row: span 2; padding: 16px; }
 .t.wide .ph { width: 120px; height: 120px; min-height: 0; margin: 0 0 12px; padding: 0; }
-.t.media-row {
+.media-row {
   display: grid;
   grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
   gap: 16px;
   align-items: center;
 }
-.t.media-row .ph {
+.t.wide.media-row .ph,
+.media-row .spec-photo {
   width: 100%;
   height: 150px;
+  max-height: 150px;
   min-height: 150px;
   margin: 0;
 }
-.t.media-row .media-copy { min-width: 0; }
-.t.media-row .media-copy h3 { margin-bottom: 6px; }
-.t.media-row .media-copy p:last-child { margin: 0; }
+.media-row .media-copy { min-width: 0; }
+.media-row .media-copy h3 { margin-bottom: 6px; }
+.media-row .media-copy > p:last-child { margin: 0; }
 .ph {
   position: relative;
   border: 1.5px dashed #5ee7ff88;
@@ -309,28 +311,25 @@ html.js:not(.reduce) .t.in { opacity: 1; transform: none; }
 .face.back {
   background: linear-gradient(160deg, #231a4a, #10172f);
   border-color: var(--vi);
+  justify-content: flex-start;
 }
-.spec-row {
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: 16px;
-  align-items: stretch;
-  min-height: 0;
-  flex: 1;
+.face.back .media-row { flex: 1; align-items: start; }
+.face.back .media-copy {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
 }
 .spec-photo {
-  width: 100%;
-  height: 150px;
-  max-height: 150px;
-  min-height: 0;
   object-fit: cover;
   object-position: center bottom;
   border-radius: 16px;
   border: 1px solid #b7a8ff55;
   display: block;
 }
-.spec-row .spec { grid-template-columns: 1fr; }
+.media-row .spec { grid-template-columns: 1fr; }
 html.js .rocket { min-height: 460px; }
+html.js .rocket.is-flipped,
+html.js .rocket.is-flipped .flip { min-height: 540px; }
 html.js .flip {
   display: block;
   position: relative;
@@ -349,7 +348,7 @@ html.js .face {
 html.js .face.back { transform: rotateY(180deg); }
 .face-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex: 0 0 auto; }
 .face-body { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; gap: 8px; padding-bottom: 12px; }
-.face .view-project { margin-top: auto; margin-bottom: 12px; align-self: flex-start; flex: 0 0 auto; }
+.face .view-project { margin-top: 12px; align-self: flex-start; flex: 0 0 auto; }
 a.g { color: inherit; text-decoration: none; }
 .text-btn, .gnav button, .ring-controls button, .btn {
   font: inherit;
@@ -909,9 +908,11 @@ html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; 
   .g .cap { height: auto; max-height: none; }
   .big { font-size: 48px; }
   nav a { font-size: 13px; }
-  .spec-row, .t.media-row { grid-template-columns: 1fr; }
-  .spec-photo { height: 120px; max-height: 120px; min-height: 0; }
-  .t.media-row .ph { height: 160px; min-height: 160px; }
+  .media-row { grid-template-columns: 1fr; }
+  .t.wide.media-row .ph,
+  .media-row .spec-photo { height: 160px; max-height: 160px; min-height: 160px; }
+  html.js .rocket.is-flipped,
+  html.js .rocket.is-flipped .flip { min-height: 760px; }
 }
 /* Below 760px the wide card crowds the stage, so the ring uses a smaller card. */
 @media (max-width: 800px) {
