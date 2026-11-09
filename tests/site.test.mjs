@@ -97,9 +97,11 @@ test("about keeps the biography and not the timeline", () => {
 test("contact links stay on the contact page", () => {
   const contact = read("contact.html");
   assert.match(contact, /id="contact"/);
-  assert.match(contact, /Hi, let's chat\. Say hi, let's chat\. Thanks for visiting\. I am happy to talk about any of these projects or activities\./);
+  assert.match(contact, /<h2>Hi, let's chat\. Say hi, let's chat\. Thanks for visiting\. I am happy to talk about any of these projects or activities\.<\/h2>/);
+  assert.equal(contact.includes("contact-note"), false);
   assert.equal(contact.includes("Let's talk"), false);
   assert.equal(contact.includes("rockets"), false);
+  assert.match(read("style.css"), /\.contact-lead h2 \{ font-size: clamp\(48px, 7vw, 96px\); line-height: \.95; margin: 0 0 20px; \}/);
   assert.match(contact, /mailto:haureesh@hotmail\.com/);
   assert.match(contact, /https:\/\/www\.linkedin\.com\/in\/haureesh\//);
   assert.match(contact, /https:\/\/github\.com\/haureesh14/);
@@ -140,6 +142,17 @@ test("each project card opens its own page", () => {
   assert.match(research, /algoverse-ai-research-logo\.jpg/);
   assert.equal(research.includes("Photos coming soon</p>"), false);
   assert.equal(read("awards.html").includes("algoverse-ai-research-logo.jpg"), false);
+  const listing = read("projects.html");
+  assert.match(listing, /data-id="aerospace-club"[\s\S]*?assets\/photos\/aerospace-club\.jpg/);
+  assert.equal(listing.includes('data-id="aerospace-club"') && listing.slice(listing.indexOf('data-id="aerospace-club"'), listing.indexOf('data-id="model-rocket"')).includes("rocket-launch.jpg"), false);
+  assert.match(listing, /data-id="model-rocket"[\s\S]*?assets\/photos\/rocket-launch\.jpg/);
+  assert.match(listing, /data-id="robot-arm"[\s\S]*?assets\/photos\/robot-arm-red-yellow-pair\.jpg/);
+  assert.match(listing, /data-id="ai-research"[\s\S]*?assets\/photos\/algoverse-ai-research-logo\.jpg/);
+  assert.match(listing, /data-id="smash"[\s\S]*?assets\/photos\/uc-berkeley-smash-achievement-2025\.jpg/);
+  const home = read("index.html");
+  assert.match(home, /class="t wide alg"[\s\S]*?algoverse-ai-research-logo\.jpg/);
+  assert.match(home, /class="t wide"[\s\S]*?robot-arm-red-yellow-pair\.jpg/);
+  assert.match(home, /id="rocket"[\s\S]*?rocket-launch\.jpg/);
 });
 
 test("scholar-athlete copy does not include a GPA", () => {
@@ -175,7 +188,9 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
     assert.match(html, new RegExp('href="' + href + '"'));
   }
   assert.match(html, /Eighth-grade orchestra concert/);
-  assert.match(html, /orchestra-performance\.mp4/);
+  assert.equal(html.includes("orchestra-performance.mp4"), false);
+  assert.equal(html.includes('class="shots"'), false);
+  assert.equal(html.includes("outdoor-activity-plant-table.jpg"), false);
   assert.equal(html.includes("DVHS Chamber Orchestra concert"), false);
   const cello = read("activities/cello.html");
   const galleryAt = cello.indexOf('id="gallery"');
