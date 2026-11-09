@@ -4,7 +4,6 @@ import { readFileSync } from "node:fs";
 
 const projectPages = [
   "projects/aerospace-club.html",
-  "projects/model-rocket.html",
   "projects/robot-arm.html",
   "projects/ai-research.html",
   "projects/smash.html"
@@ -130,9 +129,10 @@ test("each project card opens its own page", () => {
     assert.equal(/grade point|GPA/i.test(page), false, name);
   }
   assert.match(read("projects/smash.html"), /uc-berkeley-smash-achievement-2025\.jpg/);
-  assert.match(read("projects/aerospace-club.html"), /Photos coming soon/);
-  assert.match(read("projects/model-rocket.html"), /rocket-launch\.jpg/);
-  assert.equal(read("projects/model-rocket.html").includes("Photos coming soon</p>"), false);
+  assert.match(read("projects/aerospace-club.html"), /rocket-launch\.jpg/);
+  assert.match(read("projects/aerospace-club.html"), /Secretary \/ Vice President since Aug 2025/);
+  assert.match(read("projects/aerospace-club.html"), /flew past 500 ft/);
+  assert.equal(read("projects/aerospace-club.html").includes("Photos coming soon</p>"), false);
   const arm = read("projects/robot-arm.html");
   for (const photo of ["robot-arm-red-yellow-pair.jpg", "robot-arm-yellow-angle-a.jpg", "robot-arm-yellow-angle-b.jpg"]) {
     assert.match(arm, new RegExp(photo));
@@ -143,9 +143,10 @@ test("each project card opens its own page", () => {
   assert.equal(research.includes("Photos coming soon</p>"), false);
   assert.equal(read("awards.html").includes("algoverse-ai-research-logo.jpg"), false);
   const listing = read("projects.html");
-  assert.match(listing, /data-id="aerospace-club"[\s\S]*?assets\/photos\/aerospace-club\.jpg/);
-  assert.equal(listing.includes('data-id="aerospace-club"') && listing.slice(listing.indexOf('data-id="aerospace-club"'), listing.indexOf('data-id="model-rocket"')).includes("rocket-launch.jpg"), false);
-  assert.match(listing, /data-id="model-rocket"[\s\S]*?assets\/photos\/rocket-launch\.jpg/);
+  assert.match(listing, /data-id="aerospace-club"[\s\S]*?assets\/photos\/rocket-launch\.jpg/);
+  assert.match(listing, /Aerospace Club &amp; Model Rocket/);
+  assert.equal(listing.includes('data-id="model-rocket"'), false);
+  assert.equal(listing.includes("projects/model-rocket.html"), false);
   assert.match(listing, /data-id="robot-arm"[\s\S]*?assets\/photos\/robot-arm-red-yellow-pair\.jpg/);
   assert.match(listing, /data-id="ai-research"[\s\S]*?assets\/photos\/algoverse-ai-research-logo\.jpg/);
   assert.match(listing, /data-id="smash"[\s\S]*?assets\/photos\/uc-berkeley-smash-achievement-2025\.jpg/);
@@ -153,6 +154,16 @@ test("each project card opens its own page", () => {
   assert.match(home, /class="t wide alg"[\s\S]*?algoverse-ai-research-logo\.jpg/);
   assert.match(home, /class="t wide"[\s\S]*?robot-arm-red-yellow-pair\.jpg/);
   assert.match(home, /id="rocket"[\s\S]*?rocket-launch\.jpg/);
+  assert.match(home, /href="projects\/aerospace-club\.html"/);
+  assert.equal(home.includes("projects/model-rocket.html"), false);
+  const stub = read("projects/model-rocket.html");
+  assert.match(stub, /http-equiv="refresh" content="0; url=aerospace-club\.html"/);
+  assert.match(stub, /rel="canonical" href="https:\/\/haureesh\.vellamsetti\.com\/projects\/aerospace-club\.html"/);
+  assert.equal(stub.includes("<h1"), false);
+  assert.equal(stub.includes("<main"), false);
+  for (const name of pages) {
+    assert.equal(read(name).includes("projects/model-rocket.html"), false, name);
+  }
 });
 
 test("scholar-athlete copy does not include a GPA", () => {
@@ -220,7 +231,9 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.match(read("about.html"), /second-degree black belt on April 29, 2023/);
   assert.equal(read("about.html").includes("Nov 2022"), false);
   const wrestling = read("activities/wrestling.html");
+  assert.ok(wrestling.indexOf("dvhs-jv-wrestling-most-improved-2024-2025.jpg") < wrestling.indexOf('id="overview"'));
   assert.ok(wrestling.indexOf('id="award"') < wrestling.indexOf('id="milestones"'));
+  assert.ok(wrestling.indexOf("wrestling-xray-image-01.jpg") > wrestling.indexOf('id="gallery"'));
   assert.match(wrestling, /wrestling-xray-image-01\.jpg/);
   assert.match(wrestling, /wrestling-xray-image-02\.jpg/);
   assert.match(wrestling, /alt="Wrestling — X-ray image"/);
@@ -228,6 +241,9 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.equal(wrestling.includes("fracture"), false);
   assert.equal(wrestling.includes("diagnosis"), false);
   assert.equal(html.includes("wrestling-xray"), false);
+  const beforeWrestlingLink = html.slice(Math.max(0, html.indexOf("activities/wrestling.html") - 500), html.indexOf("activities/wrestling.html"));
+  assert.match(beforeWrestlingLink, /dvhs-jv-wrestling-most-improved-2024-2025\.jpg/);
+  assert.equal(beforeWrestlingLink.includes("xray"), false);
 });
 
 test("career wording uses engineer and keeps the majors line", () => {

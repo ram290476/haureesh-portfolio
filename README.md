@@ -26,8 +26,8 @@ Save a JPG with the **exact filename** below. The labeled placeholder disappears
 |---|---|
 | headshot.jpg | Home bento (large tile) |
 | about-portrait.jpg | About (portrait, 3:4) |
-| aerospace-club.jpg | Projects: Aerospace Club |
-| model-rocket.jpg | Projects: Model Rocket |
+| aerospace-club.jpg | Unused placeholder. The combined Aerospace Club and model-rocket card uses the launch photo. |
+| model-rocket.jpg | Unused placeholder. The launch photo is assets/photos/rocket-launch.jpg. |
 | robot-arm.jpg | Projects: SO-101 arm |
 | ai-research.jpg | Projects: AI safety research |
 | smash.jpg | Projects: SMASH |
