@@ -747,6 +747,43 @@ html:not(.js) .rc { min-height: 280px; }
 
 /* Homepage path: in-flow horizontal scroller. Cards stay in this box. */
 #path { position: relative; }
+.path-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.path-head h2 { margin-bottom: 0; }
+.tl-arrows { display: flex; gap: 10px; flex: 0 0 auto; margin: 0 0 4px; }
+.tl-arrow {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--cy);
+  background: #10172f;
+  color: var(--cy);
+  box-shadow: 0 0 16px #5ee7ff44;
+  cursor: pointer;
+}
+.tl-arrow svg { display: block; }
+.tl-arrow:hover:not(:disabled),
+.tl-arrow:focus-visible:not(:disabled) {
+  background: #152044;
+  box-shadow: 0 0 20px #5ee7ff88;
+}
+.tl-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+  color: var(--mu);
+  border-color: #3a4a8c;
+  box-shadow: none;
+}
 .timeline {
   display: flex;
   flex-wrap: nowrap;
