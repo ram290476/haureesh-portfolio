@@ -516,6 +516,34 @@ html.js:not(.reduce) .rc {
   backface-visibility: hidden;
 }
 .rc .ph { height: 120px; margin-bottom: 10px; font-size: 12px; }
+.ph.logo-panel {
+  background: #fff;
+  border: 1px solid #e6ebf5;
+}
+.ph.logo-panel::before { content: none; }
+.ph.logo-panel img {
+  object-fit: contain;
+  object-position: center;
+  inset: 12px;
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
+  background: transparent;
+}
+.gallery figure.logo-panel {
+  max-width: 360px;
+  background: #fff;
+  border: 1px solid #e6ebf5;
+  border-radius: 16px;
+  padding: 24px 28px;
+}
+.gallery figure.logo-panel img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
 .rc h3 { font-size: 20px; margin: 0 0 4px; }
 .rc p { margin: 0; color: var(--mu); font-size: 14px; line-height: 1.35; }
 html.reduce .rc,
@@ -864,6 +892,11 @@ html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; 
   }
   html.js:not(.reduce) .rc { padding: 12px; }
   html.js:not(.reduce) .rc .ph { height: 78px; margin-bottom: 8px; }
+  html.js:not(.reduce) .rc .ph.logo-panel img {
+    inset: 8px;
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
+  }
   html.js:not(.reduce) .rc h3 { font-size: 17px; }
   html.js:not(.reduce) .rc p { font-size: 12px; }
 }

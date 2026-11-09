@@ -243,6 +243,8 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.match(ring, /I'm treasurer of the Wildcat Way Podcast Club/);
   assert.match(ring, /I wrestle JV and varsity\. JV Most Improved Wrestler, 2024–25/);
   assert.match(ring, /I tutor students at Best Brains/);
+  assert.match(ring, /assets\/photos\/best-brains-logo\.svg/);
+  assert.match(ring, /alt="Best Brains Learning Centers logo"/);
   assert.match(ring, /I mentor younger students through Vibha/);
   assert.match(ring, /Years of piano\. NPA Local Winner, 2017 and 2020–2022, and Certificate of Merit Level 8/);
   assert.match(ring, /Second-degree black belt \(Apr 2023\); I help teach classes at my studio\. 1st place, Ernie Reyes/);
@@ -272,7 +274,10 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.match(read("activities/vibha.html"), /vibha-food-bank\.jpg/);
   assert.match(read("activities/vibha.html"), /vibha-group\.jpg/);
   assert.match(read("activities/piano.html"), /piano-trophy-grand-piano\.jpg/);
-  assert.match(read("activities/best-brains.html"), /Photos coming soon/);
+  const bestBrains = read("activities/best-brains.html");
+  assert.match(bestBrains, /assets\/photos\/best-brains-logo\.svg/);
+  assert.match(bestBrains, /alt="Best Brains Learning Centers logo"/);
+  assert.equal(bestBrains.includes('<p class="empty">Photos coming soon</p>'), false);
   assert.match(read("activities/podcasting.html"), /podcast-cover\.jpg/);
   assert.match(read("activities/podcasting.html"), /The Wildcat Way Podcast cover art/);
   assert.match(read("activities/podcasting.html"), /<figcaption>The Wildcat Way Podcast<\/figcaption>/);
