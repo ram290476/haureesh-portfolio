@@ -133,9 +133,11 @@ test("each project card opens its own page", () => {
   assert.match(read("projects/aerospace-club.html"), /rocket-launch\.jpg/);
   assert.match(read("projects/aerospace-club.html"), /Secretary \/ Vice President since Aug 2025/);
   assert.match(read("projects/aerospace-club.html"), /flew past 500 ft/);
-  assert.equal(read("projects/aerospace-club.html").includes("recovery"), false);
-  assert.equal(read("projects/aerospace-club.html").includes("motor"), false);
+  assert.match(read("projects/aerospace-club.html"), /Build details such as motor class and recovery system are coming soon/);
+  assert.equal(read("projects/aerospace-club.html").includes("Not written up yet"), false);
+  assert.equal(read("projects/aerospace-club.html").includes("example.jpg"), false);
   assert.equal(read("projects/aerospace-club.html").includes("1000+"), false);
+  assert.match(read("projects.html"), /I help lead the club, and I built a model rocket that flew past 500 ft/);
   const researchFacts = read("projects/ai-research.html");
   assert.match(researchFacts, /XSTest/);
   assert.match(researchFacts, /preliminary/);
