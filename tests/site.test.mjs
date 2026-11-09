@@ -14,7 +14,8 @@ const activityPages = [
   "activities/piano.html",
   "activities/podcasting.html",
   "activities/cello.html",
-  "activities/wrestling.html"
+  "activities/wrestling.html",
+  "activities/karate.html"
 ];
 const pages = ["index.html", "projects.html", "awards.html", "experience.html", "about.html", "contact.html", "404.html", ...projectPages, ...activityPages];
 const nav = ["Home", "Projects", "Awards", "Experience", "About", "Contact"];
@@ -183,7 +184,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   const html = read("awards.html");
   const ring = html.slice(html.indexOf('id="ring"'), html.indexOf("</div>\n      </div>\n      <p class=\"sr\" id=\"ring-status\""));
   const titles = [...ring.matchAll(/<h3>(?:<a [^>]*>)?([^<]+)/g)].map((match) => match[1]);
-  assert.deepEqual(titles, ["Cello", "Podcast", "Wrestling", "Best Brains", "Vibha", "Piano"]);
+  assert.deepEqual(titles, ["Cello", "Podcast", "Wrestling", "Best Brains", "Vibha", "Piano", "Karate"]);
   assert.match(html, /<h3 class="subhead">Awards<\/h3>/);
   assert.equal(html.includes("Certificate scans"), false);
   assert.match(html, /class="certs"/);
@@ -200,7 +201,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.equal(html.includes("Nov 2022"), false);
   assert.equal(html.includes("100+ hours"), false);
   assert.equal(html.includes("Vibha Gold"), false);
-  for (const href of ["activities/cello.html", "activities/podcasting.html", "activities/best-brains.html", "activities/vibha.html", "activities/piano.html", "activities/wrestling.html"]) {
+  for (const href of ["activities/cello.html", "activities/podcasting.html", "activities/best-brains.html", "activities/vibha.html", "activities/piano.html", "activities/wrestling.html", "activities/karate.html"]) {
     assert.match(html, new RegExp('href="' + href + '"'));
   }
   assert.match(html, /Eighth-grade orchestra concert/);
@@ -246,6 +247,34 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.equal(wrestling.includes("fracture"), false);
   assert.equal(wrestling.includes("diagnosis"), false);
   assert.equal(html.includes("wrestling-xray"), false);
+  const videos = [
+    ["activities/karate.html", "karate-tournament-forms.mp4", "Karate tournament — forms"],
+    ["activities/karate.html", "karate-class-kicks.mp4", "Karate class — jumping front kicks"],
+    ["activities/karate.html", "karate-form-demo.mp4", "Karate form demonstration"],
+    ["activities/karate.html", "karate-group-kickboxing.mp4", "Group kickboxing drill"],
+    ["activities/karate.html", "karate-escrima-sticks.mp4", "Escrima stick practice"],
+    ["activities/karate.html", "karate-self-defense-practice.mp4", "Self-defense technique practice"],
+    ["activities/cello.html", "orchestra-cello-1.mp4", "Chamber orchestra — cello section"],
+    ["activities/cello.html", "orchestra-cello-2.mp4", "Chamber orchestra performance"],
+    ["activities/cello.html", "orchestra-gym-performance.mp4", "String orchestra performance at DVHS"],
+    ["activities/piano.html", "piano-schumann-melody-home.mp4", "Piano — Schumann, Melody"],
+    ["activities/piano.html", "piano-recital.mp4", "Piano recital performance"],
+    ["activities/wrestling.html", "wrestling-match-1.mp4", "Wrestling match"],
+    ["activities/wrestling.html", "wrestling-match-fremont.mp4", "Wrestling tournament match"]
+  ];
+  for (const [page, file, caption] of videos) {
+    const htmlPage = read(page);
+    const at = htmlPage.indexOf(file);
+    assert.ok(at > htmlPage.indexOf('id="gallery"'), file);
+    const chunk = htmlPage.slice(at - 280, at + 220);
+    assert.match(chunk, /<video controls preload="metadata" playsinline /, file);
+    assert.match(chunk, /poster="\.\.\/assets\/video\/[^"]+\.jpg"/, file);
+    assert.match(htmlPage, new RegExp("<figcaption>" + caption.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "</figcaption>"));
+    assert.equal(htmlPage.includes("win"), false, page);
+  }
+  const wrestlingPage = read("activities/wrestling.html");
+  assert.ok(wrestlingPage.indexOf("wrestling-match-1.mp4") < wrestlingPage.indexOf("wrestling-match-fremont.mp4"));
+  assert.ok(wrestlingPage.indexOf("wrestling-match-fremont.mp4") < wrestlingPage.indexOf("wrestling-xray-image-01.jpg"));
   const beforeWrestlingLink = html.slice(Math.max(0, html.indexOf("activities/wrestling.html") - 500), html.indexOf("activities/wrestling.html"));
   assert.match(beforeWrestlingLink, /dvhs-jv-wrestling-most-improved-2024-2025\.jpg/);
   assert.equal(beforeWrestlingLink.includes("xray"), false);
