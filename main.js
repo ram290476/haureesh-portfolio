@@ -572,19 +572,6 @@
   }
   window.addEventListener("resize", function () { layoutRing(); });
 
-  /* Footer underline */
-  var foot = document.querySelector("footer");
-  if (foot) {
-    if (!motionOn() || !("IntersectionObserver" in window)) foot.classList.add("in");
-    else {
-      new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) foot.classList.add("in");
-        });
-      }, { threshold: 0.3 }).observe(foot);
-    }
-  }
-
   /* Current section in the nav */
   var navLinks = Array.from(document.querySelectorAll('nav a[href^="#"]'));
   var sections = navLinks.map(function (link) {

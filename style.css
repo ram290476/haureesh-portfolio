@@ -876,10 +876,6 @@ footer h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; margin: 0 0 20p
   background: linear-gradient(90deg, var(--cy), var(--vi));
   box-shadow: 0 0 12px var(--cy);
 }
-html.js:not(.reduce) footer .nl::after { width: 0; transition: width 1.2s cubic-bezier(.2, .8, .2, 1); }
-html.js:not(.reduce) footer.in .nl::after { width: 100%; }
-html.js:not(.reduce) footer.in .nl:nth-child(2)::after { transition-delay: .4s; }
-html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; }
 .fine { color: var(--mu); margin-top: 28px; }
 
 /* 404 */
