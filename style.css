@@ -305,11 +305,11 @@ html.js:not(.reduce) .t.in { opacity: 1; transform: none; }
 }
 .spec-photo {
   width: 100%;
-  height: 240px;
-  max-height: 240px;
-  min-height: 140px;
+  height: 150px;
+  max-height: 150px;
+  min-height: 0;
   object-fit: cover;
-  object-position: center;
+  object-position: center bottom;
   border-radius: 16px;
   border: 1px solid #b7a8ff55;
   display: block;
@@ -839,7 +839,7 @@ html.js:not(.reduce) footer.in .nl:nth-child(3)::after { transition-delay: .8s; 
   .big { font-size: 48px; }
   nav a { font-size: 13px; }
   .spec-row { grid-template-columns: 1fr; }
-  .spec-photo { height: 180px; min-height: 0; }
+  .spec-photo { height: 120px; max-height: 120px; min-height: 0; }
 }
 /* Below 760px the wide card crowds the stage, so the ring uses a smaller card. */
 @media (max-width: 800px) {
