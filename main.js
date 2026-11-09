@@ -83,8 +83,11 @@
   startCycle();
 
   /* Spring entrance */
-  var entranceTargets = Array.from(document.querySelectorAll(".t, .xc"));
+  var entranceTargets = Array.from(document.querySelectorAll(".t, .xc, #awards > .kick, #awards > h1, .certs li"));
   var entranceIO = null;
+  document.querySelectorAll(".certs li").forEach(function (li) {
+    if (!li.hasAttribute("tabindex")) li.setAttribute("tabindex", "0");
+  });
   function armEntrance() {
     if (entranceIO) {
       entranceIO.disconnect();
@@ -102,7 +105,10 @@
       });
     }, { threshold: 0.12 });
     entranceTargets.forEach(function (el, i) {
-      el.style.transitionDelay = (i % 8) * 80 + "ms";
+      var delay = el.closest && el.closest("#awards")
+        ? Math.min(i * 70, 560)
+        : (i % 8) * 80;
+      el.style.transitionDelay = delay + "ms";
       entranceIO.observe(el);
     });
   }
