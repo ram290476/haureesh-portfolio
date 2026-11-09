@@ -204,6 +204,13 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.equal(html.includes("Certificate scans"), false);
   assert.match(html, /class="certs"/);
   assert.match(html, /Presidential Volunteer Service Award – Silver/);
+  assert.equal((html.match(/<b>AP Scholar with Distinction<\/b>/g) || []).length, 1);
+  assert.match(html, /AP Scholar with Distinction<\/b><span>College Board · 2026/);
+  assert.match(html, /assets\/certificates\/ap-scholar-distinction\.jpg/);
+  assert.equal(html.includes("College Board · Jul 2026"), false);
+  assert.match(html, /Certificate of Merit – Piano Level 8<\/b><span>MTAC · Feb 2025/);
+  assert.equal((html.match(/<b>Scholar Athlete<\/b>/g) || []).length, 1);
+  assert.match(html, /Scholar Athlete<\/b><span>Dougherty Valley High School · Feb 2025/);
   assert.match(html, /first-degree-black-belt-certificate-2020-10-24\.jpg/);
   assert.match(html, /1st Degree Black Belt<\/b><span>Ernie Reyes' West Coast World Martial Arts Association · October 24, 2020/);
   assert.match(html, /second-degree-black-belt-certificate-2023-04-29\.jpg/);

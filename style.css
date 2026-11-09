@@ -633,6 +633,12 @@ html.js:not(.reduce) .rc {
 .certs li { list-style: none; min-width: 0; }
 .certs .ph { width: 100%; max-width: 100%; min-height: 120px; margin-bottom: 8px; }
 .certs .ph small { overflow-wrap: anywhere; }
+.certs li.text-award {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+  background: #10172f;
+}
 .certs b { display: block; }
 .certs span { color: var(--mu); font-size: 13px; }
 .subhead { margin: 36px 0 0; font-size: 18px; letter-spacing: .08em; text-transform: uppercase; color: var(--mu); }
