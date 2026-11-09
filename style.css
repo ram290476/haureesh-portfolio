@@ -240,6 +240,7 @@ html.js:not(.reduce) .t.in { opacity: 1; transform: none; }
 .cyc span { display: inline-block; transition: opacity .2s, transform .25s var(--spring); }
 .cyc span.o { opacity: 0; transform: translateY(10px); }
 .photo { grid-column: span 2; grid-row: span 2; padding: 16px; }
+.t.wide .ph, .t.rocket .ph { width: 120px; height: 120px; min-height: 0; margin: 0 0 12px; padding: 0; }
 .ph {
   position: relative;
   border: 1.5px dashed #5ee7ff88;
@@ -533,10 +534,19 @@ html.js:not(.reduce) .rc {
   font-size: 13px;
   color: var(--ink);
 }
-.certs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 28px; margin-top: 28px; text-align: left; }
+.certs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 28px;
+  margin-top: 28px;
+  text-align: left;
+  align-items: start;
+}
 .certs .ph.full {
   aspect-ratio: 4 / 3;
-  min-height: 180px;
+  width: 100%;
+  height: auto;
+  min-height: 0;
   padding: 0;
   background: #10172f;
 }
@@ -621,8 +631,9 @@ html.js:not(.reduce) .rc {
 .project-page h1 { margin-top: 12px; }
 .project-page section { padding: 28px 0 8px; }
 .project-page h2 { font-size: clamp(26px, 3vw, 34px); }
-.certs li { list-style: none; }
-.certs .ph { min-height: 120px; margin-bottom: 8px; }
+.certs li { list-style: none; min-width: 0; }
+.certs .ph { width: 100%; max-width: 100%; min-height: 120px; margin-bottom: 8px; }
+.certs .ph small { overflow-wrap: anywhere; }
 .certs b { display: block; }
 .certs span { color: var(--mu); font-size: 13px; }
 .subhead { margin: 36px 0 0; font-size: 18px; letter-spacing: .08em; text-transform: uppercase; color: var(--mu); }
@@ -718,14 +729,8 @@ html.js:not(.reduce) .rc {
     box-shadow: 0 14px 28px #6d4cff66, 0 0 18px #5ee7ff55;
   }
 }
-.contact-lead { padding-top: 48px; padding-bottom: 24px; }
-.contact-note {
-  max-width: 40rem;
-  margin: 0;
-  color: var(--ink);
-  font-size: clamp(22px, 3vw, 34px);
-  line-height: 1.45;
-}
+.contact-lead { padding-top: 36px; padding-bottom: 8px; }
+.contact-lead h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; margin: 0 0 20px; }
 .milestones { list-style: none; margin: 8px 0 0; padding: 0; }
 .milestones li {
   display: grid;
