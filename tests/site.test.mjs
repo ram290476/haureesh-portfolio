@@ -1,6 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const projectPages = [
   "projects/aerospace-club.html",
@@ -17,8 +19,8 @@ const activityPages = [
   "activities/wrestling.html",
   "activities/karate.html"
 ];
-const pages = ["index.html", "projects.html", "awards.html", "experience.html", "about.html", "contact.html", "404.html", ...projectPages, ...activityPages];
-const nav = ["Home", "Projects", "Awards", "Experience", "About", "Contact"];
+const pages = ["index.html", "projects.html", "awards.html", "activities.html", "experience.html", "about.html", "contact.html", "404.html", ...projectPages, ...activityPages];
+const nav = ["Home", "Projects", "Awards", "Activities", "Experience", "About", "Contact"];
 
 function read(name) {
   return readFileSync(new URL("../" + name, import.meta.url), "utf8");
@@ -69,7 +71,7 @@ test("path timeline stays on the homepage only", () => {
   for (const chip of ["Python", "Java", "Front-end development", "Game development", "3D printing", "Tutoring", "Orchestra", "Wrestling"]) {
     assert.match(home, new RegExp(">" + chip + "<"));
   }
-  for (const name of ["projects.html", "awards.html", "experience.html", "about.html", "contact.html"]) {
+  for (const name of ["projects.html", "awards.html", "activities.html", "experience.html", "about.html", "contact.html"]) {
     const html = read(name);
     assert.equal(html.includes('class="yc"'), false);
     assert.equal(html.includes("The path so far"), false);
@@ -123,7 +125,7 @@ test("contact links stay on the contact page", () => {
   assert.match(contact, /mailto:haureesh@hotmail\.com/);
   assert.match(contact, /https:\/\/www\.linkedin\.com\/in\/haureesh\//);
   assert.match(contact, /https:\/\/github\.com\/haureesh14/);
-  for (const name of ["index.html", "projects.html", "awards.html", "experience.html", "about.html", "404.html", ...projectPages, ...activityPages]) {
+  for (const name of ["index.html", "projects.html", "awards.html", "activities.html", "experience.html", "about.html", "404.html", ...projectPages, ...activityPages]) {
     const html = read(name);
     assert.equal(html.includes("haureesh@hotmail.com"), false, name);
     assert.equal(html.includes("linkedin.com/in/haureesh"), false, name);
@@ -219,10 +221,15 @@ test("scholar-athlete copy does not include a GPA", () => {
 
 test("rotating activity cards stay on top and awards are picture cards", () => {
   const html = read("awards.html");
-  const ring = html.slice(html.indexOf('id="ring"'), html.indexOf("</div>\n      </div>\n      <p class=\"sr\" id=\"ring-status\""));
+  const activities = read("activities.html");
+  const ring = activities.slice(activities.indexOf('id="ring"'), activities.indexOf("</div>\n      </div>\n      <p class=\"sr\" id=\"ring-status\""));
   const titles = [...ring.matchAll(/<h3>(?:<a [^>]*>)?([^<]+)/g)].map((match) => match[1]);
   assert.deepEqual(titles, ["Orchestra", "Podcast", "Wrestling", "Best Brains", "Vibha", "Piano", "Karate"]);
-  assert.match(html, /<h3 class="subhead">Awards<\/h3>/);
+  assert.match(html, /<h1>Awards<span class="dot">\.<\/span><\/h1>/);
+  assert.match(activities, /<h1>Activities<span class="dot">\.<\/span><\/h1>/);
+  assert.match(activities, /class="ring-gap"/);
+  assert.match(html, /location\.hash\.replace\([\s\S]*=== "activities"\) location\.replace\("activities\.html"\)/);
+  assert.equal(html.includes('id="ring"'), false);
   assert.equal(html.includes("Certificate scans"), false);
   assert.match(html, /class="certs"/);
   assert.match(html, /Presidential Volunteer Service Award – Silver/);
@@ -267,7 +274,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.equal(html.includes("100+ hours"), false);
   assert.equal(html.includes("Vibha Gold"), false);
   for (const href of ["activities/orchestra.html", "activities/podcasting.html", "activities/best-brains.html", "activities/vibha.html", "activities/piano.html", "activities/wrestling.html", "activities/karate.html"]) {
-    assert.match(html, new RegExp('href="' + href + '"'));
+    assert.match(activities, new RegExp('href="' + href + '"'));
   }
   assert.match(ring, /I play cello in the DVHS Chamber Orchestra/);
   assert.match(ring, /I'm treasurer of the Wildcat Way Podcast Club/);
@@ -278,7 +285,8 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.match(ring, /I mentor younger students through Vibha/);
   assert.match(ring, /Years of piano\. NPA Local Winner, 2017 and 2020–2022, and Certificate of Merit Level 8/);
   assert.match(ring, /Second-degree black belt \(Apr 2023\); I help teach classes at my studio\. 1st place, Ernie Reyes/);
-  assert.match(html, /The orchestra on stage at a concert/);
+  assert.match(activities, /The orchestra on stage at a concert/);
+  assert.equal(activities.includes("orchestra-performance.mp4"), false);
   assert.equal(html.includes("orchestra-performance.mp4"), false);
   assert.equal(html.includes('class="shots"'), false);
   assert.equal(html.includes("outdoor-activity-plant-table.jpg"), false);
@@ -376,7 +384,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   const wrestlingPage = read("activities/wrestling.html");
   assert.ok(wrestlingPage.indexOf("wrestling-match-1.mp4") < wrestlingPage.indexOf("wrestling-match-fremont.mp4"));
   assert.ok(wrestlingPage.indexOf("wrestling-match-fremont.mp4") < wrestlingPage.indexOf("wrestling-xray-image-01.jpg"));
-  const beforeWrestlingLink = html.slice(Math.max(0, html.indexOf("activities/wrestling.html") - 500), html.indexOf("activities/wrestling.html"));
+  const beforeWrestlingLink = activities.slice(Math.max(0, activities.indexOf("activities/wrestling.html") - 500), activities.indexOf("activities/wrestling.html"));
   assert.match(beforeWrestlingLink, /card-wrestling\.jpg/);
   assert.equal(beforeWrestlingLink.includes("xray"), false);
 });
@@ -402,6 +410,33 @@ test("the headshot is the real photo on the hero and about portrait", () => {
     assert.match(html, /alt="Haureesh Vellamsetti"/);
     assert.equal(html.includes("assets/photos/headshot.jpg"), false, name);
     assert.equal(html.includes("assets/photos/about-portrait.jpg"), false, name);
+  }
+});
+
+test("local links resolve to a page or file", () => {
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  const htmlFiles = [];
+  function walk(dir) {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      if (entry.name === "node_modules" || entry.name.startsWith(".")) continue;
+      const full = resolve(dir, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (entry.name.endsWith(".html")) htmlFiles.push(full);
+    }
+  }
+  walk(root);
+  assert.ok(htmlFiles.includes(resolve(root, "activities.html")));
+  assert.ok(htmlFiles.includes(resolve(root, "awards.html")));
+  for (const file of htmlFiles) {
+    const html = readFileSync(file, "utf8");
+    for (const match of html.matchAll(/\shref="([^"]+)"/g)) {
+      const href = match[1];
+      if (/^(https?:|mailto:|tel:)/.test(href)) continue;
+      const path = href.split("#")[0].split("?")[0];
+      if (!path) continue;
+      const target = path.startsWith("/") ? resolve(root, path.slice(1)) : resolve(dirname(file), path);
+      assert.equal(existsSync(target), true, file + " -> " + href);
+    }
   }
 });
 
