@@ -492,8 +492,12 @@ html:not(.reduce) .mq div { animation: mq 28s linear infinite; }
   min-height: 44px;
   padding: 8px 16px;
 }
-/* Awards */
+/* Awards / Activities ring */
 .ring-gap { padding-bottom: 36px; }
+/* Space between rotate controls and the 3D cards below. */
+.ring-gap > .ring-controls {
+  margin-bottom: 28px;
+}
 .stage {
   min-height: 0;
   margin: 0;
@@ -505,7 +509,7 @@ html.js:not(.reduce) .stage {
   display: grid;
   justify-content: center;
   align-items: start;
-  padding-top: 18px;
+  padding-top: 20px;
   cursor: grab;
   touch-action: pan-y;
   overflow: hidden;
@@ -755,6 +759,7 @@ html.js:not(.reduce) .certs li.in {
   box-shadow: none;
   position: relative;
   overflow: hidden;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
 }
 .xc::before {
   content: "";
@@ -781,6 +786,15 @@ html.js:not(.reduce) .certs li.in {
 .xc .meta { color: var(--mu); font-size: 14px; margin: 0 0 8px; }
 .xc p { color: var(--mu); margin: 0; font-size: 14px; }
 .xc.soon { border-style: dashed; }
+/* Experience cards: midnight neon hover, scoped to .xc to avoid awards PR conflicts. */
+@media (hover: hover) and (pointer: fine) {
+  html.js:not(.reduce) .xc:hover,
+  html.js:not(.reduce) .xc:focus-visible {
+    transform: translateY(-5px);
+    border-color: var(--cy);
+    box-shadow: 0 0 0 1px #5ee7ff66, 0 0 22px #5ee7ff44, 0 14px 28px #0008;
+  }
+}
 
 /* Homepage path: in-flow horizontal scroller. Cards stay in this box. */
 #path { position: relative; }
@@ -1005,10 +1019,13 @@ footer h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; margin: 0 0 20p
   .xc:nth-child(5) h3 { font-size: 22px; }
 }
 @media (max-width: 759px) {
+  .ring-gap > .ring-controls {
+    margin-bottom: 20px;
+  }
   html.js:not(.reduce) .stage {
     height: 340px;
     perspective: 1500px;
-    padding-top: 12px;
+    padding-top: 16px;
   }
   html.js:not(.reduce) .ring {
     width: 200px;
