@@ -141,6 +141,9 @@ test("each project card opens its own page", () => {
   assert.match(researchFacts, /preliminary/);
   assert.match(researchFacts, /has not been submitted/);
   assert.match(researchFacts, /https:\/\/github\.com\/haureesh14\/Algoverse-heia/);
+  assert.match(researchFacts, /class="stack-chips"/);
+  assert.match(researchFacts, /algoverse-over-refusal-by-language\.png/);
+  assert.match(read("projects.html"), /Studying how model safety changes across languages, with a research team\./);
   assert.equal(researchFacts.includes("published"), false);
   assert.equal(/1000\+/.test(read("projects/smash.html")), false);
   assert.match(read("projects/smash.html"), /one of 100 scholars/);

@@ -615,6 +615,21 @@ html.js:not(.reduce) .rc {
 .project-page h1 { margin-top: 12px; }
 .project-page section { padding: 28px 0 8px; }
 .project-page h2 { font-size: clamp(26px, 3vw, 34px); }
+.stack-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+.stack-chips span {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px;
+  min-height: 36px;
+  font-size: 13px;
+}
+.rates { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0 8px; }
+.rates th, .rates td { border-bottom: 1px solid var(--line); text-align: right; padding: 8px 10px; }
+.rates th:first-child, .rates td:first-child { text-align: left; }
+.rates caption { caption-side: bottom; text-align: left; color: var(--mu); font-size: 13px; padding-top: 8px; }
+.gallery figure.wide { grid-column: 1 / -1; }
 .certs li { list-style: none; min-width: 0; }
 .certs .ph { width: 100%; max-width: 100%; min-height: 120px; margin-bottom: 8px; }
 .certs .ph small { overflow-wrap: anywhere; }
