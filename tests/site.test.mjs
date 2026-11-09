@@ -250,16 +250,16 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.match(html, /Martial arts 1st Place<\/b><span>Ernie Reyes' World Martial Arts Association · undated/);
   const certOrder = [...html.slice(html.indexOf('class="certs"')).matchAll(/<b>([^<]+)<\/b>/g)].map((match) => match[1]);
   assert.deepEqual(certOrder, [
-    "AP Scholar with Distinction",
     "Presidential Volunteer Service Award – Silver",
+    "AP Scholar with Distinction",
+    "DVHS Varsity Wrestling",
     "JV Wrestling Most Improved",
+    "DVHS Junior Varsity Wrestling",
+    "2nd Degree Black Belt",
+    "1st Degree Black Belt",
+    "Martial arts 1st Place",
     "NCS CIF Scholar-Athlete",
     "Silicon Andhra Telugu Pravesam",
-    "DVHS Varsity Wrestling",
-    "DVHS Junior Varsity Wrestling",
-    "1st Degree Black Belt",
-    "2nd Degree Black Belt",
-    "Martial arts 1st Place",
     "AP Scholar",
     "Certificate of Merit – Piano Level 8",
     "Scholar Athlete",
