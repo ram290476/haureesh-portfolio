@@ -1455,3 +1455,13 @@ html.reduce .traj-dot { opacity: 1; }
   .tile-value { grid-column: auto; }
   .about-page h1 { font-size: 32px; }
 }
+
+/* lighthouse: tap targets */
+.rc h3 a, .acard, .certs a, .glance {
+  min-height: 44px;
+}
+.rc h3 a {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 0;
+}
