@@ -26,7 +26,7 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
     <a class="logo brand" href="../index.html">
       <span class="brand-mark">
         <canvas id="brand-orbit" aria-hidden="true"></canvas>
-        <img class="brand-still" src="../assets/rocket-orbit-icon.png" alt="" hidden>
+        <img loading="lazy" decoding="async" class="brand-still" src="../assets/rocket-orbit-icon.png" alt="" hidden>
       </span>
       <span class="brand-name">Haureesh Vellamsetti</span>
     </a>
@@ -71,7 +71,7 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
       <h2>Photo Gallery</h2>
       <div class="gallery">
         <figure>
-          <img src="../assets/photos/podcast-cover.jpg" alt="The Wildcat Way Podcast cover art" width="1500" height="621" loading="lazy">
+          <img decoding="async" src="../assets/photos/podcast-cover.jpg" alt="The Wildcat Way Podcast cover art" width="1500" height="621" loading="lazy">
           <figcaption>The Wildcat Way Podcast</figcaption>
         </figure>
       </div>
