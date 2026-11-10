@@ -445,6 +445,11 @@ html:not(.reduce) .mq div { animation: mq 28s linear infinite; }
   box-shadow: 0 0 40px #5ee7ff33;
 }
 .g .ph { position: relative; inset: auto; height: 220px; flex: 0 0 220px; margin: 16px 16px 0; }
+/* Match About glance/drive rocket framing (object-position: center 68%). */
+a.g[data-id="aerospace-club"] .ph img {
+  object-fit: cover;
+  object-position: center 68%;
+}
 .g .cap {
   position: relative;
   left: auto;
