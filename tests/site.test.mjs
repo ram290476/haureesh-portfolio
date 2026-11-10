@@ -506,3 +506,31 @@ test("old homepage anchors point at the split pages", () => {
   assert.match(home, /projects.html#ai-research/);
   assert.match(home, /projects.html#robot-arm/);
 });
+
+test("shared collage gallery CSS covers activity and project galleries", () => {
+  const css = read("style.css");
+  assert.match(css, /\.shots, \.gallery \{[\s\S]*?grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
+  assert.match(css, /aspect-ratio: 4 \/ 3/);
+  assert.match(css, /\.shots img, \.gallery img[\s\S]*?object-fit: cover/);
+  assert.match(css, /@media \(max-width: 900px\) \{[\s\S]*?\.shots, \.gallery \{ grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/);
+  assert.match(css, /@media \(max-width: 340px\) \{[\s\S]*?\.shots, \.gallery \{ grid-template-columns: minmax\(0, 1fr\);/);
+  for (const name of [
+    "activities/wrestling.html",
+    "activities/karate.html",
+    "activities/orchestra.html",
+    "activities/piano.html",
+    "activities/vibha.html",
+    "activities/podcasting.html",
+    "activities/best-brains.html",
+    "projects/aerospace-club.html",
+    "projects/ai-research.html",
+    "projects/robot-arm.html",
+    "projects/smash.html",
+  ]) {
+    const html = read(name);
+    assert.match(html, /class="gallery"/, name);
+    assert.equal(html.includes('class="shot"'), false, name);
+  }
+  assert.equal(read("projects/model-rocket.html").includes('class="gallery"'), false);
+  assert.equal(read("activities/cello.html").includes('class="gallery"'), false);
+});
