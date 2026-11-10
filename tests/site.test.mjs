@@ -405,6 +405,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
     ["activities/karate.html", "karate-group-kickboxing.mp4", "Group kickboxing drill"],
     ["activities/karate.html", "karate-escrima-sticks.mp4", "Escrima stick practice"],
     ["activities/karate.html", "karate-self-defense-practice.mp4", "Self-defense technique practice"],
+    ["activities/karate.html", "karate-group-drill.mp4", "Group karate drill"],
     ["activities/orchestra.html", "orchestra-cello-1.mp4", "Chamber orchestra — cello section"],
     ["activities/orchestra.html", "orchestra-cello-2.mp4", "Chamber orchestra performance"],
     ["activities/orchestra.html", "orchestra-gym-performance.mp4", "String orchestra performance at DVHS"],
