@@ -482,6 +482,104 @@ test("local links resolve to a page or file", () => {
   }
 });
 
+test("every page boots a theme before CSS and offers the picker", () => {
+  const themes = ["editorial", "midnight", "minimal", "gradient", "glass", "contrast"];
+  for (const name of pages) {
+    const html = read(name);
+    const boot = html.match(/<script>([\s\S]*?localStorage\.getItem\("theme"\)[\s\S]*?)<\/script>/);
+    assert.ok(boot, name + " missing theme boot script");
+    assert.match(boot[1], /catch\s*\(/);
+    assert.match(boot[1], /["']editorial["']/);
+    assert.match(boot[1], /setAttribute\("data-theme"/);
+    assert.equal(/prefers-color-scheme/.test(boot[1]), false, name);
+    const cssAt = html.search(/<link rel="stylesheet"[^>]*style\.css"/);
+    assert.ok(cssAt > html.indexOf(boot[0]), name + " theme script must run before CSS");
+    assert.match(html, /class="theme-picker"/);
+    assert.match(html, /aria-haspopup="menu"/);
+    assert.match(html, /aria-expanded="false"/);
+    assert.match(html, /role="menu"/);
+    assert.match(html, /class="theme-label">Theme</);
+    for (const theme of themes) {
+      assert.match(html, new RegExp('data-theme-value="' + theme + '"'), name + " " + theme);
+    }
+  }
+});
+
+test("each theme defines the core variables", () => {
+  const css = read("style.css");
+  const themes = ["editorial", "midnight", "minimal", "gradient", "glass", "contrast"];
+  const core = ["--bg:", "--bg2:", "--ink:", "--mu:", "--card:", "--card2:", "--line:", "--cy:", "--vi:", "--vi-ink:", "--on-cy:", "--gap:", "--radius:"];
+  for (const theme of themes) {
+    const match = new RegExp('html\\[data-theme="' + theme + '"\\][^{]*\\{').exec(css);
+    assert.ok(match, theme);
+    let depth = 1;
+    let i = match.index + match[0].length;
+    while (i < css.length && depth > 0) {
+      if (css[i] === "{") depth += 1;
+      else if (css[i] === "}") depth -= 1;
+      i += 1;
+    }
+    const block = css.slice(match.index, i);
+    for (const token of core) assert.ok(block.includes(token), theme + " " + token);
+  }
+});
+
+function hexToRgb(hex) {
+  let value = hex.replace("#", "");
+  if (value.length === 3) value = value.split("").map((part) => part + part).join("");
+  return [parseInt(value.slice(0, 2), 16), parseInt(value.slice(2, 4), 16), parseInt(value.slice(4, 6), 16)];
+}
+function channel(c) {
+  const v = c / 255;
+  return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+}
+function contrast(a, b) {
+  const lum = (hex) => {
+    const [r, g, bl] = hexToRgb(hex);
+    return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(bl);
+  };
+  const hi = Math.max(lum(a), lum(b));
+  const lo = Math.min(lum(a), lum(b));
+  return (hi + 0.05) / (lo + 0.05);
+}
+function themeHex(block, name) {
+  const match = block.match(new RegExp(name + ":\\s*(#[0-9a-fA-F]{3,8})\\s*;"));
+  return match ? match[1] : null;
+}
+
+test("theme text colors clear WCAG AA on their solid backgrounds", () => {
+  const css = read("style.css");
+  const themes = ["editorial", "midnight", "minimal", "gradient", "glass", "contrast"];
+  for (const theme of themes) {
+    const match = new RegExp('html\\[data-theme="' + theme + '"\\][^{]*\\{').exec(css);
+    let depth = 1;
+    let i = match.index + match[0].length;
+    while (i < css.length && depth > 0) {
+      if (css[i] === "{") depth += 1;
+      else if (css[i] === "}") depth -= 1;
+      i += 1;
+    }
+    const block = css.slice(match.index, i);
+    const pairs = [
+      ["--ink", "--bg"],
+      ["--mu", "--bg"],
+      ["--cy", "--bg"],
+      ["--ink", "--card"],
+      ["--mu", "--card"],
+      ["--on-cy", "--btn-bg"]
+    ];
+    for (const [fg, bg] of pairs) {
+      const fgHex = themeHex(block, fg);
+      const bgHex = themeHex(block, bg);
+      if (!fgHex || !bgHex) continue;
+      const ratio = contrast(fgHex, bgHex);
+      assert.ok(ratio >= 4.5, theme + " " + fg + " on " + bg + " is " + ratio.toFixed(2));
+    }
+  }
+  assert.ok(contrast("#ffffff", "#7c3aed") >= 4.5);
+  assert.ok(contrast("#ffffff", "#2563eb") >= 4.5);
+});
+
 test("old homepage anchors point at the split pages", () => {
   const home = read("index.html");
   assert.match(home, /projects: "projects.html"/);

@@ -2,6 +2,29 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>
+(function () {
+  var theme = "editorial";
+  var allowed = { editorial: 1, midnight: 1, minimal: 1, gradient: 1, glass: 1, contrast: 1 };
+  try {
+    var stored = localStorage.getItem("theme");
+    if (stored && allowed[stored]) theme = stored;
+  } catch (e) {}
+  document.documentElement.setAttribute("data-theme", theme);
+  var fonts = {
+    editorial: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap",
+    minimal: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap",
+    gradient: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap",
+    glass: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700&display=swap",
+    contrast: "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+  };
+  var href = fonts[theme];
+  if (!href) return;
+  document.write('<link rel="preconnect" href="https://fonts.googleapis.com">');
+  document.write('<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>');
+  document.write('<link rel="stylesheet" id="theme-fonts" href=\'' + href.replace(/&/g, "&amp;") + '\'>');
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Page not found | Haureesh Vellamsetti</title>
@@ -11,6 +34,7 @@
 <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/style.css">
+<script src="/main.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -31,6 +55,20 @@
       <a href="/experience.html">Experience</a>
       <a href="/about.html">About</a>
       <a href="/contact.html">Contact</a>
+      <div class="theme-picker">
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-haspopup="menu" aria-expanded="false" aria-controls="theme-menu">
+          <svg class="theme-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2.8a9.2 9.2 0 0 0 0 18.4c.4 0 .8 0 1.1-.1a2.15 2.15 0 0 0 1.15-3.7 1.35 1.35 0 0 1 1-2.25h1.35A3.7 3.7 0 0 0 21.2 11 9.2 9.2 0 0 0 12 2.8ZM7.1 11.4a1.45 1.45 0 1 1 0-2.9 1.45 1.45 0 0 1 0 2.9Zm3.15-3.7a1.45 1.45 0 1 1 0-2.9 1.45 1.45 0 0 1 0 2.9Zm4.35-.15a1.45 1.45 0 1 1 0-2.9 1.45 1.45 0 0 1 0 2.9Zm3.3 3.35a1.45 1.45 0 1 1 0-2.9 1.45 1.45 0 0 1 0 2.9Z"/></svg>
+          <span class="theme-label">Theme</span>
+        </button>
+        <div class="theme-menu" id="theme-menu" role="menu" aria-labelledby="theme-toggle" hidden>
+          <button type="button" role="menuitemradio" data-theme-value="editorial" aria-checked="false"><span class="swatch swatch-editorial" aria-hidden="true"></span>Light Editorial</button>
+          <button type="button" role="menuitemradio" data-theme-value="midnight" aria-checked="false"><span class="swatch swatch-midnight" aria-hidden="true"></span>Midnight</button>
+          <button type="button" role="menuitemradio" data-theme-value="minimal" aria-checked="false"><span class="swatch swatch-minimal" aria-hidden="true"></span>Dark Minimal</button>
+          <button type="button" role="menuitemradio" data-theme-value="gradient" aria-checked="false"><span class="swatch swatch-gradient" aria-hidden="true"></span>Bold Gradient</button>
+          <button type="button" role="menuitemradio" data-theme-value="glass" aria-checked="false"><span class="swatch swatch-glass" aria-hidden="true"></span>Glass</button>
+          <button type="button" role="menuitemradio" data-theme-value="contrast" aria-checked="false"><span class="swatch swatch-contrast" aria-hidden="true"></span>High Contrast</button>
+        </div>
+      </div>
     </nav>
   </div>
 </header>
