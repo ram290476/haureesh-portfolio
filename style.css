@@ -546,6 +546,16 @@ html.js:not(.reduce) .rc {
   backface-visibility: hidden;
 }
 .rc .ph { height: 120px; margin-bottom: 10px; font-size: 12px; }
+/* Portrait activity cards: keep cover crop, pin toward the top so faces stay in frame. */
+.rc .ph img[src*="card-wrestling.jpg"] {
+  object-fit: cover;
+  object-position: center 18%;
+}
+.rc .ph img[src*="card-piano.jpg"] {
+  object-fit: cover;
+  object-position: center 22%;
+}
+
 .ph.logo-panel {
   background: #fff;
   border: 1px solid #e6ebf5;
