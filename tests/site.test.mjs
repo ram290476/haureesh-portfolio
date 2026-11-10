@@ -536,7 +536,7 @@ test("shared collage gallery CSS covers activity and project galleries", () => {
   assert.equal(read("projects/model-rocket.html").includes('class="gallery"'), false);
   assert.equal(read("activities/cello.html").includes('class="gallery"'), false);
 });
-test("image lightbox is included on photo grids only and does not wire video", () => {
+test("lightbox opens gallery photos and videos in one dialog", () => {
   const lightboxPages = [
     "activities/best-brains.html",
     "activities/karate.html",
@@ -567,8 +567,18 @@ test("image lightbox is included on photo grids only and does not wire video", (
   const css = read("assets/lightbox.css");
   assert.deepEqual(GALLERY_CLASSES, ["gallery", "shots", "certs", "card-shots", "grok-shots"]);
   assert.equal(GALLERY_CLASSES.some((name) => name.includes("video")), false);
-  assert.doesNotMatch(js, /video/i);
-  assert.doesNotMatch(css, /video/i);
+  assert.match(js, /" img, \." \+ name \+ " video"/);
+  assert.match(js, /tagName === "VIDEO"/);
+  assert.match(js, /clip\.muted = true/);
+  assert.match(js, /clip\.playsInline = true/);
+  assert.match(js, /getAttribute\("poster"\)/);
+  assert.match(js, /getAttribute\("aria-label"\)/);
+  assert.match(js, /clip\.pause\(\)/);
+  assert.match(js, /video\.pause\(\)/);
+  assert.match(js, /stage\.requestFullscreen\(\)/);
+  assert.match(css, /\.lb-video/);
+  assert.match(css, /\.lb-hit/);
+  assert.match(css, /pointer-events: none/);
   assert.doesNotMatch(js, /currentSrc/);
   assert.doesNotMatch(js + css, /https?:\/\//);
   assert.match(js, /showModal\(\)/);
@@ -617,5 +627,11 @@ test("image lightbox is included on photo grids only and does not wire video", (
       assert.equal(video.includes('role="button"'), false, name);
       assert.match(video, /<video(?: aria-label="[^"]*")? controls preload="metadata" playsinline /, name);
     }
+  }
+  assert.match(read("activities/orchestra.html"), /playsinline muted poster="\.\.\/assets\/video\/orchestra-performance\.jpg"/);
+  assert.equal(read("activities/karate.html").includes("<video"), true);
+  assert.equal(/<video[^>]*\smuted[\s>]/.test(read("activities/karate.html")), false);
+  for (const name of ["activities/karate.html", "activities/orchestra.html", "activities/piano.html", "activities/wrestling.html"]) {
+    assert.match(read(name), /<video\b[\s\S]*src="\/assets\/lightbox\.js"/, name);
   }
 });
