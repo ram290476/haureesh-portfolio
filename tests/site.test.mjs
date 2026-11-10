@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { footerProblems } from "../scripts/footer.mjs";
+import { footerProblems, pageHasPhotoGallery } from "../scripts/footer.mjs";
+import { fullImageURL, fullscreenControlSupported, GALLERY_CLASSES } from "../assets/lightbox.js";
 
 const projectPages = [
   "projects/aerospace-club.html",
@@ -534,4 +535,88 @@ test("shared collage gallery CSS covers activity and project galleries", () => {
   }
   assert.equal(read("projects/model-rocket.html").includes('class="gallery"'), false);
   assert.equal(read("activities/cello.html").includes('class="gallery"'), false);
+});
+test("image lightbox is included on photo grids only and does not wire video", () => {
+  const lightboxPages = [
+    "activities/best-brains.html",
+    "activities/karate.html",
+    "activities/orchestra.html",
+    "activities/piano.html",
+    "activities/podcasting.html",
+    "activities/vibha.html",
+    "activities/wrestling.html",
+    "awards.html",
+    "experience.html",
+    "projects/aerospace-club.html",
+    "projects/ai-research.html",
+    "projects/robot-arm.html",
+    "projects/smash.html",
+  ];
+  const actual = pages.filter((name) => pageHasPhotoGallery(read(name))).sort();
+  assert.deepEqual(actual, lightboxPages);
+  for (const name of pages) {
+    const html = read(name);
+    const needs = lightboxPages.includes(name);
+    assert.equal(html.includes('src="/assets/lightbox.js"'), needs, name);
+    assert.equal(html.includes('href="/assets/lightbox.css"'), needs, name);
+    assert.equal(pageHasPhotoGallery(html), needs, name);
+  }
+  for (const name of ["activities/cello.html", "projects/model-rocket.html", "index.html", "projects.html", "activities.html", "about.html", "contact.html", "404.html"]) {
+    assert.equal(read(name).includes("lightbox.js"), false, name);
+  }
+  const js = read("assets/lightbox.js");
+  const css = read("assets/lightbox.css");
+  assert.deepEqual(GALLERY_CLASSES, ["gallery", "shots", "certs", "card-shots", "grok-shots"]);
+  assert.equal(GALLERY_CLASSES.some((name) => name.includes("video")), false);
+  assert.doesNotMatch(js, /video/i);
+  assert.doesNotMatch(css, /video/i);
+  assert.doesNotMatch(js, /currentSrc/);
+  assert.doesNotMatch(js + css, /https?:\/\//);
+  assert.match(js, /showModal\(\)/);
+  assert.match(js, /event\.key === "Escape"/);
+  assert.match(js, /event\.key === "ArrowRight"/);
+  assert.match(js, /event\.key === "ArrowLeft"/);
+  assert.match(js, /event\.key !== "Enter" && event\.key !== " "/);
+  assert.match(js, /requestFullscreen\(\)/);
+  assert.match(js, /\.focus\(\)/);
+  assert.match(js, /event\.key !== "Tab"/);
+  assert.match(css, /var\(--bg\)/);
+  assert.match(css, /var\(--ink\)/);
+  assert.match(css, /var\(--card\)/);
+  assert.match(css, /var\(--line\)/);
+  assert.match(css, /var\(--mu\)/);
+  assert.match(css, /var\(--radius\)/);
+  assert.match(css, /object-fit: contain/);
+  const base = "https://haureesh.vellamsetti.com/activities/wrestling.html";
+  assert.equal(
+    fullImageURL("../assets/photos/dvhs-jv-wrestling-most-improved-2024-2025.jpg", "", base),
+    "https://haureesh.vellamsetti.com/assets/photos/dvhs-jv-wrestling-most-improved-2024-2025.jpg"
+  );
+  assert.equal(
+    fullImageURL(
+      "assets/photos/haureesh-headshot.jpg",
+      "assets/photos/haureesh-headshot-hero-640.jpg 640w, assets/photos/haureesh-headshot-hero-1500.jpg 1500w",
+      "https://haureesh.vellamsetti.com/index.html"
+    ),
+    "https://haureesh.vellamsetti.com/assets/photos/haureesh-headshot-hero-1500.jpg"
+  );
+  assert.equal(
+    fullImageURL("a.jpg", "small.jpg 1x, large.jpg 2x", "https://example.com/dir/page.html"),
+    "https://example.com/dir/large.jpg"
+  );
+  const api = { documentElement: { requestFullscreen() {} } };
+  assert.equal(fullscreenControlSupported(api, { userAgent: "Mozilla/5.0 Chrome", platform: "Linux", maxTouchPoints: 0 }), true);
+  assert.equal(fullscreenControlSupported({ documentElement: {} }, { userAgent: "Mozilla/5.0 Chrome", platform: "Linux", maxTouchPoints: 0 }), false);
+  assert.equal(fullscreenControlSupported(api, { userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)", platform: "iPhone", maxTouchPoints: 5 }), false);
+  for (const name of ["activities/wrestling.html", "activities/karate.html", "activities/orchestra.html", "activities/piano.html"]) {
+    const html = read(name);
+    const videos = html.match(/<video\b[\s\S]*?<\/video>/g) || [];
+    assert.ok(videos.length > 0, name);
+    for (const video of videos) {
+      assert.equal(video.includes("lightbox"), false, name);
+      assert.equal(/\btabindex=/.test(video), false, name);
+      assert.equal(video.includes('role="button"'), false, name);
+      assert.match(video, /<video(?: aria-label="[^"]*")? controls preload="metadata" playsinline /, name);
+    }
+  }
 });
