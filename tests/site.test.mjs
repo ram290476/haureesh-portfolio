@@ -455,7 +455,7 @@ test("career wording uses engineer and keeps the majors line", () => {
   assert.match(home, /Physics, Aerospace, Mechanical, CS, Data Science, Electrical/);
   assert.match(read("about.html"), /I want to be an engineer/);
   assert.match(read("about.html"), /Physics, Aerospace, Mechanical, CS, Data Science, and Electrical/);
-  assert.match(read("main.js"), /"Engineer", "Rocketry Team", "Researcher", "Black Belt"/);
+  assert.match(read("main.js"), /"AI Researcher", "Rocketry Team", "Varsity Wrestling", "Vibha Volunteer", "Math and English Tutor", "Black Belt"/);
 });
 
 test("the headshot is the real photo on the hero and about portrait", () => {
