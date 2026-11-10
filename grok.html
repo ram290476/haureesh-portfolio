@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>
+document.documentElement.classList.add("js");
+if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("reduce");
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Grok — How the chatbot works</title>
+<meta name="description" content="An honest guide to Haureesh’s privacy-safe portfolio chatbot: its interface, curated sources, client-side retrieval and limitations.">
+<meta name="author" content="Haureesh Vellamsetti">
+<link rel="canonical" href="https://haureesh.vellamsetti.com/grok.html">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="assets/chat/chat.css">
+<script src="assets/rocket-orbit.js" defer></script>
+<script src="main.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="w bar">
+    <a class="logo brand" href="index.html">
+      <span class="brand-mark">
+        <canvas id="brand-orbit" aria-hidden="true"></canvas>
+        <img loading="lazy" decoding="async" class="brand-still" src="assets/rocket-orbit-icon.png" alt="" hidden>
+      </span>
+      <span class="brand-name">Haureesh Vellamsetti</span>
+    </a>
+    <nav aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="awards.html">Awards</a>
+      <a href="activities.html">Activities</a>
+      <a href="experience.html">Experience</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="grok-doc">
+  <div class="w">
+    <section aria-labelledby="grok-title">
+      <p class="kick">Behind the portfolio guide</p>
+      <h1 id="grok-title">Grok — How the chatbot works</h1>
+      <p class="lede">A small, grounded guide to Haureesh’s public experience. No language model, backend endpoint or secret API key is used.</p>
+      <nav class="grok-jump" aria-label="On this page">
+        <a href="#design">Design</a><a href="#structure">Page structure</a><a href="#architecture">Architecture</a><a href="#sources">Knowledge &amp; privacy</a><a href="#limits">Limits</a>
+      </nav>
+    </section>
+    <section id="design" aria-labelledby="design-title">
+      <h2 id="design-title">Design: familiar, quiet and accessible</h2>
+      <p>The “Ask about Haureesh” button sits at the bottom right on every content page. It opens a conversation panel with starter-question chips, a labeled question field and replies with a “Read more” link to the relevant portfolio page.</p>
+      <p>On a phone, the panel becomes a full-width bottom sheet with comfortable touch targets. The native modal dialog keeps keyboard focus inside; Escape or the labeled close button closes it and returns focus to the launcher. New replies are announced politely to screen readers.</p>
+      <p>The widget uses the site’s color variables and inherited typography, so it follows the selected theme. It does not choose or save a theme of its own. Conversations stay only in the current page’s memory; nothing is saved across reloads or sent to an AI service.</p>
+      <div class="grok-shots">
+        <figure><img src="assets/chat/screenshots/chat-desktop.png" width="1280" height="900" loading="lazy" decoding="async" alt="The real portfolio chat open on a desktop, answering a question about Haureesh’s SO-101 robot arm with a link to the project page"><figcaption>Desktop: the real guide and a sourced robot-arm answer.</figcaption></figure>
+        <figure><img src="assets/chat/screenshots/chat-mobile.png" width="390" height="844" loading="lazy" decoding="async" alt="The same real portfolio chat in a full-width phone sheet, with starter questions and a labeled question field"><figcaption>Phone: the same guide in a full-width sheet.</figcaption></figure>
+      </div>
+    </section>
+    <section id="structure" aria-labelledby="structure-title">
+      <h2 id="structure-title">Page structure: from interface to evidence</h2>
+      <p>The in-page navigation follows this document’s sections: Design explains the controls and shows the real widget; Page structure explains this reading order; Architecture follows a question through the implementation; Knowledge &amp; privacy lists the sources and exclusions; Limits explains when the guide declines to answer.</p>
+      <p>Each section has a permanent anchor link. The shared site navigation is unchanged, and the footer links to this guide as a secondary page.</p>
+    </section>
+    <section id="architecture" aria-labelledby="architecture-title">
+      <h2 id="architecture-title">Architecture: retrieval, not generated answers</h2>
+      <ol class="grok-flow" aria-label="Question and answer flow, in order">
+        <li><strong>1. Widget frontend</strong>A visitor opens the panel and asks a question.</li>
+        <li><strong>2. Curated knowledge</strong><code>kb.json</code> loads from this site on first open. It contains reviewed facts, question variants, tags and local links.</li>
+        <li><strong>3. Browser retrieval</strong>Tokenization, a small synonym map and BM25 rank matching entries. Question-variant similarity helps distinguish topics.</li>
+        <li><strong>4. Confidence gate</strong>Minimum coverage, question similarity and ranking thresholds must pass. Sensitive questions are refused before retrieval.</li>
+        <li><strong>5. Answer + link</strong>The guide returns a stored answer and portfolio link, or honestly says it does not have the information.</li>
+      </ol>
+      <aside class="grok-aside"><h3>Privacy filter before publication</h3><p>Source documents are reviewed and reduced to public-portfolio facts before the knowledge base is built. Automated tests scan the finished knowledge base for prohibited patterns; those tests are part of the site test suite. Private source documents are never shipped with the widget.</p></aside>
+      <aside class="grok-aside"><h3>Not used / future option: backend endpoint + model layer</h3><p>This static site has neither a backend endpoint nor an LLM layer: secret keys do not belong in public site files, and stored answers stay grounded and predictable. Adding a model would require a separately secured serverless endpoint, server-side credentials, retrieval over the approved knowledge base, privacy safeguards, abuse controls and evaluation before launch.</p></aside>
+    </section>
+    <section id="sources" aria-labelledby="sources-title">
+      <h2 id="sources-title">Knowledge base sources</h2>
+      <ul>
+        <li><strong>Haureesh Vellamsetti — Profile:</strong> the reviewed source of truth for confirmed facts, award names, levels and dates.</li>
+        <li><strong>Haureesh’s résumé, version 6:</strong> experience and project descriptions, checked against the reviewed profile.</li>
+        <li><strong>The portfolio’s overview and detail pages:</strong> About, Projects, Activities, Experience, Awards and the home-page journey, including robotics, rocketry, Algoverse, SMASH, tutoring, Vibha, podcasting, piano, orchestra, martial arts and wrestling.</li>
+        <li><strong>Verified recognition scans and publication manifest:</strong> black-belt certificates, the JV Most Improved plaque, and the undated martial-arts 1st Place plaque. Other recognitions use the reviewed profile’s confirmed wording.</li>
+      </ul>
+      <p>The reviewed profile wins if sources disagree. For example, the guide does not infer a medal level or year for the Presidential Volunteer Service Award, does not turn program participation into an award, and does not claim that an in-progress research paper is published.</p>
+      <h3>What stays out</h3>
+      <p>The knowledge base excludes GPA, test scores, home addresses, contact details, family income and other personal financial information, birthdates and ages, medical information, other minors’ names, school schedules, college application targets and private planning dashboards. It excludes these even when an older source or existing page mentions them.</p>
+      <p>The source list describes the material used; it does not publish private documents. Search-engine blocking and noindex remain enabled, but those are not access controls: this site and its knowledge base are public.</p>
+    </section>
+    <section id="limits" aria-labelledby="limits-title">
+      <h2 id="limits-title">Limits: say less rather than guess</h2>
+      <p>The guide can explain the robot arm, rocketry, confirmed awards, part-time tutoring, volunteering and music. It cannot browse, invent facts, remember past visits or answer arbitrary questions. It uses no external API and sends no question to a language-model provider.</p>
+      <p>For a weak match, it says: “I don’t have that info — try the Projects or Awards pages.” For sensitive questions, it explains that it only shares public portfolio experience. A greeting gets a short welcome, not a fabricated biography.</p>
+      <p>Try the floating button, or explore <a href="projects.html">Projects</a>, <a href="awards.html">Awards</a> and <a href="experience.html">Experience</a> directly.</p>
+    </section>
+  </div>
+</main>
+<!-- Generated shared footer is applied with node scripts/footer.mjs --write. -->
+<footer>
+  <div class="w">
+    <p class="fine">© 2026 Haureesh Vellamsetti · <a href="/grok.html">How the chatbot works</a></p>
+    <div class="portfolio-chat" data-portfolio-chat>
+  <link rel="stylesheet" href="/assets/chat/chat.css">
+  <button class="chat-launch" type="button" data-chat-open aria-label="Ask about Haureesh’s experience" aria-haspopup="dialog" aria-expanded="false" aria-controls="portfolio-chat-panel" hidden>Ask about Haureesh</button>
+  <dialog class="chat-panel" id="portfolio-chat-panel" aria-modal="true" aria-labelledby="portfolio-chat-title" aria-describedby="portfolio-chat-description">
+    <div class="chat-heading">
+      <div><h2 id="portfolio-chat-title">Ask about Haureesh</h2><p id="portfolio-chat-description">Public portfolio facts · no generative AI</p></div>
+      <button class="chat-close" type="button" data-chat-close aria-label="Close portfolio chat">×</button>
+    </div>
+    <div class="chat-log" data-chat-log role="log" aria-label="Portfolio conversation" aria-live="polite" aria-relevant="additions text" tabindex="0"></div>
+    <div class="chat-chips" aria-label="Suggested questions">
+      <button type="button" data-chat-question>What projects has he built?</button>
+      <button type="button" data-chat-question>Does he work part-time?</button>
+      <button type="button" data-chat-question>What awards has he won?</button>
+      <button type="button" data-chat-question>What instruments does he play?</button>
+    </div>
+    <p class="chat-status" data-chat-status role="status"></p>
+    <form class="chat-form" aria-label="Ask a portfolio question">
+      <label class="sr" for="portfolio-chat-input">Your question about Haureesh’s experience</label>
+      <input id="portfolio-chat-input" name="question" type="text" maxlength="500" autocomplete="off" placeholder="Ask about a project or activity…" required>
+      <button type="submit" data-chat-send>Send</button>
+    </form>
+    <p class="chat-note">Answers are curated, not generated. No conversation is saved or sent to an AI service.</p>
+  </dialog>
+  <script type="module" src="/assets/chat/chat.js"></script>
+</div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,10 +1,12 @@
+import { CHAT } from "./chat-markup.mjs";
 import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 export const FOOTER = `<footer>
   <div class="w">
-    <p class="fine">© 2026 Haureesh Vellamsetti</p>
+    <p class="fine">© 2026 Haureesh Vellamsetti · <a href="/grok.html">How the chatbot works</a></p>
+    ${CHAT}
   </div>
 </footer>`;
 
