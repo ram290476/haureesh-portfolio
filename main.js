@@ -33,7 +33,7 @@
   /* Letter-by-letter headline */
   var cyc = document.getElementById("cyc");
   var cycLive = document.getElementById("cyc-live");
-  var words = ["Engineer", "Rocketry Team", "Researcher", "Black Belt"];
+  var words = ["AI Researcher", "Rocketry Team", "Varsity Wrestling", "Vibha Volunteer", "Math and English Tutor", "Black Belt"];
   var wordIndex = 0;
   var cycTimer = 0;
 
