@@ -405,7 +405,8 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   }
   assert.match(wrestling, /wrestling-xray-image-01\.jpg/);
   assert.match(wrestling, /wrestling-xray-image-02\.jpg/);
-  assert.match(wrestling, /alt="Wrestling — X-ray image"/);
+  assert.match(wrestling, /alt="X-ray of a left upper arm bone with a metal plate and screws"/);
+  assert.match(wrestling, /alt="Three X-ray views of an upper arm bone with a metal plate and screws"/);
   assert.equal(wrestling.includes("surgery"), false);
   assert.equal(wrestling.includes("fracture"), false);
   assert.equal(wrestling.includes("diagnosis"), false);
@@ -431,7 +432,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
     const at = htmlPage.indexOf(file);
     assert.ok(at > htmlPage.indexOf('id="gallery"'), file);
     const chunk = htmlPage.slice(at - 280, at + 220);
-    assert.match(chunk, /<video controls preload="metadata" playsinline /, file);
+    assert.match(chunk, /<video(?: aria-label="[^"]*")? controls preload="metadata" playsinline /, file);
     assert.match(chunk, /poster="\.\.\/assets\/video\/[^"]+\.jpg"/, file);
     assert.match(htmlPage, new RegExp("<figcaption>" + caption.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "</figcaption>"));
     assert.equal(htmlPage.includes("win"), false, page);
