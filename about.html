@@ -41,47 +41,211 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
     </nav>
   </div>
 </header>
-<main id="main">
-  <section id="about">
-    <div class="w about-body">
-      <p class="kick">About</p>
-      <h2>About<span class="dot">.</span></h2>
-      <div class="about-grid">
-        <div class="ph">
-          <img class="face" src="assets/photos/haureesh-headshot.jpg" srcset="assets/photos/haureesh-headshot-about-600.jpg 600w, assets/photos/haureesh-headshot-about-900.jpg 900w" sizes="(max-width: 900px) calc(100vw - 40px), 280px" width="900" height="1200" alt="Haureesh Vellamsetti" loading="lazy" onerror="this.remove()">
-          <span class="ph-label">Photo coming soon<small>assets/photos/haureesh-headshot.jpg</small></span>
-        </div>
-        <div class="prose">
-          <blockquote class="todo"><p><b>Placeholder:</b> a short quote in Haureesh's own words goes here.</p></blockquote>
-          <p>I'm a senior at Dougherty Valley High School in San Ramon, California. I want to be an engineer. My intended majors are Physics, Aerospace, Mechanical, CS, Data Science, and Electrical.</p>
-          <p>Outside class I play cello in the DVHS Chamber Orchestra and have played piano since I was young. In 10th grade I served on Orchestra Council (social media, merch, marketing). I wrestle for DVHS, on JV and varsity, and I like helping newer teammates with technique. I help teach at the martial arts studio where I earned my first-degree black belt on October 24, 2020 and my second-degree black belt on April 29, 2023, after training from kindergarten on.</p>
-          <p>I tutor part-time at Best Brains Learning Centers. Last summer I ran my own small math tutoring group and donated the earnings. I've mentored younger students through Vibha since 2023, and I tutor my younger brother at home.</p>
-          <h3>Bouncing back</h3>
-          <p>My junior year was hard. I broke my hand and needed surgery, then I was hospitalized for rhabdomyolysis. I caught up on my classes and kept training. When a math grade slipped, I got tutoring and brought it back up to an A.</p>
-          <div class="cols">
-            <div>
-              <h3>Coursework</h3>
-              <ul>
-                <li>AP Physics C: Mechanics</li>
-                <li>AP Calculus AB</li>
-                <li>AP Computer Science A</li>
-                <li>AP Computer Science Principles</li>
-                <li>AP Psychology</li>
-                <li>AP U.S. History</li>
-                <li>AP World History</li>
-              </ul>
-            </div>
-            <div>
-              <h3>Languages</h3>
-              <ul>
-                <li>English</li>
-                <li>Spanish (elementary)</li>
-                <li>Telugu (elementary)</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+<main id="main" class="about-page">
+  <section class="about-hero" aria-labelledby="about-name">
+    <div class="w hero-grid">
+      <div class="portrait rise">
+        <span class="portrait-glow" aria-hidden="true"></span>
+        <img class="face" src="assets/photos/haureesh-headshot.jpg" srcset="assets/photos/haureesh-headshot-about-600.jpg 600w, assets/photos/haureesh-headshot-about-900.jpg 900w" sizes="(max-width: 900px) 72vw, 320px" width="900" height="1200" alt="Haureesh Vellamsetti" fetchpriority="high" onerror="this.remove()">
       </div>
+      <div class="hero-copy">
+        <p class="kick rise" style="--d:80ms">About</p>
+        <h1 id="about-name" class="rise" style="--d:160ms">Haureesh Vellamsetti</h1>
+        <p class="tagline rise" style="--d:240ms">DVHS senior · San Ramon, CA · Class of&nbsp;2027</p>
+        <blockquote class="pull rise" style="--d:340ms">
+          <p>Quote from Haureesh, coming soon</p>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-drive" aria-labelledby="drive-title">
+    <div class="w drive-grid">
+      <div>
+        <p class="kick rise">What drives me</p>
+        <h2 id="drive-title" class="rise" style="--d:80ms">What drives me<span class="dot">.</span></h2>
+        <p class="rise" style="--d:140ms">I'm a senior at Dougherty Valley High School in San Ramon, California. I want to be an engineer. My intended majors are Physics, Aerospace, Mechanical, CS, Data Science, and Electrical.</p>
+        <svg class="traj" viewBox="0 0 320 140" aria-hidden="true">
+          <path class="draw-line" d="M8 118 C 70 118, 78 28, 150 52 S 240 124, 308 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></path>
+          <circle class="traj-dot" cx="308" cy="18" r="4"></circle>
+        </svg>
+      </div>
+      <div class="drive-photo rise" style="--d:180ms">
+        <img src="assets/photos/rocket-launch.jpg" alt="A red and white model rocket in flight" width="1071" height="1600" loading="lazy" decoding="async" onerror="this.remove()">
+      </div>
+    </div>
+  </section>
+
+  <section class="about-glance" aria-labelledby="glance-title">
+    <div class="w">
+      <p class="kick rise">At a glance</p>
+      <h2 id="glance-title" class="rise" style="--d:70ms">At a glance<span class="dot">.</span></h2>
+      <ul class="stat-row">
+        <li class="rise" style="--d:40ms"><span class="cnt" data-value="500">500</span>+ ft rocket</li>
+        <li class="rise" style="--d:100ms"><span class="cnt" data-value="2">2</span>nd-degree black belt</li>
+        <li class="rise" style="--d:160ms">Vibha since <span class="cnt" data-value="2023" data-from="2019">2023</span></li>
+      </ul>
+      <div class="glance-grid">
+        <a class="glance rise" href="projects.html" style="--d:0ms">
+          <div class="glance-shot">
+            <img src="assets/photos/rocket-launch.jpg" alt="A red and white model rocket in flight" width="1071" height="1600" loading="lazy" decoding="async" onerror="this.remove()">
+          </div>
+          <h3>Projects</h3>
+          <ul>
+            <li>Model rocket flew past 500&nbsp;ft</li>
+            <li>SO-101 robot arm</li>
+            <li>Algoverse AI safety research</li>
+            <li>SMASH at UC Berkeley</li>
+          </ul>
+        </a>
+        <a class="glance rise" href="awards.html" style="--d:80ms">
+          <div class="glance-shot">
+            <img src="assets/photos/presidential-volunteer-service-award-silver-2024.jpg" alt="Presidential Volunteer Service Award, Silver, awarded in 2024" width="1600" height="1229" loading="lazy" decoding="async" onerror="this.remove()">
+          </div>
+          <h3>Awards</h3>
+          <ul>
+            <li>AP Scholar with Distinction</li>
+            <li>Presidential Volunteer Service Award (Silver)</li>
+            <li>2nd-degree black belt</li>
+          </ul>
+        </a>
+        <a class="glance rise" href="activities.html" style="--d:160ms">
+          <div class="glance-shot">
+            <img src="assets/photos/card-orchestra.jpg" alt="The orchestra on stage at a concert" width="1200" height="900" loading="lazy" decoding="async">
+          </div>
+          <h3>Activities</h3>
+          <ul>
+            <li>Cello and piano</li>
+            <li>Wrestling and karate</li>
+            <li>Vibha and the podcast</li>
+          </ul>
+        </a>
+        <a class="glance rise" href="experience.html" style="--d:240ms">
+          <div class="glance-shot glance-full">
+            <img src="assets/photos/vibha-group.jpg" alt="Vibha group at a community center" width="1500" height="1125" loading="lazy" decoding="async">
+          </div>
+          <h3>Experience</h3>
+          <ul>
+            <li>Tutoring</li>
+            <li>Mentoring</li>
+            <li>AI researcher</li>
+          </ul>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-hobbies" aria-labelledby="hobby-title">
+    <div class="w">
+      <p class="kick rise">Beyond the classroom</p>
+      <h2 id="hobby-title" class="rise" style="--d:70ms">Beyond the classroom<span class="dot">.</span></h2>
+      <ul class="hobby-grid">
+        <li class="hobby rise" style="--d:0ms">
+          <span class="hobby-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 6l6 14h-4l2 8h-3l5 14h-12l5-14h-3l2-8h-4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M16 42h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <h3>Rocketry</h3>
+          <p>I built a model rocket that flew past 500&nbsp;ft.</p>
+        </li>
+        <li class="hobby rise" style="--d:70ms">
+          <span class="hobby-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="8" y="16" width="20" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M28 20h8l4 4-4 4h-8M14 28v8M22 28v8M12 36h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>Robot building</h3>
+          <p>I built a 6-axis SO-101 arm and set up Python teleoperation.</p>
+        </li>
+        <li class="hobby rise" style="--d:140ms">
+          <span class="hobby-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="18" y="8" width="12" height="20" rx="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 22a10 10 0 0 0 20 0M24 32v6M18 40h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <h3>Podcasting</h3>
+          <p>I create podcasts for the Wildcat Way Podcast Club, and I recorded my own 5-episode show on sports and academics.</p>
+        </li>
+        <li class="hobby soon rise" style="--d:210ms">
+          <span class="hobby-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M24 6v4M24 38v4M6 24h4M38 24h4M11 11l3 3M34 34l3 3M37 11l-3 3M14 34l-3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <h3>Space and SpaceX</h3>
+          <p><b>Placeholder:</b> a first-person line about space and SpaceX, coming soon.</p>
+        </li>
+        <li class="hobby rise" style="--d:280ms">
+          <span class="hobby-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M20 8v24a6 6 0 0 1-12 0V22M20 16h10a6 6 0 0 1 0 12H20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>Music</h3>
+          <p>I play cello in the DVHS Chamber Orchestra and have played piano since I was young.</p>
+        </li>
+        <li class="hobby rise" style="--d:350ms">
+          <span class="hobby-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="14" r="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 40c1-8 6-12 12-12s11 4 12 12M18 26l-6 6M30 26l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>Martial arts</h3>
+          <p>I help teach at the martial arts studio where I earned my first-degree black belt on October 24, 2020 and my second-degree black belt on April 29, 2023, after training from kindergarten on.</p>
+        </li>
+        <li class="hobby more rise" style="--d:420ms">
+          <h3>More hobbies coming soon</h3>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="about-else" aria-labelledby="else-title">
+    <div class="w">
+      <p class="kick rise">Things you won't find elsewhere</p>
+      <h2 id="else-title" class="rise" style="--d:70ms">Things you won't find elsewhere<span class="dot">.</span></h2>
+      <div class="mosaic">
+        <article class="tile tile-space soon rise">
+          <h3>SpaceX tour</h3>
+          <div class="photo-slot">SpaceX tour photo coming soon</div>
+          <p><b>Placeholder:</b> details coming soon.</p>
+        </article>
+        <article class="tile tile-heritage rise" style="--d:80ms">
+          <h3>Heritage and languages</h3>
+          <img src="assets/photos/siliconandhra-telugu-pravesam-2015-16.jpg" alt="Silicon Andhra course completion certificate for the Telugu Pravesam course, 2015–16" width="1600" height="1229" loading="lazy" decoding="async">
+          <p>I completed the Silicon Andhra Telugu Pravesam course (course completion, 2016). I also have elementary Spanish and elementary Telugu.</p>
+        </article>
+        <article class="tile tile-council rise" style="--d:140ms">
+          <h3>Orchestra Council</h3>
+          <p>In 10th grade I served on Orchestra Council (social media, merch, marketing).</p>
+        </article>
+        <aside class="tile tile-value rise" style="--d:200ms">
+          <h3>What I value: teaching others</h3>
+          <p>I tutor part-time at Best Brains Learning Centers. Last summer I ran my own small math tutoring group and donated the earnings. I've mentored younger students through Vibha since 2023, and I tutor my younger brother at home. I wrestle for DVHS, on JV and varsity, and I like helping newer teammates with technique. I help teach at the martial arts studio.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-comeback" aria-labelledby="back-title">
+    <div class="w">
+      <p class="kick rise">Bouncing back</p>
+      <h2 id="back-title" class="rise" style="--d:70ms">Bouncing back<span class="dot">.</span></h2>
+      <p class="come-copy rise" style="--d:120ms">My junior year was hard. I broke my hand and needed surgery, then I was hospitalized for rhabdomyolysis. I caught up on my classes and kept training. When a math grade slipped, I got tutoring and brought it back up to an A.</p>
+      <div class="come">
+        <span class="come-rail" aria-hidden="true"></span>
+        <ol>
+          <li class="rise" style="--d:80ms"><span>1</span><p>Broken hand and surgery</p></li>
+          <li class="rise" style="--d:180ms"><span>2</span><p>Hospitalization</p></li>
+          <li class="rise" style="--d:280ms"><span>3</span><p>Caught up and brought math back to an A</p></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-next" aria-labelledby="next-title">
+    <div class="w">
+      <p class="kick rise">What's next</p>
+      <h2 id="next-title" class="sr">What's next</h2>
+      <p class="next-line rise" style="--d:80ms">Next stop, becoming an engineer.</p>
+    </div>
+  </section>
+
+  <section class="about-study" aria-labelledby="course-title">
+    <div class="w">
+      <h2 id="course-title" class="rise">Coursework</h2>
+      <ul class="pills">
+        <li>AP Physics C: Mechanics</li>
+        <li>AP Calculus AB</li>
+        <li>AP Computer Science A</li>
+        <li>AP Computer Science Principles</li>
+        <li>AP Psychology</li>
+        <li>AP U.S. History</li>
+        <li>AP World History</li>
+      </ul>
+      <h2 class="rise" style="--d:60ms">Languages</h2>
+      <ul class="pills">
+        <li>English</li>
+        <li>Spanish (elementary)</li>
+        <li>Telugu (elementary)</li>
+      </ul>
     </div>
   </section>
 </main>
