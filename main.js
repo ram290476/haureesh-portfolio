@@ -632,24 +632,36 @@
   if (ringNext) ringNext.addEventListener("click", function () { spinStep(-1); });
   announceRing();
 
-  /* Flat path timeline: sideways scroll by touch, wheel, arrow keys, or the icon buttons. */
+  /* Flat path timeline: sideways scroll by touch, wheel, arrow keys, or the icon buttons.
+     Cards stay oldest→newest left→right; open scrolled to the newest years. */
   var timeline = document.getElementById("timeline");
   if (timeline) {
     var timelinePrev = document.getElementById("timeline-prev");
     var timelineNext = document.getElementById("timeline-next");
+    var stickTimelineEnd = true;
     function timelineStep() {
       var card = timeline.querySelector(".yc");
       return (card ? card.getBoundingClientRect().width : 220) + 16;
     }
-    function scrollTimeline(direction) {
-      timeline.scrollBy({ left: direction * timelineStep(), behavior: motionOn() ? "smooth" : "auto" });
+    function timelineMaxScroll() {
+      return Math.max(0, timeline.scrollWidth - timeline.clientWidth);
     }
     function syncTimelineArrows() {
-      var max = timeline.scrollWidth - timeline.clientWidth;
+      var max = timelineMaxScroll();
       var atStart = timeline.scrollLeft <= 8;
       var atEnd = max <= 8 || timeline.scrollLeft >= max - 8;
+      stickTimelineEnd = atEnd;
       if (timelinePrev) timelinePrev.disabled = atStart;
       if (timelineNext) timelineNext.disabled = atEnd;
+    }
+    function pinTimelineEnd() {
+      /* Instant jump so the newest years show before paint; never smooth. */
+      timeline.scrollLeft = timelineMaxScroll();
+      syncTimelineArrows();
+    }
+    function scrollTimeline(direction) {
+      stickTimelineEnd = false;
+      timeline.scrollBy({ left: direction * timelineStep(), behavior: motionOn() ? "smooth" : "auto" });
     }
     timeline.addEventListener("keydown", function (event) {
       if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
@@ -659,8 +671,22 @@
     if (timelinePrev) timelinePrev.addEventListener("click", function () { scrollTimeline(-1); });
     if (timelineNext) timelineNext.addEventListener("click", function () { scrollTimeline(1); });
     timeline.addEventListener("scroll", syncTimelineArrows, { passive: true });
-    window.addEventListener("resize", syncTimelineArrows);
-    syncTimelineArrows();
+    window.addEventListener("resize", function () {
+      if (stickTimelineEnd) pinTimelineEnd();
+      else syncTimelineArrows();
+    });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () {
+        if (stickTimelineEnd) pinTimelineEnd();
+      });
+    }
+    window.addEventListener("load", function () {
+      if (stickTimelineEnd) pinTimelineEnd();
+    });
+    pinTimelineEnd();
+    requestAnimationFrame(function () {
+      if (stickTimelineEnd) pinTimelineEnd();
+    });
   }
   window.addEventListener("resize", function () { layoutRing(); placeRails(); });
 
