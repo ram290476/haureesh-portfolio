@@ -49,7 +49,7 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
     <a class="logo brand" href="index.html">
       <span class="brand-mark">
         <canvas id="brand-orbit" aria-hidden="true"></canvas>
-        <img class="brand-still" src="assets/rocket-orbit-icon.png" alt="" hidden>
+        <img loading="lazy" decoding="async" class="brand-still" src="assets/rocket-orbit-icon.png" alt="" hidden>
       </span>
       <span class="brand-name">Haureesh Vellamsetti</span>
     </a>
@@ -83,7 +83,7 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
     <div class="w hero-grid">
       <div class="portrait rise">
         <span class="portrait-glow" aria-hidden="true"></span>
-        <img class="face" src="assets/photos/haureesh-headshot.jpg" srcset="assets/photos/haureesh-headshot-about-600.jpg 600w, assets/photos/haureesh-headshot-about-900.jpg 900w" sizes="(max-width: 900px) 72vw, 320px" width="900" height="1200" alt="Haureesh Vellamsetti" fetchpriority="high" onerror="this.remove()">
+        <img decoding="async" class="face" src="assets/photos/haureesh-headshot.jpg" srcset="assets/photos/haureesh-headshot-about-600.jpg 600w, assets/photos/haureesh-headshot-about-900.jpg 900w" sizes="(max-width: 900px) 72vw, 320px" width="900" height="1200" alt="Haureesh Vellamsetti" fetchpriority="high" onerror="this.remove()">
       </div>
       <div class="hero-copy">
         <p class="kick rise" style="--d:80ms">About</p>
@@ -148,7 +148,7 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
         </a>
         <a class="glance rise" href="activities.html" style="--d:160ms">
           <div class="glance-shot">
-            <img src="assets/photos/card-orchestra.jpg" alt="The orchestra on stage at a concert" width="1200" height="900" loading="lazy" decoding="async">
+            <img src="assets/photos/card-orchestra.jpg" alt="Haureesh playing cello in the chamber orchestra" width="1200" height="900" loading="lazy" decoding="async">
           </div>
           <h3>Activities</h3>
           <ul>

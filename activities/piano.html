@@ -49,7 +49,7 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
     <a class="logo brand" href="../index.html">
       <span class="brand-mark">
         <canvas id="brand-orbit" aria-hidden="true"></canvas>
-        <img class="brand-still" src="../assets/rocket-orbit-icon.png" alt="" hidden>
+        <img loading="lazy" decoding="async" class="brand-still" src="../assets/rocket-orbit-icon.png" alt="" hidden>
       </span>
       <span class="brand-name">Haureesh Vellamsetti</span>
     </a>
@@ -112,21 +112,21 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
       -->
       <div class="gallery">
         <figure>
-          <img src="../assets/photos/piano-trophy-grand-piano.jpg" alt="Haureesh Vellamsetti holding a trophy beside a grand piano">
+          <img height="1600" width="1200" loading="lazy" decoding="async" src="../assets/photos/piano-trophy-grand-piano.jpg" alt="Haureesh Vellamsetti holding a trophy beside a grand piano">
           <figcaption>Piano trophy</figcaption>
         </figure>
         <figure>
-          <img src="../assets/photos/music-recital-group-trophies.jpg" alt="Students holding trophies at a music recital">
+          <img height="1125" width="1500" loading="lazy" decoding="async" src="../assets/photos/music-recital-group-trophies.jpg" alt="Students holding trophies at a music recital">
           <figcaption>Music recital</figcaption>
         </figure>
         <figure>
-          <video controls preload="metadata" playsinline poster="../assets/video/piano-schumann-melody-home.jpg" width="720" height="1280">
+          <video aria-label="Piano — Schumann, Melody" controls preload="metadata" playsinline poster="../assets/video/piano-schumann-melody-home.jpg" width="720" height="1280">
             <source src="../assets/video/piano-schumann-melody-home.mp4" type="video/mp4">
           </video>
           <figcaption>Piano — Schumann, Melody</figcaption>
         </figure>
         <figure>
-          <video controls preload="metadata" playsinline poster="../assets/video/piano-recital.jpg" width="720" height="1280">
+          <video aria-label="Piano recital performance" controls preload="metadata" playsinline poster="../assets/video/piano-recital.jpg" width="720" height="1280">
             <source src="../assets/video/piano-recital.mp4" type="video/mp4">
           </video>
           <figcaption>Piano recital performance</figcaption>

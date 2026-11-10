@@ -1217,9 +1217,11 @@ html.js:not(.reduce) .t.in:focus-visible:not(.rocket) {
   min-height: 30px;
   margin: 4px 0 10px;
   filter: var(--cyc-glow);
+  white-space: nowrap;
 }
 .cyc span { display: inline-block; transition: opacity .2s, transform .25s var(--spring); }
 .cyc span.o { opacity: 0; transform: translateY(10px); }
+@media (max-width: 420px) { .cyc { font-size: 18px; } }
 .photo { grid-column: span 2; grid-row: span 2; padding: 16px; }
 .t.wide .ph { width: 120px; height: 120px; min-height: 0; margin: 0 0 12px; padding: 0; }
 .media-row {
@@ -1449,6 +1451,11 @@ html:not(.reduce) .mq div { animation: mq 28s linear infinite; }
   box-shadow: var(--g-on-shadow);
 }
 .g .ph { position: relative; inset: auto; height: 220px; flex: 0 0 220px; margin: 16px 16px 0; }
+/* Match About glance/drive rocket framing (object-position: center 68%). */
+a.g[data-id="aerospace-club"] .ph img {
+  object-fit: cover;
+  object-position: center 68%;
+}
 .g .cap {
   position: relative;
   left: auto;
@@ -1547,6 +1554,16 @@ html.js:not(.reduce) .rc {
   backface-visibility: hidden;
 }
 .rc .ph { height: 120px; margin-bottom: 10px; font-size: 12px; }
+/* Portrait activity cards: keep cover crop, pin toward the top so faces stay in frame. */
+.rc .ph img[src*="card-wrestling.jpg"] {
+  object-fit: cover;
+  object-position: center 18%;
+}
+.rc .ph img[src*="card-piano.jpg"] {
+  object-fit: cover;
+  object-position: center 22%;
+}
+
 .ph.logo-panel {
   background: var(--logo-bg);
   border: 1px solid var(--logo-border);
@@ -1607,31 +1624,66 @@ html:not(.js) .rc { min-height: 280px; }
 .certs .ph.full img { object-fit: contain; background: var(--media-bg); }
 .shots, .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
   margin-top: 12px;
 }
-.shots figure, .gallery figure { margin: 0; }
-.gallery figure.logo { max-width: 280px; }
-.shots figure.wide { grid-column: 1 / -1; }
-.shots video, .gallery video {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: var(--radius-media);
-  border: var(--bw) solid var(--line);
-  background: var(--video-bg);
+.shots figure, .gallery figure {
+  margin: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
+.gallery figure.logo { max-width: 280px; }
+.shots figure.wide, .gallery figure.wide { grid-column: 1 / -1; }
+.shots video, .gallery video,
 .shots img, .gallery img {
   width: 100%;
+  aspect-ratio: 4 / 3;
   height: auto;
+  object-fit: cover;
+  object-position: center;
   display: block;
   border-radius: var(--radius-media);
   border: var(--bw) solid var(--line);
   background: var(--media-bg);
 }
+.shots video, .gallery video { background: var(--video-bg); }
 .shots figcaption, .gallery figcaption { color: var(--mu); font-size: 14px; margin-top: 8px; }
 .gallery .empty, .shot figcaption { color: var(--mu); }
+/* Keep logos from being crop-forced by the collage tile. */
+.gallery figure.logo-panel img,
+.gallery figure.logo img {
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  object-position: center;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+/* Collage gallery columns */
+@media (max-width: 900px) {
+  .shots, .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 340px) {
+  .shots, .gallery { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Gallery portrait framing — keep faces in the 4/3 cover tile. */
+.gallery img[src*="piano-trophy-grand-piano.jpg"],
+.gallery img[src*="music-recital-group-trophies.jpg"] {
+  object-position: center 20%;
+}
+.gallery img[src*="dvhs-jv-wrestling-most-improved-2024-2025.jpg"],
+.gallery img[src*="wrestling-xray-image-01.jpg"] {
+  object-position: center top;
+}
+.gallery img[src*="first-degree-black-belt-certificate"],
+.gallery img[src*="second-degree-black-belt-certificate"],
+.gallery img[src*="martial-arts-1st-place-plaque"] {
+  object-position: center top;
+}
 .activity-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1696,7 +1748,7 @@ html:not(.js) .rc { min-height: 280px; }
   min-height: 36px;
   font-size: 13px;
 }
-.rates { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0 8px; }
+.rates { width: 100%; max-width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0 8px; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .rates th, .rates td { border-bottom: var(--bw) solid var(--line); text-align: right; padding: 8px 10px; }
 .rates th:first-child, .rates td:first-child { text-align: left; }
 .rates caption { caption-side: bottom; text-align: left; color: var(--mu); font-size: 13px; padding-top: 8px; }
@@ -2624,4 +2676,14 @@ html[data-theme="contrast"] .theme-toggle[aria-expanded="true"] {
     --rc-shadow: none;
     --yc-shadow: none;
   }
+}
+
+/* lighthouse: tap targets */
+.rc h3 a, .acard, .certs a, .glance {
+  min-height: 44px;
+}
+.rc h3 a {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 0;
 }

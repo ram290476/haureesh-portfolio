@@ -96,16 +96,27 @@ test("timeline arrows scroll one card and dim at the ends", () => {
   assert.match(next, /<svg/);
   assert.equal(prev.includes("Scroll left<"), false);
   assert.equal(next.includes("Scroll right<"), false);
+  // Open scrolled to the newest years: right arrow starts dimmed, left enabled.
+  assert.equal(/disabled/.test(prev), false);
+  assert.match(next, /disabled/);
   assert.match(read("style.css"), /\.tl-arrow \{[\s\S]*min-width: 44px;[\s\S]*min-height: 44px;/);
   assert.match(read("style.css"), /\.tl-arrow:disabled \{[\s\S]*opacity: 0\.35;/);
   const js = read("main.js");
-  assert.match(js, /function scrollTimeline\(direction\) \{\s*timeline\.scrollBy\(\{ left: direction \* timelineStep\(\), behavior: motionOn\(\) \? "smooth" : "auto" \}\);/);
+  assert.match(js, /function pinTimelineEnd\(\)/);
+  assert.match(js, /timeline\.scrollLeft = timelineMaxScroll\(\)/);
+  assert.match(js, /stickTimelineEnd/);
+  assert.match(js, /function scrollTimeline\(direction\) \{[\s\S]*?timeline\.scrollBy\(\{ left: direction \* timelineStep\(\), behavior: motionOn\(\) \? "smooth" : "auto" \}\);/);
   assert.match(js, /timeline\.scrollLeft <= 8/);
   assert.match(js, /timeline\.scrollLeft >= max - 8/);
   assert.match(js, /timelinePrev\.disabled = atStart/);
   assert.match(js, /timelineNext\.disabled = atEnd/);
   assert.match(js, /event\.key === "ArrowRight" \? 1 : -1/);
-});
+  // Chronological order unchanged: first card 2017, last card 2027.
+  const firstCard = home.indexOf('class="yc"');
+  const lastCard = home.lastIndexOf('class="yc"');
+  assert.match(home.slice(firstCard, firstCard + 40), /<b>2017<\/b>/);
+  assert.match(home.slice(lastCard, lastCard + 40), /<b>2027<\/b>/);
+})
 
 test("experience copy is only on the experience page", () => {
   const html = read("experience.html");
@@ -323,7 +334,11 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.match(ring, /I mentor younger students through Vibha/);
   assert.match(ring, /Years of piano\. NPA Local Winner, 2017 and 2020–2022, and Certificate of Merit Level 8/);
   assert.match(ring, /Second-degree black belt \(Apr 2023\); I help teach classes at my studio\. 1st place, Ernie Reyes/);
-  assert.match(activities, /The orchestra on stage at a concert/);
+  assert.match(activities, /Haureesh playing cello in the chamber orchestra/);
+  assert.match(activities, /Haureesh with his hand raised after a wrestling match/);
+  assert.match(activities, /Haureesh volunteering at a Vibha plant nursery/);
+  assert.match(activities, /Haureesh playing piano/);
+  assert.match(activities, /Haureesh in a guard stance during a group karate drill/);
   assert.equal(activities.includes("orchestra-performance.mp4"), false);
   assert.equal(html.includes("orchestra-performance.mp4"), false);
   assert.equal(html.includes('class="shots"'), false);
@@ -372,7 +387,8 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.match(read("about.html"), /second-degree black belt on April 29, 2023/);
   assert.equal(read("about.html").includes("Nov 2022"), false);
   const wrestling = read("activities/wrestling.html");
-  assert.ok(wrestling.indexOf("dvhs-jv-wrestling-most-improved-2024-2025.jpg") < wrestling.indexOf('id="overview"'));
+  assert.ok(wrestling.indexOf("dvhs-jv-wrestling-most-improved-2024-2025.jpg") > wrestling.indexOf('id="gallery"'));
+  assert.equal(wrestling.includes('class="shot"'), false);
   assert.ok(wrestling.indexOf('id="award"') < wrestling.indexOf('id="milestones"'));
   assert.ok(wrestling.indexOf("wrestling-xray-image-01.jpg") > wrestling.indexOf('id="gallery"'));
   assert.ok(wrestling.indexOf('id="gallery"') < wrestling.indexOf("dvhs-jv-wrestling-most-improved-2024-2025.jpg", wrestling.indexOf('id="gallery"')));
@@ -389,7 +405,8 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   }
   assert.match(wrestling, /wrestling-xray-image-01\.jpg/);
   assert.match(wrestling, /wrestling-xray-image-02\.jpg/);
-  assert.match(wrestling, /alt="Wrestling — X-ray image"/);
+  assert.match(wrestling, /alt="X-ray of a left upper arm bone with a metal plate and screws"/);
+  assert.match(wrestling, /alt="Three X-ray views of an upper arm bone with a metal plate and screws"/);
   assert.equal(wrestling.includes("surgery"), false);
   assert.equal(wrestling.includes("fracture"), false);
   assert.equal(wrestling.includes("diagnosis"), false);
@@ -401,6 +418,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
     ["activities/karate.html", "karate-group-kickboxing.mp4", "Group kickboxing drill"],
     ["activities/karate.html", "karate-escrima-sticks.mp4", "Escrima stick practice"],
     ["activities/karate.html", "karate-self-defense-practice.mp4", "Self-defense technique practice"],
+    ["activities/karate.html", "karate-group-drill.mp4", "Group karate drill"],
     ["activities/orchestra.html", "orchestra-cello-1.mp4", "Chamber orchestra — cello section"],
     ["activities/orchestra.html", "orchestra-cello-2.mp4", "Chamber orchestra performance"],
     ["activities/orchestra.html", "orchestra-gym-performance.mp4", "String orchestra performance at DVHS"],
@@ -414,7 +432,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
     const at = htmlPage.indexOf(file);
     assert.ok(at > htmlPage.indexOf('id="gallery"'), file);
     const chunk = htmlPage.slice(at - 280, at + 220);
-    assert.match(chunk, /<video controls preload="metadata" playsinline /, file);
+    assert.match(chunk, /<video(?: aria-label="[^"]*")? controls preload="metadata" playsinline /, file);
     assert.match(chunk, /poster="\.\.\/assets\/video\/[^"]+\.jpg"/, file);
     assert.match(htmlPage, new RegExp("<figcaption>" + caption.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "</figcaption>"));
     assert.equal(htmlPage.includes("win"), false, page);
@@ -437,7 +455,7 @@ test("career wording uses engineer and keeps the majors line", () => {
   assert.match(home, /Physics, Aerospace, Mechanical, CS, Data Science, Electrical/);
   assert.match(read("about.html"), /I want to be an engineer/);
   assert.match(read("about.html"), /Physics, Aerospace, Mechanical, CS, Data Science, and Electrical/);
-  assert.match(read("main.js"), /"Engineer", "Rocketry Team", "Researcher", "Black Belt"/);
+  assert.match(read("main.js"), /"AI Researcher", "Rocketry Team", "Varsity Wrestling", "Vibha Volunteer", "Math and English Tutor", "Black Belt"/);
 });
 
 test("the headshot is the real photo on the hero and about portrait", () => {
@@ -586,4 +604,32 @@ test("old homepage anchors point at the split pages", () => {
   assert.match(home, /about: "about.html"/);
   assert.match(home, /projects.html#ai-research/);
   assert.match(home, /projects.html#robot-arm/);
+});
+
+test("shared collage gallery CSS covers activity and project galleries", () => {
+  const css = read("style.css");
+  assert.match(css, /\.shots, \.gallery \{[\s\S]*?grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
+  assert.match(css, /aspect-ratio: 4 \/ 3/);
+  assert.match(css, /\.shots img, \.gallery img[\s\S]*?object-fit: cover/);
+  assert.match(css, /@media \(max-width: 900px\) \{[\s\S]*?\.shots, \.gallery \{ grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/);
+  assert.match(css, /@media \(max-width: 340px\) \{[\s\S]*?\.shots, \.gallery \{ grid-template-columns: minmax\(0, 1fr\);/);
+  for (const name of [
+    "activities/wrestling.html",
+    "activities/karate.html",
+    "activities/orchestra.html",
+    "activities/piano.html",
+    "activities/vibha.html",
+    "activities/podcasting.html",
+    "activities/best-brains.html",
+    "projects/aerospace-club.html",
+    "projects/ai-research.html",
+    "projects/robot-arm.html",
+    "projects/smash.html",
+  ]) {
+    const html = read(name);
+    assert.match(html, /class="gallery"/, name);
+    assert.equal(html.includes('class="shot"'), false, name);
+  }
+  assert.equal(read("projects/model-rocket.html").includes('class="gallery"'), false);
+  assert.equal(read("activities/cello.html").includes('class="gallery"'), false);
 });

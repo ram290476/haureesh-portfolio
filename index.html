@@ -63,7 +63,7 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
     <a class="logo brand" href="index.html">
       <span class="brand-mark">
         <canvas id="brand-orbit" aria-hidden="true"></canvas>
-        <img class="brand-still" src="assets/rocket-orbit-icon.png" alt="" hidden>
+        <img loading="lazy" decoding="async" class="brand-still" src="assets/rocket-orbit-icon.png" alt="" hidden>
       </span>
       <span class="brand-name">Haureesh Vellamsetti</span>
     </a>
@@ -99,17 +99,18 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
         <div class="orbf"></div>
         <canvas id="orb" width="620" height="620"></canvas>
       </div>
+      <h2 class="sr" id="sr-projects-heading">Projects</h2>
       <div class="bento">
         <div class="t intro">
           <p class="kick">Hi! I'm</p>
           <h1>Haureesh Vellamsetti<span class="dot">.</span></h1>
-          <p class="sr" id="cyc-live" aria-live="polite">Engineer</p>
-          <div class="cyc" id="cyc" aria-hidden="true">Engineer</div>
+          <p class="sr" id="cyc-live" aria-live="polite">AI Researcher</p>
+          <div class="cyc" id="cyc" aria-hidden="true">AI Researcher</div>
           <p class="lede">Senior at Dougherty Valley High School (Class of 2027). I want to be an engineer. I spend my time on rockets, robots and research.</p>
         </div>
         <div class="t photo">
           <div class="ph">
-            <img class="face" src="assets/photos/haureesh-headshot.jpg" srcset="assets/photos/haureesh-headshot-hero-640.jpg 640w, assets/photos/haureesh-headshot-hero-1500.jpg 1500w" sizes="(max-width: 900px) calc(100vw - 72px), 494px" width="1500" height="984" alt="Haureesh Vellamsetti" onerror="this.remove()">
+            <img fetchpriority="high" decoding="async" class="face" src="assets/photos/haureesh-headshot.jpg" srcset="assets/photos/haureesh-headshot-hero-640.jpg 640w, assets/photos/haureesh-headshot-hero-1500.jpg 1500w" sizes="(max-width: 900px) calc(100vw - 72px), 494px" width="1500" height="984" alt="Haureesh Vellamsetti" onerror="this.remove()">
             <span class="ph-label">Photo coming soon<small>assets/photos/haureesh-headshot.jpg</small></span>
           </div>
         </div>
@@ -132,7 +133,7 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
                 <button type="button" class="text-btn">Flight stats</button>
               </div>
               <div class="media-row">
-                <img class="spec-photo" src="assets/photos/rocket-launch.jpg" alt="A red and white model rocket in flight">
+                <img height="1600" width="1071" loading="lazy" decoding="async" class="spec-photo" src="assets/photos/rocket-launch.jpg" alt="A red and white model rocket in flight">
                 <div class="media-copy">
                   <dl class="spec">
                     <div><dt>Altitude</dt><dd>500+ ft</dd></div>
@@ -151,7 +152,7 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
         </div>
         <a class="t wide alg media-row" href="projects.html#ai-research">
           <div class="ph">
-            <img src="assets/photos/algoverse-ai-research-logo.jpg" alt="Algoverse AI Research logo">
+            <img height="628" width="628" loading="lazy" decoding="async" src="assets/photos/algoverse-ai-research-logo.jpg" alt="Algoverse AI Research logo">
           </div>
           <div class="media-copy">
             <p class="kick">Now</p>
@@ -161,7 +162,7 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
         </a>
         <a class="t wide media-row" href="projects.html#robot-arm">
           <div class="ph">
-            <img src="assets/photos/robot-arm-red-yellow-pair.jpg" alt="Yellow and red 3D-printed robot arms side by side">
+            <img height="1125" width="1500" loading="lazy" decoding="async" src="assets/photos/robot-arm-red-yellow-pair.jpg" alt="Yellow and red 3D-printed robot arms side by side">
           </div>
           <div class="media-copy">
             <p class="kick">Built</p>
@@ -190,10 +191,10 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
           <h2>The path so far<span class="dot">.</span></h2>
         </div>
         <div class="tl-arrows">
-          <button type="button" class="tl-arrow" id="timeline-prev" aria-label="Scroll left" disabled>
+          <button type="button" class="tl-arrow" id="timeline-prev" aria-label="Scroll left">
             <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M14.5 6 L8.5 12 L14.5 18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <button type="button" class="tl-arrow" id="timeline-next" aria-label="Scroll right">
+          <button type="button" class="tl-arrow" id="timeline-next" aria-label="Scroll right" disabled>
             <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M9.5 6 L15.5 12 L9.5 18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>

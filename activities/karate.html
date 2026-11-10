@@ -49,7 +49,7 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
     <a class="logo brand" href="../index.html">
       <span class="brand-mark">
         <canvas id="brand-orbit" aria-hidden="true"></canvas>
-        <img class="brand-still" src="../assets/rocket-orbit-icon.png" alt="" hidden>
+        <img loading="lazy" decoding="async" class="brand-still" src="../assets/rocket-orbit-icon.png" alt="" hidden>
       </span>
       <span class="brand-name">Haureesh Vellamsetti</span>
     </a>
@@ -98,52 +98,58 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentEle
       <h2>Photo Gallery</h2>
       <div class="gallery">
         <figure>
-          <img src="../assets/photos/first-degree-black-belt-certificate-2020-10-24.jpg" alt="1st degree black belt certificate dated October 24, 2020" loading="lazy">
+          <img height="2260" width="1536" decoding="async" src="../assets/photos/first-degree-black-belt-certificate-2020-10-24.jpg" alt="1st degree black belt certificate dated October 24, 2020" loading="lazy">
           <figcaption>1st degree black belt, October 24, 2020</figcaption>
         </figure>
         <figure>
-          <img src="../assets/photos/second-degree-black-belt-certificate-2023-04-29.jpg" alt="2nd degree black belt certificate dated April 29, 2023" loading="lazy">
+          <img height="2276" width="1536" decoding="async" src="../assets/photos/second-degree-black-belt-certificate-2023-04-29.jpg" alt="2nd degree black belt certificate dated April 29, 2023" loading="lazy">
           <figcaption>2nd degree black belt, April 29, 2023</figcaption>
         </figure>
         <figure>
-          <img src="../assets/photos/martial-arts-1st-place-plaque-undated.jpg" alt="Ernie Reyes' World Martial Arts Association 1st Place plaque with no date" loading="lazy">
+          <img height="2048" width="1683" decoding="async" src="../assets/photos/martial-arts-1st-place-plaque-undated.jpg" alt="Ernie Reyes' World Martial Arts Association 1st Place plaque with no date" loading="lazy">
           <figcaption>Martial arts 1st Place plaque</figcaption>
         </figure>
         <figure>
-          <video controls preload="metadata" playsinline poster="../assets/video/karate-tournament-forms.jpg" width="1280" height="720">
+          <video aria-label="Karate tournament — forms" controls preload="metadata" playsinline poster="../assets/video/karate-tournament-forms.jpg" width="1280" height="720">
             <source src="../assets/video/karate-tournament-forms.mp4" type="video/mp4">
           </video>
           <figcaption>Karate tournament — forms</figcaption>
         </figure>
         <figure>
-          <video controls preload="metadata" playsinline poster="../assets/video/karate-class-kicks.jpg" width="1280" height="720">
+          <video aria-label="Karate class — jumping front kicks" controls preload="metadata" playsinline poster="../assets/video/karate-class-kicks.jpg" width="1280" height="720">
             <source src="../assets/video/karate-class-kicks.mp4" type="video/mp4">
           </video>
           <figcaption>Karate class — jumping front kicks</figcaption>
         </figure>
         <figure>
-          <video controls preload="metadata" playsinline poster="../assets/video/karate-form-demo.jpg" width="1280" height="720">
+          <video aria-label="Karate form demonstration" controls preload="metadata" playsinline poster="../assets/video/karate-form-demo.jpg" width="1280" height="720">
             <source src="../assets/video/karate-form-demo.mp4" type="video/mp4">
           </video>
           <figcaption>Karate form demonstration</figcaption>
         </figure>
         <figure>
-          <video controls preload="metadata" playsinline poster="../assets/video/karate-group-kickboxing.jpg" width="1280" height="720">
+          <video aria-label="Group kickboxing drill" controls preload="metadata" playsinline poster="../assets/video/karate-group-kickboxing.jpg" width="1280" height="720">
             <source src="../assets/video/karate-group-kickboxing.mp4" type="video/mp4">
           </video>
           <figcaption>Group kickboxing drill</figcaption>
         </figure>
         <figure>
-          <video controls preload="metadata" playsinline poster="../assets/video/karate-escrima-sticks.jpg" width="1280" height="720">
+          <video aria-label="Escrima stick practice" controls preload="metadata" playsinline poster="../assets/video/karate-escrima-sticks.jpg" width="1280" height="720">
             <source src="../assets/video/karate-escrima-sticks.mp4" type="video/mp4">
           </video>
           <figcaption>Escrima stick practice</figcaption>
         </figure>
         <figure>
-          <video controls preload="metadata" playsinline poster="../assets/video/karate-self-defense-practice.jpg" width="1280" height="720">
+          <video aria-label="Self-defense technique practice" controls preload="metadata" playsinline poster="../assets/video/karate-self-defense-practice.jpg" width="1280" height="720">
             <source src="../assets/video/karate-self-defense-practice.mp4" type="video/mp4">
           </video>
           <figcaption>Self-defense technique practice</figcaption>
+        </figure>
+        <figure>
+          <video aria-label="Group karate drill" controls preload="metadata" playsinline poster="../assets/video/karate-group-drill.jpg" width="1280" height="720">
+            <source src="../assets/video/karate-group-drill.mp4" type="video/mp4">
+          </video>
+          <figcaption>Group karate drill</figcaption>
         </figure>
       </div>
     </section>
