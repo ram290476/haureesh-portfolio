@@ -334,7 +334,11 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.match(ring, /I mentor younger students through Vibha/);
   assert.match(ring, /Years of piano\. NPA Local Winner, 2017 and 2020–2022, and Certificate of Merit Level 8/);
   assert.match(ring, /Second-degree black belt \(Apr 2023\); I help teach classes at my studio\. 1st place, Ernie Reyes/);
-  assert.match(activities, /The orchestra on stage at a concert/);
+  assert.match(activities, /Haureesh playing cello in the chamber orchestra/);
+  assert.match(activities, /Haureesh with his hand raised after a wrestling match/);
+  assert.match(activities, /Haureesh volunteering at a Vibha plant nursery/);
+  assert.match(activities, /Haureesh playing piano/);
+  assert.match(activities, /Haureesh in a guard stance during a group karate drill/);
   assert.equal(activities.includes("orchestra-performance.mp4"), false);
   assert.equal(html.includes("orchestra-performance.mp4"), false);
   assert.equal(html.includes('class="shots"'), false);
@@ -412,6 +416,7 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
     ["activities/karate.html", "karate-group-kickboxing.mp4", "Group kickboxing drill"],
     ["activities/karate.html", "karate-escrima-sticks.mp4", "Escrima stick practice"],
     ["activities/karate.html", "karate-self-defense-practice.mp4", "Self-defense technique practice"],
+    ["activities/karate.html", "karate-group-drill.mp4", "Group karate drill"],
     ["activities/orchestra.html", "orchestra-cello-1.mp4", "Chamber orchestra — cello section"],
     ["activities/orchestra.html", "orchestra-cello-2.mp4", "Chamber orchestra performance"],
     ["activities/orchestra.html", "orchestra-gym-performance.mp4", "String orchestra performance at DVHS"],
