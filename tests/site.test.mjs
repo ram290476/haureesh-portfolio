@@ -387,7 +387,8 @@ test("rotating activity cards stay on top and awards are picture cards", () => {
   assert.match(read("about.html"), /second-degree black belt on April 29, 2023/);
   assert.equal(read("about.html").includes("Nov 2022"), false);
   const wrestling = read("activities/wrestling.html");
-  assert.ok(wrestling.indexOf("dvhs-jv-wrestling-most-improved-2024-2025.jpg") < wrestling.indexOf('id="overview"'));
+  assert.ok(wrestling.indexOf("dvhs-jv-wrestling-most-improved-2024-2025.jpg") > wrestling.indexOf('id="gallery"'));
+  assert.equal(wrestling.includes('class="shot"'), false);
   assert.ok(wrestling.indexOf('id="award"') < wrestling.indexOf('id="milestones"'));
   assert.ok(wrestling.indexOf("wrestling-xray-image-01.jpg") > wrestling.indexOf('id="gallery"'));
   assert.ok(wrestling.indexOf('id="gallery"') < wrestling.indexOf("dvhs-jv-wrestling-most-improved-2024-2025.jpg", wrestling.indexOf('id="gallery"')));
