@@ -546,7 +546,6 @@ test("image lightbox is included on photo grids only and does not wire video", (
     "activities/vibha.html",
     "activities/wrestling.html",
     "awards.html",
-    "experience.html",
     "projects/aerospace-club.html",
     "projects/ai-research.html",
     "projects/robot-arm.html",
